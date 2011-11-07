@@ -17,38 +17,47 @@ public class ThePourGameActivity extends Activity implements OrientationListener
         CONTEXT = this;
     }
 
-	@Override
-	public void onOrientationChanged(float azimuth, float pitch, float roll) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void onTopUp() {
-		// TODO Auto-generated method stub
-		
-	}
 
+    protected void onResume() {
+        super.onResume();
+        if (OrientationManager.isSupported()) {
+            OrientationManager.startListening(this);
+        }
+    }
+ 
+    protected void onDestroy() {
+        super.onDestroy();
+        if (OrientationManager.isListening()) {
+            OrientationManager.stopListening();
+        }
+ 
+    }
+    
 	@Override
-	public void onBottomUp() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRightUp() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onLeftUp() {
-		// TODO Auto-generated method stub
-		
-	}
+    public void onOrientationChanged(float azimuth, float pitch, float roll)
+	{
+        
+    }
+ 
+    
+    @Override
+    public void onBottomUp() {
+    }
+ 
+    @Override
+    public void onLeftUp() {
+    }
+ 
+    @Override
+    public void onRightUp() {
+    }
+ 
+    @Override
+    public void onTopUp() {
+    }
 
 	public static Context getContext() {
-		// TODO Auto-generated method stub
 		return CONTEXT;
 	}
 }
