@@ -3,6 +3,7 @@ package org.android.pourgame;
 import android.app.Activity;
 import android.os.Bundle;
 import android.content.Context;
+import android.content.Intent;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -23,7 +24,6 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
         setContentView(R.layout.main);
         CONTEXT = this;
         gestureDetector = new GestureDetector(this, this);
-        
     }
 
     @Override 
@@ -88,7 +88,8 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 	
 	public void next()
 	{
-		
+		Intent next = new Intent(getApplicationContext(), BreweryFinderActivity.class);
+		startActivity(next);
 	}
 
 	@Override
