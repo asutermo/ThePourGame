@@ -5,17 +5,27 @@ import com.google.android.maps.MapActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import com.google.android.maps.*;
 
 public class BreweryFinderActivity extends MapActivity implements
 		OrientationListener {
 	
 	private static Context CONTEXT;
+	private MapView mapView;
+	private MapController mapController;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.brewery_finder);
         CONTEXT = this;
+        
+        mapView = (MapView)findViewById(R.id.mapView);
+        
+        mapView.setBuiltInZoomControls(true);
+        
+        mapController = mapView.getController();
+        mapController.setZoom(16);
     }
 
 
