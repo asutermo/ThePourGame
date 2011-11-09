@@ -2,7 +2,6 @@ package org.android.pourgame;
 
 import com.google.android.maps.MapActivity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
