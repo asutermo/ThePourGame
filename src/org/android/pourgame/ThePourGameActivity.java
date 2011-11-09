@@ -113,6 +113,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 	public void onShowPress(MotionEvent e) {
 		// TODO Auto-generated method stub
 		
+		
 	}
 
 
