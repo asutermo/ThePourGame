@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, I still don\'t have any functionality</string>
     <string name="app_name">ThePourGame</string>
-	<string name="maps_api_key">0C_35mw-ULpiM3fy6ZVWhMab-3MdibYHO0ObPJQ</string>
+    <string name="maps_api_key">0C_35mw-ULpiM3fy6ZVWhMab-3MdibYHO0ObPJQ</string>
+    <string name="top_label">The Pour Game</string>
+    <string name="bottom_label">Brewery Finder</string>
+    <string name="left_label"></string>
+    <string name="right_label"></string>
+
 </resources>
