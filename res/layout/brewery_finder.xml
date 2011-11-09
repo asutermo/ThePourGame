@@ -6,7 +6,7 @@
 	<com.google.android.maps.MapView
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:apiKey="0C_35mw-ULpiM3fy6ZVWhMab-3MdibYHO0ObPJQ"/>
+		android:apiKey="@string/maps_api_key"/>
     
 
 </LinearLayout>
