@@ -21,12 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:label="@string/app_name"
-            android:name=".BreweryFinderActivity" >
-            <intent-filter >
-            </intent-filter>
-        </activity>
+        <activity android:name=".BreweryFinderActivity"></activity>
         <activity android:name=".TheBeerActivity"></activity>
         <activity android:name=".TheSodaActivity"></activity>
  		<activity android:name=".TheChampaigneActivity"></activity>
