@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 public class ThePourGameActivity extends Activity implements OnGestureListener {
     /** Called when the activity is first created. */
+	private static Context CONTEXT;
 	private static final int SWIPE_MIN = 120;
 	private static final int SWIPE_MAX_OFF = 250;
 	private static final int SWIPE_THRESH_VEL = 200;
@@ -20,6 +21,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        CONTEXT = this;
         gestureDetector = new GestureDetector(this, this);
         
     }
@@ -28,17 +30,21 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 
     protected void onResume() {
         super.onResume();
-        
     }
  
     protected void onDestroy() {
         super.onDestroy();
-        
  
     }
 
+	public static Context getContext() {
+		return CONTEXT;
+	}
+
+
+
 	@Override
-	public boolean onDown(MotionEvent arg0) {
+	public boolean onDown(MotionEvent e) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -46,8 +52,8 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 
 
 	@Override
-	public boolean onFling(MotionEvent arg0, MotionEvent arg1, float arg2,
-			float arg3) {
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+			float velocityY) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -55,7 +61,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 
 
 	@Override
-	public void onLongPress(MotionEvent arg0) {
+	public void onLongPress(MotionEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -63,8 +69,8 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 
 
 	@Override
-	public boolean onScroll(MotionEvent arg0, MotionEvent arg1, float arg2,
-			float arg3) {
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+			float distanceY) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -72,7 +78,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 
 
 	@Override
-	public void onShowPress(MotionEvent arg0) {
+	public void onShowPress(MotionEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -80,7 +86,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 
 
 	@Override
-	public boolean onSingleTapUp(MotionEvent arg0) {
+	public boolean onSingleTapUp(MotionEvent e) {
 		// TODO Auto-generated method stub
 		return false;
 	}
