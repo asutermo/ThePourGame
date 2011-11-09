@@ -30,10 +30,12 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
      return super.onTouchEvent(me); 
     }
 
+    @Override
     protected void onResume() {
         super.onResume();
     }
- 
+    
+    @Override
     protected void onDestroy() {
         super.onDestroy();
  

@@ -28,7 +28,12 @@ public class BreweryFinderActivity extends MapActivity implements
         setContentView(R.layout.brewery_finder);
         CONTEXT = this;
         
-        mapView = (MapView)findViewById(R.id.mapView);
+        initScene();
+    }
+    
+    private void initScene()
+    {
+    	mapView = (MapView)findViewById(R.id.mapView);
         
         mapView.setBuiltInZoomControls(true);
         
@@ -39,8 +44,7 @@ public class BreweryFinderActivity extends MapActivity implements
         
         locationListener = new GPSLocationListener();
         
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-        		0, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
     }
     
     private class GPSLocationListener implements LocationListener
@@ -54,7 +58,7 @@ public class BreweryFinderActivity extends MapActivity implements
 						(int)(location.getLatitude()*1E6),
 						(int)(location.getLongitude()*1E6));
 				Toast.makeText(CONTEXT, "LAT: "+location.getLatitude() +
-						"LONG: " + location.getLongitude(), Toast.LENGTH_LONG).show();
+						"\nLONG: " + location.getLongitude(), Toast.LENGTH_LONG).show();
 				
 				mapController.animateTo(point);
 				mapController.setZoom(16);
@@ -65,8 +69,7 @@ public class BreweryFinderActivity extends MapActivity implements
 
 		@Override
 		public void onProviderDisabled(String provider) {
-			// TODO Auto-generated method stub
-			
+			Toast.makeText(CONTEXT, "Please enable GPS", Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
@@ -98,6 +101,7 @@ public class BreweryFinderActivity extends MapActivity implements
         if (OrientationManager.isListening()) {
             OrientationManager.stopListening();
         }
+        
  
     }
 
