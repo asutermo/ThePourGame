@@ -19,14 +19,15 @@ public class BreweryFinderActivity extends MapActivity implements
     }
 
 
-
+    @Override
     protected void onResume() {
         super.onResume();
         if (OrientationManager.isSupported()) {
             OrientationManager.startListening(this);
         }
     }
- 
+    
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (OrientationManager.isListening()) {
