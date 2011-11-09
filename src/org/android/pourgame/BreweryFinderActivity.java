@@ -1,10 +1,12 @@
 package org.android.pourgame;
 
+import com.google.android.maps.MapActivity;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
-public class BreweryFinderActivity extends Activity implements
+public class BreweryFinderActivity extends MapActivity implements
 		OrientationListener {
 	
 	private static Context CONTEXT;
@@ -12,7 +14,7 @@ public class BreweryFinderActivity extends Activity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.brewery_finder);
         CONTEXT = this;
     }
 
@@ -65,5 +67,13 @@ public class BreweryFinderActivity extends Activity implements
 	
 	public static Context getContext() {
 		return CONTEXT;
+	}
+
+
+
+	@Override
+	protected boolean isRouteDisplayed() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
