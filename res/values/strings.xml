@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">ThePourGame</string>
-    <string name="maps_api_key">0C_35mw-ULpiM3fy6ZVWhMab-3MdibYHO0ObPJQ</string>
+    <string name="maps_api_key">0C_35mw-ULphMqbU-Gjn6xexfNqgywnbscNOZyQ</string>
     <string name="top_label">The Pour Game</string>
     <string name="bottom_label">Brewery Finder</string>
     <string name="left_label"></string>
