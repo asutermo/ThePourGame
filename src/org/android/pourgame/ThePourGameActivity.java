@@ -9,9 +9,8 @@ import android.view.MotionEvent;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ThePourGameActivity extends Activity implements OrientationListener, OnGestureListener {
+public class ThePourGameActivity extends Activity implements OnGestureListener {
     /** Called when the activity is first created. */
-	private static Context CONTEXT;
 	private static final int SWIPE_MIN = 120;
 	private static final int SWIPE_MAX_OFF = 250;
 	private static final int SWIPE_THRESH_VEL = 200;
@@ -21,7 +20,6 @@ public class ThePourGameActivity extends Activity implements OrientationListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        CONTEXT = this;
         gestureDetector = new GestureDetector(this, this);
         
     }
@@ -30,47 +28,14 @@ public class ThePourGameActivity extends Activity implements OrientationListener
 
     protected void onResume() {
         super.onResume();
-        if (OrientationManager.isSupported()) {
-            OrientationManager.startListening(this);
-        }
+        
     }
  
     protected void onDestroy() {
         super.onDestroy();
-        if (OrientationManager.isListening()) {
-            OrientationManager.stopListening();
-        }
- 
-    }
-    
-	@Override
-    public void onOrientationChanged(float azimuth, float pitch, float roll)
-	{
         
-    }
  
-    
-    @Override
-    public void onBottomUp() {
     }
- 
-    @Override
-    public void onLeftUp() {
-    }
- 
-    @Override
-    public void onRightUp() {
-    }
- 
-    @Override
-    public void onTopUp() {
-    }
-
-	public static Context getContext() {
-		return CONTEXT;
-	}
-
-
 
 	@Override
 	public boolean onDown(MotionEvent arg0) {
