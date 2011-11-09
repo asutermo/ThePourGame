@@ -28,22 +28,35 @@ public class BreweryFinderActivity extends MapActivity implements
         setContentView(R.layout.brewery_finder);
         CONTEXT = this;
         
+        //Initializes the map view to the phone's current location
         initScene();
+        
+        //TODO: Search for nearby breweries from current location
+        
     }
     
     private void initScene()
     {
+    	//Get the mapView object from the xml layout
     	mapView = (MapView)findViewById(R.id.mapView);
         
+    	//Allow user to zoom in and out
         mapView.setBuiltInZoomControls(true);
         
+        //Grabs the controller of the mapView
         mapController = mapView.getController();
+        //Initially zooms in to predefined level
         mapController.setZoom(16);
         
+        //Grabs the location service from the android system
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         
+        //Initializes the location listener with listener defined below
         locationListener = new GPSLocationListener();
         
+        //Ask the system to update the location on the map every time the user moves 100 meters
+        //TODO: Implement so that it only updates the location once
+        //TODO: Make brewery search wait on location update
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
     }
     
@@ -54,11 +67,12 @@ public class BreweryFinderActivity extends MapActivity implements
 		public void onLocationChanged(Location location) {
 			if(location != null)
 			{
+				//Grabs the latitude and longitude to the updated location
 				GeoPoint point = new GeoPoint(
 						(int)(location.getLatitude()*1E6),
 						(int)(location.getLongitude()*1E6));
 				Toast.makeText(CONTEXT, "LAT: "+location.getLatitude() +
-						"\nLONG: " + location.getLongitude(), Toast.LENGTH_LONG).show();
+						"\nLONG: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
 				
 				mapController.animateTo(point);
 				mapController.setZoom(16);
@@ -69,7 +83,7 @@ public class BreweryFinderActivity extends MapActivity implements
 
 		@Override
 		public void onProviderDisabled(String provider) {
-			Toast.makeText(CONTEXT, "Please enable GPS", Toast.LENGTH_SHORT).show();
+			Toast.makeText(CONTEXT, "Please enable GPS", Toast.LENGTH_LONG).show();
 		}
 
 		@Override
