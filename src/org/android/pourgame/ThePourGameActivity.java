@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class ThePourGameActivity extends Activity implements OnGestureListener {
     /** Called when the activity is first created. */
