@@ -26,7 +26,11 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
         
     }
 
-
+    @Override 
+    public boolean onTouchEvent(MotionEvent me){ 
+      this.gestureDetector.onTouchEvent(me);
+     return super.onTouchEvent(me); 
+    }
 
     protected void onResume() {
         super.onResume();
@@ -54,11 +58,38 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
-		// TODO Auto-generated method stub
-		return false;
+		// Check movement along the Y-axis. If it exceeds SWIPE_MAX_OFF_PATH, then dismiss the swipe.
+        if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF)
+            return false;
+
+        // Swipe from right to left.
+        // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
+        if (e1.getX() - e2.getX() > SWIPE_MIN
+                && Math.abs(velocityX) > SWIPE_THRESH_VEL) {
+            next();
+            return true;
+        }
+
+        // Swipe from left to right.
+        // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
+        if (e2.getX() - e1.getX() > SWIPE_MIN
+                && Math.abs(velocityX) > SWIPE_THRESH_VEL) {
+            previous();
+            return true;
+        }
+
+        return false;
 	}
 
-
+	public void previous()
+	{
+		
+	}
+	
+	public void next()
+	{
+		
+	}
 
 	@Override
 	public void onLongPress(MotionEvent e) {
