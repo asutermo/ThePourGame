@@ -3,6 +3,7 @@ package org.android.pourgame;
 import com.google.android.maps.MapActivity;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -73,9 +74,11 @@ public class BreweryFinderActivity extends MapActivity implements
 						(int)(location.getLongitude()*1E6));
 				Toast.makeText(CONTEXT, "LAT: "+location.getLatitude() +
 						"\nLONG: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
-				
+				//Zooms before moving to your current location
+				mapController.setZoom(8);
+				//Animates the map to your current location
 				mapController.animateTo(point);
-				mapController.setZoom(16);
+				//Redraws the scene. I have no idea why this is here but I found it in a tutorial
 				mapView.invalidate();
 			}
 			
@@ -98,6 +101,12 @@ public class BreweryFinderActivity extends MapActivity implements
 			
 		}
     	
+    }
+    
+    @Override
+    public void onConfigurationChanged(Configuration con) {
+      super.onConfigurationChanged(con);
+      setContentView(R.layout.brewery_finder);
     }
 
 
