@@ -3,11 +3,15 @@ package org.android.pourgame;
 import com.google.android.maps.MapActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.maps.MapView;
@@ -28,6 +32,18 @@ public class BreweryFinderActivity extends MapActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.brewery_finder);
         CONTEXT = this;
+        
+        Button backButton = (Button)findViewById(R.id.backButton);
+        
+        backButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
+				startActivity(back);
+			}
+        	
+        });
         
         //Initializes the map view to the phone's current location
         initScene();
