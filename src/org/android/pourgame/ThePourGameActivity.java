@@ -54,7 +54,6 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 	}
 
 
-
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
@@ -83,7 +82,8 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 
 	public void previous()
 	{
-		
+		Intent previous = new Intent(getApplicationContext(), TheBeerActivity.class);
+		startActivity(previous);
 	}
 	
 	public void next()
