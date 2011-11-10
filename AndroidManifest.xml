@@ -22,7 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BreweryFinderActivity"></activity>
+        <activity android:name=".BreweryFinderActivity"
+            android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".TheBeerActivity"></activity>
         <activity android:name=".TheSodaActivity"></activity>
  		<activity android:name=".TheChampaigneActivity"></activity>

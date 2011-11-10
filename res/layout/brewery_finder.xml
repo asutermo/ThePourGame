@@ -10,6 +10,4 @@
 		android:apiKey="@string/maps_api_key"
 		android:clickable="true"
 		android:enabled="true"/>
-    
-
 </LinearLayout>
