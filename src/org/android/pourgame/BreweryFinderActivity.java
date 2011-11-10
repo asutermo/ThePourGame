@@ -18,8 +18,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MapController;
 import com.google.android.maps.GeoPoint;
 
-public class BreweryFinderActivity extends MapActivity implements
-		OrientationListener {
+public class BreweryFinderActivity extends MapActivity{
 	
 	private static Context CONTEXT;
 	private MapView mapView;
@@ -51,6 +50,7 @@ public class BreweryFinderActivity extends MapActivity implements
         //TODO: Search for nearby breweries from current location
         
     }
+
     
     private void initScene()
     {
@@ -65,6 +65,11 @@ public class BreweryFinderActivity extends MapActivity implements
         //Initially zooms in to predefined level
         mapController.setZoom(16);
         
+        
+//        Location lastKnown = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//        GeoPoint lastKnownGeo = new GeoPoint((int)(lastKnown.getLatitude()*1E6), (int)(lastKnown.getLongitude()*1E6));
+//        mapController.animateTo(lastKnownGeo);
+        
         //Grabs the location service from the android system
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         
@@ -74,8 +79,15 @@ public class BreweryFinderActivity extends MapActivity implements
         //Ask the system to update the location on the map every time the user moves 100 meters
         //TODO: Implement so that it only updates the location once
         //TODO: Make brewery search wait on location update
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
+        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, null);
     }
+    
+    public void previous()
+	{
+		Intent previous = new Intent(getApplicationContext(), ThePourGameActivity.class);
+		startActivity(previous);
+	}
+	
     
     private class GPSLocationListener implements LocationListener
     {
@@ -129,51 +141,16 @@ public class BreweryFinderActivity extends MapActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        if (OrientationManager.isSupported()) {
-            OrientationManager.startListening(this);
-        }
+        
     }
     
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (OrientationManager.isListening()) {
-            OrientationManager.stopListening();
-        }
         
  
     }
-
-	@Override
-	public void onBottomUp() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onLeftUp() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onOrientationChanged(float azimuth, float pitch, float roll) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onRightUp() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onTopUp() {
-		// TODO Auto-generated method stub
-
-	}
-	
+    
 	public static Context getContext() {
 		return CONTEXT;
 	}
