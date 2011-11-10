@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -40,6 +41,7 @@ public class BreweryFinderActivity extends MapActivity{
 			public void onClick(View arg0) {
 				Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
 				startActivity(back);
+				finish();
 			}
         	
         });
@@ -161,5 +163,15 @@ public class BreweryFinderActivity extends MapActivity{
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+	    	Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
+			startActivity(back);
+			finish();
+	    }
+	    return super.onKeyDown(keyCode, event);
 	}
 }
