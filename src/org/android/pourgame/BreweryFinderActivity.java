@@ -3,11 +3,15 @@ package org.android.pourgame;
 import com.google.android.maps.MapActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.GestureDetector.OnGestureListener;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.google.android.maps.MapView;
@@ -15,7 +19,11 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.GeoPoint;
 
 public class BreweryFinderActivity extends MapActivity implements
-		OrientationListener {
+		 OnGestureListener {
+	private static final int SWIPE_MIN = 120;
+	private static final int SWIPE_MAX_OFF = 250;
+	private static final int SWIPE_THRESH_VEL = 200;
+	private GestureDetector gestureDetector;
 	
 	private static Context CONTEXT;
 	private MapView mapView;
@@ -31,10 +39,17 @@ public class BreweryFinderActivity extends MapActivity implements
         
         //Initializes the map view to the phone's current location
         initScene();
-        
+        gestureDetector = new GestureDetector(this, this);
         //TODO: Search for nearby breweries from current location
         
     }
+    
+    @Override 
+    public boolean onTouchEvent(MotionEvent me){ 
+      this.gestureDetector.onTouchEvent(me);
+     return super.onTouchEvent(me); 
+    }
+
     
     private void initScene()
     {
@@ -60,6 +75,31 @@ public class BreweryFinderActivity extends MapActivity implements
         //TODO: Make brewery search wait on location update
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
     }
+    
+    @Override
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+			float velocityY) {
+		// Check movement along the Y-axis. If it exceeds SWIPE_MAX_OFF_PATH, then dismiss the swipe.
+        if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF)
+            return false;
+
+        // Swipe from left to right.
+        // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
+        if (e2.getX() - e1.getX() > SWIPE_MIN
+                && Math.abs(velocityX) > SWIPE_THRESH_VEL) {
+            previous();
+            return true;
+        }
+
+        return false;
+	}
+    
+    public void previous()
+	{
+		Intent previous = new Intent(getApplicationContext(), ThePourGameActivity.class);
+		startActivity(previous);
+	}
+	
     
     private class GPSLocationListener implements LocationListener
     {
@@ -113,51 +153,16 @@ public class BreweryFinderActivity extends MapActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        if (OrientationManager.isSupported()) {
-            OrientationManager.startListening(this);
-        }
+        
     }
     
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (OrientationManager.isListening()) {
-            OrientationManager.stopListening();
-        }
         
  
     }
-
-	@Override
-	public void onBottomUp() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onLeftUp() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onOrientationChanged(float azimuth, float pitch, float roll) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onRightUp() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onTopUp() {
-		// TODO Auto-generated method stub
-
-	}
-	
+    
 	public static Context getContext() {
 		return CONTEXT;
 	}
@@ -166,6 +171,38 @@ public class BreweryFinderActivity extends MapActivity implements
 
 	@Override
 	protected boolean isRouteDisplayed() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onDown(MotionEvent arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public void onLongPress(MotionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent arg0, MotionEvent arg1, float arg2,
+			float arg3) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onShowPress(MotionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent arg0) {
 		// TODO Auto-generated method stub
 		return false;
 	}
