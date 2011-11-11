@@ -4,26 +4,57 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 
-public class ThePourGameActivity extends Activity implements OnGestureListener {
-    /** Called when the activity is first created. */
+public class ThePourGameActivity extends Activity implements OnGestureListener, SensorEventListener {
+    
+	
 	private static Context CONTEXT;
-	private static final int SWIPE_MIN = 120;
+	
+	//set up gesture constants, these are used for shake and swipe/fling
+	private static final int SWIPE_MIN = 75;
 	private static final int SWIPE_MAX_OFF = 250;
 	private static final int SWIPE_THRESH_VEL = 200;
+	private static final int SHAKE = 500;
+	private static final int UPDATE = 100;
+	
+	//detect current gesture
 	private GestureDetector gestureDetector;
+	
+	//handle shaking with acceleration. 
+	private SensorManager sensor;
+	private long last = -1;
+	private float xData, xLast;
+	private float yData, yLast;
+	private float zData, zLast;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	//main screen, set layout
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         CONTEXT = this;
+        
+        //initiate gesture detection
         gestureDetector = new GestureDetector(this, this);
-    }
+        
+        //initiate accelerometer
+        sensor = (SensorManager)getSystemService(SENSOR_SERVICE);
+        boolean accelerometer = sensor.registerListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
+        
+        //if no, sensor, undo it
+        if (!accelerometer)
+        	sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
 
+    }
+    
     @Override 
     public boolean onTouchEvent(MotionEvent me){ 
       this.gestureDetector.onTouchEvent(me);
@@ -45,14 +76,11 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 		return CONTEXT;
 	}
 
-
-
 	@Override
 	public boolean onDown(MotionEvent e) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
@@ -104,8 +132,14 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 
 	@Override
 	public void onBackPressed() {
+		
+		//kill activity on activity stack
 		finish();
+		
+		//nuke process
+		android.os.Process.killProcess(android.os.Process.myPid());
 	}
+	
 
 
 	@Override
@@ -131,4 +165,26 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		
+		//compare what sensor made the call
+		if (event.sensor.getType() == SensorManager.SENSOR_ACCELEROMETER)
+		{
+			long inTime = System.currentTimeMillis();
+			long diffTime = inTime - last;
+			if (diffTime > UPDATE)
+			{
+				
+			}
+		}
+	}
+
 }
