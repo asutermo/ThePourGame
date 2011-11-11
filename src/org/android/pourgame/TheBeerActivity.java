@@ -1,12 +1,13 @@
 package org.android.pourgame;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
+
 
 public class TheBeerActivity extends Activity implements
 OrientationListener, OnGestureListener {
@@ -52,83 +53,96 @@ OrientationListener, OnGestureListener {
 	{
 		Intent previous = new Intent(getApplicationContext(), ThePourGameActivity.class);
 		startActivity(previous);
+		finish();
 	}
 	
+	@Override
+	public void onBackPressed() {
+		Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
+		startActivity(back);
+		finish();
+	}
+	
+	public static Context getContext() {
+		return CONTEXT;
+	}
 
-/* (non-Javadoc)
-* @see org.android.pourgame.OrientationListener#onOrientationChanged(float, float, float)
-*/
-@Override
-public void onOrientationChanged(float azimuth, float pitch, float roll) {
-// TODO Auto-generated method stub
+	
 
-}
-
-/* (non-Javadoc)
-* @see org.android.pourgame.OrientationListener#onTopUp()
-*/
-@Override
-public void onTopUp() {
-// TODO Auto-generated method stub
-
-}
-
-/* (non-Javadoc)
-* @see org.android.pourgame.OrientationListener#onBottomUp()
-*/
-@Override
-public void onBottomUp() {
-// TODO Auto-generated method stub
-
-}
-
-/* (non-Javadoc)
-* @see org.android.pourgame.OrientationListener#onRightUp()
-*/
-@Override
-public void onRightUp() {
-// TODO Auto-generated method stub
-
-}
-
-/* (non-Javadoc)
-* @see org.android.pourgame.OrientationListener#onLeftUp()
-*/
-@Override
-public void onLeftUp() {
-// TODO Auto-generated method stub
-
-}
-
-@Override
-public boolean onDown(MotionEvent e) {
-	// TODO Auto-generated method stub
-	return false;
-}
-
-@Override
-public void onLongPress(MotionEvent e) {
+	/* (non-Javadoc)
+	* @see org.android.pourgame.OrientationListener#onOrientationChanged(float, float, float)
+	*/
+	@Override
+	public void onOrientationChanged(float azimuth, float pitch, float roll) {
 	// TODO Auto-generated method stub
 	
-}
-
-@Override
-public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-		float distanceY) {
-	// TODO Auto-generated method stub
-	return false;
-}
-
-@Override
-public void onShowPress(MotionEvent e) {
+	}
+	
+	/* (non-Javadoc)
+	* @see org.android.pourgame.OrientationListener#onTopUp()
+	*/
+	@Override
+	public void onTopUp() {
 	// TODO Auto-generated method stub
 	
-}
-
-@Override
-public boolean onSingleTapUp(MotionEvent e) {
+	}
+	
+	/* (non-Javadoc)
+	* @see org.android.pourgame.OrientationListener#onBottomUp()
+	*/
+	@Override
+	public void onBottomUp() {
 	// TODO Auto-generated method stub
-	return false;
-}
+	
+	}
+	
+	/* (non-Javadoc)
+	* @see org.android.pourgame.OrientationListener#onRightUp()
+	*/
+	@Override
+	public void onRightUp() {
+	// TODO Auto-generated method stub
+	
+	}
+	
+	/* (non-Javadoc)
+	* @see org.android.pourgame.OrientationListener#onLeftUp()
+	*/
+	@Override
+	public void onLeftUp() {
+	// TODO Auto-generated method stub
+	
+	}
+	
+	@Override
+	public boolean onDown(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public void onLongPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+			float distanceY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public void onShowPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public boolean onSingleTapUp(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

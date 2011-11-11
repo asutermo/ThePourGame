@@ -84,12 +84,14 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 	{
 		Intent previous = new Intent(getApplicationContext(), TheBeerActivity.class);
 		startActivity(previous);
+		finish();
 	}
 	
 	public void next()
 	{
 		Intent next = new Intent(getApplicationContext(), BreweryFinderActivity.class);
 		startActivity(next);
+		finish();
 	}
 
 	@Override
@@ -98,6 +100,10 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 		
 	}
 
+	@Override
+	public void onBackPressed() {
+		finish();
+	}
 
 
 	@Override
