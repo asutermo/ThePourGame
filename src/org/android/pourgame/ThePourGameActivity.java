@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
 public class ThePourGameActivity extends Activity implements OnGestureListener {
     /** Called when the activity is first created. */
@@ -17,8 +15,6 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 	private static final int SWIPE_MAX_OFF = 250;
 	private static final int SWIPE_THRESH_VEL = 200;
 	private GestureDetector gestureDetector;
-	private static final String RIGHT = "RIGHT";
-	private static final String LEFT = "LEFT";
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,7 +85,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 		Intent previous = new Intent(getApplicationContext(), TheBeerActivity.class);
 		startActivity(previous);
 		finish();
-		overridePendingTransition(R.anim.push_left_in, R.anim.hold);
+		overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 	}
 	
 	public void next()
@@ -97,7 +93,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener {
 		Intent next = new Intent(getApplicationContext(), BreweryFinderActivity.class);
 		startActivity(next);
 		finish();
-		overridePendingTransition(R.anim.push_right_in, R.anim.hold);
+		overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 	}
 	
 	@Override
