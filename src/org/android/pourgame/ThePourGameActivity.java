@@ -43,14 +43,13 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
         setContentView(R.layout.main);
         CONTEXT = this;
         
-        //initiate gesture detection
         gestureDetector = new GestureDetector(this, this);
         
         //initiate accelerometer
         sensor = (SensorManager)getSystemService(SENSOR_SERVICE);
         boolean accelerometer = sensor.registerListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
         
-        //if no, sensor, undo it
+        //if no sensor, undo it, warn user
         if (!accelerometer)
         {
         	Toast.makeText(this, "Sensor invalid", Toast.LENGTH_SHORT).show();
@@ -71,8 +70,15 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
     }
     
     @Override
+    protected void onPause() {
+    	killSensor();
+    	super.onPause();
+    }
+    
+    @Override
     protected void onDestroy() {
-        super.onDestroy();
+        killSensor();
+    	super.onDestroy();
  
     }
 
@@ -114,6 +120,8 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 
 	public void previous()
 	{
+		Log.d("beerGame", "Loading beer pouring game");
+		killSensor();
 		Intent previous = new Intent(getApplicationContext(), TheBeerActivity.class);
 		startActivity(previous);
 		finish();
@@ -124,6 +132,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	{
 		Log.d("breweryFinder", "Loading brewery finder");
 		Intent next = new Intent(getApplicationContext(), BreweryFinderActivity.class);
+		killSensor();
 		startActivity(next);
 		finish();
 		overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
@@ -138,32 +147,27 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	@Override
 	public void onBackPressed() {
 		
-		//kill activity on activity stack
+		killSensor();
 		finish();
-		
-		//nuke process
 		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 	
-
+	private void killSensor() 
+	{
+		if (sensor != null)
+			sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
+	    sensor = null;  
+	}
 
 	@Override
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-
-
 	@Override
 	public void onShowPress(MotionEvent e) {
-		// TODO Auto-generated method stub
-		
-		
 	}
-
-
 
 	@Override
 	public boolean onSingleTapUp(MotionEvent e) {
