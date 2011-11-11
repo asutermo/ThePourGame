@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 public class ThePourGameActivity extends Activity implements OnGestureListener, SensorEventListener {
     
@@ -22,7 +23,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	private static final int SWIPE_MIN = 75;
 	private static final int SWIPE_MAX_OFF = 250;
 	private static final int SWIPE_THRESH_VEL = 200;
-	private static final int SHAKE = 500;
+	private static final int SHAKE = 800;
 	private static final int UPDATE = 100;
 	
 	//detect current gesture
@@ -51,8 +52,11 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
         
         //if no, sensor, undo it
         if (!accelerometer)
+        {
+        	Toast.makeText(this, "Sensor invalid", Toast.LENGTH_SHORT).show();
+			
         	sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
-
+        }
     }
     
     @Override 
@@ -118,6 +122,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	
 	public void next()
 	{
+		Log.d("breweryFinder", "Loading brewery finder");
 		Intent next = new Intent(getApplicationContext(), BreweryFinderActivity.class);
 		startActivity(next);
 		finish();
@@ -174,15 +179,31 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		
+		Log.d("sensor", "onSensorChanged: " + event.sensor.getType());
 		//compare what sensor made the call
-		if (event.sensor.getType() == SensorManager.SENSOR_ACCELEROMETER)
+		if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
 		{
 			long inTime = System.currentTimeMillis();
-			long diffTime = inTime - last;
-			if (diffTime > UPDATE)
+			
+			if ((inTime-last) > UPDATE)
 			{
+				long diffTime = inTime - last;
+				last = inTime;
 				
+				//get data
+				xData = event.values[SensorManager.DATA_X];
+				yData = event.values[SensorManager.DATA_Y];
+				zData = event.values[SensorManager.DATA_Z];
+				
+				//calculate speed
+				float speed = Math.abs(xData + yData + zData - xLast - yLast - zLast) / diffTime * 10000;
+				
+				if (speed > SHAKE)
+					Toast.makeText(this, "Shake speed: " + speed, Toast.LENGTH_SHORT).show();
+				
+				xLast = xData;
+				yLast = yData;
+				zLast = zData;
 			}
 		}
 	}
