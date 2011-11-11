@@ -1,13 +1,22 @@
 TODO:
   - Implement main screen
+  	* Fling capable coaster. Bounces off of top and bottom
+  	* Basically a title screen with group name and our names
+  	* Shake to load random page
+  	
   - Implement orientation
-  - Implement pouring interface:
+  	* Use orientation sensor and accelerometer to post back angles and, well, orientation
+  	
+  - Implement pouring interface with Animation
+  	* Possible game per Rader? Is it possible to pour quicker but maintain the proper drink?
+  		- Too much or too little head could result in loss
     * Champagne
     * Soda
     * Beer
+    
   - Implement mapping functionality
-  - Bitches
-<<<<<<< HEAD
-=======
-hehe
->>>>>>> 1bdae2238823bdc8bc4e0c46c63594bd012a5e60
+  	* Use geographic location and overlay to map closest breweries
+  	* Allow user to pinch and zoom
+  	* Show breweries only within 50 mile radius (for memory purposes, don't even know if API will support this many)
+  	* If there is time: Click the icon to pull up the information (via Google or whatever)
+  		-- Use integrated browser and just load new intent this way
