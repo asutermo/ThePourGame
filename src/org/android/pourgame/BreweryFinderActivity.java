@@ -166,12 +166,10 @@ public class BreweryFinderActivity extends MapActivity{
 	}
 	
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-	    if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-	    	Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
-			startActivity(back);
-			finish();
-	    }
-	    return super.onKeyDown(keyCode, event);
+	public void onBackPressed()
+	{
+		Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
+		startActivity(back);
+		finish();
 	}
 }
