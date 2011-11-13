@@ -106,7 +106,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
         // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
         if (e1.getX() - e2.getX() > SWIPE_MIN
                 && Math.abs(velocityX) > SWIPE_THRESH_VEL) {
-            previous();
+            next();
             return true;
         }
 
@@ -114,7 +114,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
         // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
         if (e2.getX() - e1.getX() > SWIPE_MIN
                 && Math.abs(velocityX) > SWIPE_THRESH_VEL) {
-            next();
+            previous();
             return true;
         }
 
@@ -128,6 +128,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 		Intent previous = new Intent(getApplicationContext(), TheBeerActivity.class);
 		startActivity(previous);
 		finish();
+
 		overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 	}
 	
@@ -138,6 +139,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 		killSensor();
 		startActivity(next);
 		finish();
+
 		overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 	}
 	
@@ -209,8 +211,6 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 				if (speed > SHAKE)
 				{
 					shakeCount++;
-					Toast.makeText(this, "Shake count: " + shakeCount + " Shake speed: " + speed, Toast.LENGTH_SHORT).show();
-					
 					
 					if (shakeCount > SHAKE_EXIT)
 						this.onBackPressed();

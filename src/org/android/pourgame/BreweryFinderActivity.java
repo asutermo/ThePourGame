@@ -9,7 +9,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -42,6 +41,7 @@ public class BreweryFinderActivity extends MapActivity{
 				Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
 				startActivity(back);
 				finish();
+				overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			}
         	
         });
@@ -171,5 +171,6 @@ public class BreweryFinderActivity extends MapActivity{
 		Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
 		startActivity(back);
 		finish();
+		overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 	}
 }
