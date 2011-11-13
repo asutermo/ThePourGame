@@ -25,6 +25,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	private static final int SWIPE_THRESH_VEL = 200;
 	private static final int SHAKE = 800;
 	private static final int UPDATE = 100;
+	private static final int SHAKE_EXIT = 5;
 	
 	//detect current gesture
 	private GestureDetector gestureDetector;
@@ -35,6 +36,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	private float xData, xLast;
 	private float yData, yLast;
 	private float zData, zLast;
+	private int shakeCount;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         CONTEXT = this;
-        
+        shakeCount = 0;
         gestureDetector = new GestureDetector(this, this);
         
         //initiate accelerometer
@@ -66,6 +68,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 
     @Override
     protected void onResume() {
+    	shakeCount = 0;
         super.onResume();
     }
     
@@ -103,7 +106,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
         // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
         if (e1.getX() - e2.getX() > SWIPE_MIN
                 && Math.abs(velocityX) > SWIPE_THRESH_VEL) {
-            next();
+            previous();
             return true;
         }
 
@@ -111,7 +114,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
         // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
         if (e2.getX() - e1.getX() > SWIPE_MIN
                 && Math.abs(velocityX) > SWIPE_THRESH_VEL) {
-            previous();
+            next();
             return true;
         }
 
@@ -125,7 +128,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 		Intent previous = new Intent(getApplicationContext(), TheBeerActivity.class);
 		startActivity(previous);
 		finish();
-		overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+		overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 	}
 	
 	public void next()
@@ -135,7 +138,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 		killSensor();
 		startActivity(next);
 		finish();
-		overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+		overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 	}
 	
 	@Override
@@ -154,6 +157,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	
 	private void killSensor() 
 	{
+		
 		if (sensor != null)
 			sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
 	    sensor = null;  
@@ -203,7 +207,15 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 				float speed = Math.abs(xData + yData + zData - xLast - yLast - zLast) / diffTime * 10000;
 				
 				if (speed > SHAKE)
-					Toast.makeText(this, "Shake speed: " + speed, Toast.LENGTH_SHORT).show();
+				{
+					shakeCount++;
+					Toast.makeText(this, "Shake count: " + shakeCount + " Shake speed: " + speed, Toast.LENGTH_SHORT).show();
+					
+					
+					if (shakeCount > SHAKE_EXIT)
+						this.onBackPressed();
+				}
+				
 				
 				xLast = xData;
 				yLast = yData;
