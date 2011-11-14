@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -12,7 +13,7 @@ import android.view.MotionEvent;
 public class TheBeerActivity extends Activity implements
 OrientationListener, OnGestureListener {
 	private static final int SWIPE_MIN = 120;
-	private static final int SWIPE_MAX_OFF = 250;
+	private static final int SWIPE_MAX_OFF = 300;
 	private static final int SWIPE_THRESH_VEL = 200;
 	private GestureDetector gestureDetector;
 	private static Context CONTEXT;
@@ -34,26 +35,41 @@ OrientationListener, OnGestureListener {
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
-		// Check movement along the Y-axis. If it exceeds SWIPE_MAX_OFF_PATH, then dismiss the swipe.
-        if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF)
-            return false;
+		
+		//
+		if (e2.getY() - e1.getY() > SWIPE_MIN && Math.abs(velocityY) > SWIPE_THRESH_VEL && Math.abs(e2.getX()-e1.getX()) < SWIPE_MAX_OFF)
+		{
+			up();
+			return true;
+		}
 
         // Swipe from left to right.
         // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
         if (e2.getX() - e1.getX() > SWIPE_MIN
-                && Math.abs(velocityX) > SWIPE_THRESH_VEL) {
-            previous();
+                && Math.abs(velocityX) > SWIPE_THRESH_VEL && Math.abs(e2.getY()-e1.getY()) < SWIPE_MAX_OFF) {
+            right();
             return true;
         }
 
         return false;
 	}
 	
-	public void previous()
+	public void up()
 	{
+		Log.d("sodaGame", "Loading soda pouring game");
+		Intent up = new Intent(getApplicationContext(), TheSodaGameActivity.class);
+		startActivity(up);
+		finish();
+		overridePendingTransition(R.anim.push_bottom_in, R.anim.push_bottom_out);
+	}
+	public void right()
+	{
+		Log.d("Main Screen", "Loading main screen");
 		Intent previous = new Intent(getApplicationContext(), ThePourGameActivity.class);
 		startActivity(previous);
 		finish();
+
+		overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 	}
 	
 	@Override

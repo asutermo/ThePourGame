@@ -106,7 +106,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
         // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
         if (e1.getX() - e2.getX() > SWIPE_MIN
                 && Math.abs(velocityX) > SWIPE_THRESH_VEL) {
-            next();
+            left();
             return true;
         }
 
@@ -114,14 +114,14 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
         // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
         if (e2.getX() - e1.getX() > SWIPE_MIN
                 && Math.abs(velocityX) > SWIPE_THRESH_VEL) {
-            previous();
+            right();
             return true;
         }
 
         return false;
 	}
 
-	public void previous()
+	public void left()
 	{
 		Log.d("beerGame", "Loading beer pouring game");
 		killSensor();
@@ -132,7 +132,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 		overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 	}
 	
-	public void next()
+	public void right()
 	{
 		Log.d("breweryFinder", "Loading brewery finder");
 		Intent next = new Intent(getApplicationContext(), BreweryFinderActivity.class);
