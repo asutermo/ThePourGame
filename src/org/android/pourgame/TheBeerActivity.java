@@ -13,7 +13,6 @@ import android.view.MotionEvent;
 public class TheBeerActivity extends Activity implements
 OrientationListener, OnGestureListener {
 	private static final int SWIPE_MIN = 120;
-	private static final int SWIPE_MAX_OFF = 300;
 	private static final int SWIPE_THRESH_VEL = 200;
 	private GestureDetector gestureDetector;
 	private static Context CONTEXT;
@@ -36,17 +35,11 @@ OrientationListener, OnGestureListener {
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
 		
-		//
-		if (e2.getY() - e1.getY() > SWIPE_MIN && Math.abs(velocityY) > SWIPE_THRESH_VEL && Math.abs(e2.getX()-e1.getX()) < SWIPE_MAX_OFF)
-		{
-			up();
-			return true;
-		}
 
         // Swipe from left to right.
         // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
         if (e2.getX() - e1.getX() > SWIPE_MIN
-                && Math.abs(velocityX) > SWIPE_THRESH_VEL && Math.abs(e2.getY()-e1.getY()) < SWIPE_MAX_OFF) {
+                && Math.abs(velocityX) > SWIPE_THRESH_VEL) {
             right();
             return true;
         }
@@ -60,7 +53,7 @@ OrientationListener, OnGestureListener {
 		Intent up = new Intent(getApplicationContext(), TheSodaGameActivity.class);
 		startActivity(up);
 		finish();
-		overridePendingTransition(R.anim.push_bottom_in, R.anim.push_bottom_out);
+		overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
 	}
 	public void right()
 	{

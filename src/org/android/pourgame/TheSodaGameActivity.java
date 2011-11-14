@@ -27,7 +27,7 @@ public class TheSodaGameActivity extends Activity implements
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.beer);
+        setContentView(R.layout.soda);
         CONTEXT = this;
         gestureDetector = new GestureDetector(this, this);
     }
@@ -58,7 +58,7 @@ public class TheSodaGameActivity extends Activity implements
 		Intent up = new Intent(getApplicationContext(), TheBeerActivity.class);
 		startActivity(up);
 		finish();
-		overridePendingTransition(R.anim.push_top_in, R.anim.push_top_out);
+		//overridePendingTransition(R.anim.push_top_in, R.anim.push_top_out);
 	}
 	
 	@Override
