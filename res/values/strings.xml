@@ -6,6 +6,8 @@
     <string name="top_label">The Pour Game</string>
     <string name="bottom_label">Brewery Finder</string>
     <string name="left_label">Beer Game</string>
+    <string name="left_up_label">Soda Game</string>
+    <string name="left_down_label">Champaigne Game</string>
     <string name="right_label"></string>
 
 </resources>
