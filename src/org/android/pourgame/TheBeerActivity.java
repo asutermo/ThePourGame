@@ -70,6 +70,7 @@ OrientationListener, OnGestureListener {
 		Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
 		startActivity(back);
 		finish();
+		overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 	}
 	
 	public static Context getContext() {
