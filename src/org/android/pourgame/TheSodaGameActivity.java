@@ -4,116 +4,46 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.View;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
-public class ThePourGameActivity extends Activity implements OnGestureListener, SensorEventListener {
-    
-	
+
+public class TheSodaGameActivity extends Activity implements
+OrientationListener, OnGestureListener {
+	private static final int SWIPE_MIN = 120;
+	private static final int SWIPE_THRESH_VEL = 200;
+	private GestureDetector gestureDetector;
 	private static Context CONTEXT;
 	
-	//set up gesture constants, these are used for shake and swipe/fling
-	private static final int SWIPE_MIN = 75;
-	private static final int SWIPE_MAX_OFF = 250;
-	private static final int SWIPE_THRESH_VEL = 200;
-	private static final int SHAKE = 800;
-	private static final int UPDATE = 100;
-	private static final int SHAKE_EXIT = 5;
-	
-	//detect current gesture
-	private GestureDetector gestureDetector;
-	
-	//handle shaking with acceleration. 
-	private SensorManager sensor;
-	private long last = -1;
-	private float xData, xLast;
-	private float yData, yLast;
-	private float zData, zLast;
-	private int shakeCount;
-	private PaintCoasterView paintCoasterView;
-	
-    @Override
+	@Override
     public void onCreate(Bundle savedInstanceState) {
-    	//main screen, set layout
         super.onCreate(savedInstanceState);
-        paintCoasterView = new PaintCoasterView(this);
-        setContentView(paintCoasterView);
-        //setContentView(R.layout.main);
+        setContentView(R.layout.soda);
         CONTEXT = this;
-        shakeCount = 0;
         gestureDetector = new GestureDetector(this, this);
-        
-        //initiate accelerometer
-        sensor = (SensorManager)getSystemService(SENSOR_SERVICE);
-        boolean accelerometer = sensor.registerListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
-        
-        //if no sensor, undo it, warn user
-        if (!accelerometer)
-        {
-        	Toast.makeText(this, "Sensor invalid", Toast.LENGTH_SHORT).show();
-			
-        	sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
-        }
+        Toast.makeText(CONTEXT, "Soda", Toast.LENGTH_SHORT).show();
     }
-    
-    @Override 
+	
+	@Override 
     public boolean onTouchEvent(MotionEvent me){ 
-     this.gestureDetector.onTouchEvent(me);
+      this.gestureDetector.onTouchEvent(me);
      return super.onTouchEvent(me); 
     }
-
-    @Override
-    protected void onResume() {
-    	shakeCount = 0;
-        super.onResume();
-    }
-    
-    @Override
-    protected void onPause() {
-    	killSensor();
-    	super.onPause();
-    }
-    
-    @Override
-    protected void onDestroy() {
-        killSensor();
-    	super.onDestroy();
- 
-    }
-
-	public static Context getContext() {
-		return CONTEXT;
-	}
-
-	@Override
-	public boolean onDown(MotionEvent e) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
-		// Check movement along the Y-axis. If it exceeds SWIPE_MAX_OFF_PATH, then dismiss the swipe.
-        if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF)
-            return false;
-
-        // Swipe from right to left.
-        // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
-        if (e1.getX() - e2.getX() > SWIPE_MIN
-                && Math.abs(velocityX) > SWIPE_THRESH_VEL) {
-            left();
-            return true;
-        }
-
+		
+		//from bottom to up
+		Toast.makeText(CONTEXT, "Coord: "+e1.getY() + " " + e2.getY() + "", Toast.LENGTH_SHORT).show();
+		if (e2.getY() - e1.getY() > SWIPE_MIN && Math.abs(velocityY) > SWIPE_THRESH_VEL)
+		{
+			down();
+			return true;
+		}
         // Swipe from left to right.
         // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
         if (e2.getX() - e1.getX() > SWIPE_MIN
@@ -124,27 +54,88 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 
         return false;
 	}
-
-	public void left()
+	
+	public void down()
 	{
 		Log.d("beerGame", "Loading beer pouring game");
-		killSensor();
-		Intent previous = new Intent(getApplicationContext(), TheBeerActivity.class);
+		Intent up = new Intent(getApplicationContext(), TheSodaGameActivity.class);
+		startActivity(up);
+		finish();
+		//overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
+	}
+	public void right()
+	{
+		Log.d("Main Screen", "Loading main screen");
+		Intent previous = new Intent(getApplicationContext(), ThePourGameActivity.class);
 		startActivity(previous);
 		finish();
 
-		overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+		overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 	}
 	
-	public void right()
-	{
-		Log.d("breweryFinder", "Loading brewery finder");
-		Intent next = new Intent(getApplicationContext(), BreweryFinderActivity.class);
-		killSensor();
-		startActivity(next);
+	@Override
+	public void onBackPressed() {
+		Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
+		startActivity(back);
 		finish();
-
 		overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+	}
+	
+	public static Context getContext() {
+		return CONTEXT;
+	}
+
+	
+
+	/* (non-Javadoc)
+	* @see org.android.pourgame.OrientationListener#onOrientationChanged(float, float, float)
+	*/
+	@Override
+	public void onOrientationChanged(float azimuth, float pitch, float roll) {
+	// TODO Auto-generated method stub
+	
+	}
+	
+	/* (non-Javadoc)
+	* @see org.android.pourgame.OrientationListener#onTopUp()
+	*/
+	@Override
+	public void onTopUp() {
+	// TODO Auto-generated method stub
+	
+	}
+	
+	/* (non-Javadoc)
+	* @see org.android.pourgame.OrientationListener#onBottomUp()
+	*/
+	@Override
+	public void onBottomUp() {
+	// TODO Auto-generated method stub
+	
+	}
+	
+	/* (non-Javadoc)
+	* @see org.android.pourgame.OrientationListener#onRightUp()
+	*/
+	@Override
+	public void onRightUp() {
+	// TODO Auto-generated method stub
+	
+	}
+	
+	/* (non-Javadoc)
+	* @see org.android.pourgame.OrientationListener#onLeftUp()
+	*/
+	@Override
+	public void onLeftUp() {
+	// TODO Auto-generated method stub
+	
+	}
+	
+	@Override
+	public boolean onDown(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	@Override
@@ -152,79 +143,24 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void onBackPressed() {
-		
-		killSensor();
-		finish();
-		android.os.Process.killProcess(android.os.Process.myPid());
-	}
 	
-	private void killSensor() 
-	{
-		
-		if (sensor != null)
-			sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
-	    sensor = null;  
-	}
-
 	@Override
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY) {
+		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
 	@Override
 	public void onShowPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
-
+	
 	@Override
 	public boolean onSingleTapUp(MotionEvent e) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onSensorChanged(SensorEvent event) {
-		Log.d("sensor", "onSensorChanged: " + event.sensor.getType());
-		//compare what sensor made the call
-		if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-		{
-			long inTime = System.currentTimeMillis();
-			
-			if ((inTime-last) > UPDATE)
-			{
-				long diffTime = inTime - last;
-				last = inTime;
-				
-				//get data
-				xData = event.values[SensorManager.DATA_X];
-				yData = event.values[SensorManager.DATA_Y];
-				zData = event.values[SensorManager.DATA_Z];
-				
-				//calculate speed
-				float speed = Math.abs(xData + yData + zData - xLast - yLast - zLast) / diffTime * 10000;
-				
-				if (speed > SHAKE)
-				{
-					shakeCount++;
-					
-					if (shakeCount > SHAKE_EXIT)
-						this.onBackPressed();
-				}
-				
-				
-				xLast = xData;
-				yLast = yData;
-				zLast = zData;
-			}
-		}
-	}
 }
