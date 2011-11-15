@@ -10,6 +10,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.View;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.widget.Toast;
@@ -42,7 +43,9 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
     public void onCreate(Bundle savedInstanceState) {
     	//main screen, set layout
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        View paintCoasterView = new PaintCoasterView(this);
+        setContentView(paintCoasterView);
+        //setContentView(R.layout.main);
         CONTEXT = this;
         shakeCount = 0;
         gestureDetector = new GestureDetector(this, this);
