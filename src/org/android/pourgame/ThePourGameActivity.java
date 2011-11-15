@@ -38,12 +38,13 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	private float yData, yLast;
 	private float zData, zLast;
 	private int shakeCount;
+	private PaintCoasterView paintCoasterView;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	//main screen, set layout
         super.onCreate(savedInstanceState);
-        View paintCoasterView = new PaintCoasterView(this);
+        paintCoasterView = new PaintCoasterView(this);
         setContentView(paintCoasterView);
         //setContentView(R.layout.main);
         CONTEXT = this;
@@ -65,7 +66,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
     
     @Override 
     public boolean onTouchEvent(MotionEvent me){ 
-      this.gestureDetector.onTouchEvent(me);
+     this.gestureDetector.onTouchEvent(me);
      return super.onTouchEvent(me); 
     }
 
@@ -226,5 +227,4 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 			}
 		}
 	}
-
 }

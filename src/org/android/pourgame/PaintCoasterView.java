@@ -8,6 +8,7 @@ import android.graphics.RectF;
 import android.graphics.Path.Direction;
 import android.view.MotionEvent;
 import android.view.View;
+import android.util.Log;
 
 public class PaintCoasterView extends View {
 	private int xMin = 0;          // This view's bounds
@@ -20,15 +21,18 @@ public class PaintCoasterView extends View {
 	private float previousX, previousY;
 	private float ballSpeedX = 0;  // Ball's speed (x,y)
 	private float ballSpeedY = 0;
-	private Path circle = new Path(), title = new Path();
+	private Path circle = new Path();
+	private Path title = new Path();
 	private RectF ballBounds;      // Needed for Canvas.drawOval
 	private Paint cPaint, tPaint;           // The paint (e.g. style, color) used for drawing
 	private String QUOTE = "College is like a fountain of Knowledge, and the students there like to drink.";
 	private final float SLOW_DOWN_FACTOR = 0.75f;
+	private Context context;
 
 	// Constructor
 	public PaintCoasterView(Context context) {
 		super(context);
+		this.context = context;
 		ballBounds = new RectF();
 		cPaint = new Paint();
 		cPaint.setColor(Color.rgb(205, 201, 201));
@@ -76,6 +80,10 @@ public class PaintCoasterView extends View {
 		// Get new (x,y) position
 		ballX += ballSpeedX;
 		ballY += ballSpeedY;
+		if(hitLeftWall())
+			((ThePourGameActivity) this.context).left();
+		if(hitRightWall())
+			((ThePourGameActivity)this.context).right();
 		// Detect collision and react
 		if (ballX + ballRadius > xMax) {
 			ballSpeedX = -ballSpeedX;
@@ -130,5 +138,19 @@ public class PaintCoasterView extends View {
 			ballSpeedY = 0;
 		}
 		return true;
+	}
+	
+	public boolean hitLeftWall() {
+		//Log.d("leftWall", "Checking ballX " + ballX);
+		if(ballX-ballRadius <= 0 )
+	      return true;
+		return false;
+	}
+	
+	public boolean hitRightWall() {
+		//Log.d("rightWall", "Checking ballX " + ballX);
+		if(ballX+ballRadius >= this.getWidth())
+			return true;
+		return false;
 	}
 }
