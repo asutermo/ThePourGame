@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 
 public class TheBeerActivity extends Activity implements
@@ -23,6 +24,7 @@ OrientationListener, OnGestureListener {
         setContentView(R.layout.beer);
         CONTEXT = this;
         gestureDetector = new GestureDetector(this, this);
+        Toast.makeText(CONTEXT, "Beer", Toast.LENGTH_SHORT).show();
     }
 	
 	@Override 
@@ -35,7 +37,13 @@ OrientationListener, OnGestureListener {
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
 		
-
+		//from bottom to up
+		Toast.makeText(CONTEXT, "Coord: "+e1.getY() + " " + e2.getY() + "", Toast.LENGTH_SHORT).show();
+		if (e1.getY() - e2.getY() > SWIPE_MIN && Math.abs(velocityY) > SWIPE_THRESH_VEL)
+		{
+			up();
+			return true;
+		}
         // Swipe from left to right.
         // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
         if (e2.getX() - e1.getX() > SWIPE_MIN
@@ -53,7 +61,7 @@ OrientationListener, OnGestureListener {
 		Intent up = new Intent(getApplicationContext(), TheSodaGameActivity.class);
 		startActivity(up);
 		finish();
-		overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
+		//overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
 	}
 	public void right()
 	{

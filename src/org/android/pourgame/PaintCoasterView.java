@@ -41,6 +41,7 @@ public class PaintCoasterView extends View {
 		tPaint.setTextSize((float) 28);
 		this.setFocusableInTouchMode(true);
 		circle.addCircle(ballX, ballY, ballRadius, Direction.CW);
+		
 	}
 
 	// Called back to draw the view. Also called after invalidate().
@@ -51,7 +52,12 @@ public class PaintCoasterView extends View {
 		canvas.drawOval(ballBounds, cPaint);
 		circle.reset();
 		circle.addCircle(ballX, ballY, ballRadius, Direction.CW);
+		title.reset();
+		title.setLastPoint(ballX - ballRadius + 50, ballY-20);
+		title.lineTo(ballX + ballRadius, ballY-20);
+		canvas.drawLine(ballX - ballRadius + 50, ballY+10, ballX + ballRadius - 50, ballY+10, tPaint);
 		canvas.drawTextOnPath(QUOTE, circle, 0, 25, tPaint);
+		canvas.drawTextOnPath("The Pour Game", title, 0, 25, tPaint);
 		// Update the position of the ball, including collision detection and reaction.
 		update();
 		if(ballSpeedX > 0)
