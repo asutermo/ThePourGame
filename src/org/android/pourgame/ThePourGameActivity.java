@@ -39,7 +39,6 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	private float zData, zLast;
 	private int shakeCount;
 	private PaintCoasterView paintCoasterView;
-	private ImageView imgView;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.android.maps.MapActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -36,6 +37,7 @@ public class BreweryFinderActivity extends MapActivity{
 	private MapController mapController;
 	private LocationManager locationManager;
 	private LocationListener locationListener;
+	private ProgressDialog progressDialog;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,12 +62,25 @@ public class BreweryFinderActivity extends MapActivity{
         //Initializes the map view to the phone's current location
         initScene();
         
+        initProgressDialog();
+        
+        progressDialog.show();
+        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, null);
+        
         //TODO: Search for nearby breweries from current location
         
     }
 
     
-    private void initScene()
+    private void initProgressDialog() {
+    	progressDialog = new ProgressDialog(CONTEXT);
+		progressDialog.setCancelable(false);
+		progressDialog.setMessage("Finding GPS Location...");
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	}
+
+
+	private void initScene()
     {
     	//Get the mapView object from the xml layout
     	mapView = (MapView)findViewById(R.id.mapView);
@@ -88,11 +103,6 @@ public class BreweryFinderActivity extends MapActivity{
         
         //Initializes the location listener with listener defined below
         locationListener = new GPSLocationListener();
-        
-        //Ask the system to update the location on the map every time the user moves 100 meters
-        //TODO: Implement so that it only updates the location once
-        //TODO: Make brewery search wait on location update
-        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, null);
     }
     
     public void previous()
@@ -125,6 +135,8 @@ public class BreweryFinderActivity extends MapActivity{
 				List<Overlay> overlayList = mapView.getOverlays();
 				overlayList.clear();
 				overlayList.add(mapOverlay);
+				
+				progressDialog.dismiss();
 				
 				Geocoder geoCoder = new Geocoder(getBaseContext());
 				List<Address> nearestBreweries;
