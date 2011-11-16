@@ -10,9 +10,9 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.View;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class ThePourGameActivity extends Activity implements OnGestureListener, SensorEventListener {
@@ -39,6 +39,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	private float zData, zLast;
 	private int shakeCount;
 	private PaintCoasterView paintCoasterView;
+	private ImageView imgView;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,11 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 			
         	sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
         }
+        
+        //imgView = (ImageView)findViewById(R.id.ImageView01);
+        
+        //imgView.setImageResource(R.drawable.logo);
+        
     }
     
     @Override 

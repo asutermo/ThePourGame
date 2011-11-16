@@ -15,7 +15,7 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
-public class ThePourGameActivity extends Activity implements OnGestureListener, SensorEventListener {
+public class TheSodaGameActivity extends Activity implements OnGestureListener, SensorEventListener {
     
 	
 	private static Context CONTEXT;
