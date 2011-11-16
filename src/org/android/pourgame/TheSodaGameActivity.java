@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
-import android.widget.Toast;
 
 
 public class TheSodaGameActivity extends Activity implements
@@ -24,7 +23,7 @@ OrientationListener, OnGestureListener {
         setContentView(R.layout.soda);
         CONTEXT = this;
         gestureDetector = new GestureDetector(this, this);
-        Toast.makeText(CONTEXT, "Soda", Toast.LENGTH_SHORT).show();
+        Log.d("Soda Game", "Soda Game Created");
     }
 	
 	@Override 
@@ -36,21 +35,12 @@ OrientationListener, OnGestureListener {
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
-		
-		//from bottom to up
-		Toast.makeText(CONTEXT, "Coord: "+e1.getY() + " " + e2.getY() + "", Toast.LENGTH_SHORT).show();
+		Log.d("onFling - Soda Game", "Measured fling");
 		if (e2.getY() - e1.getY() > SWIPE_MIN && Math.abs(velocityY) > SWIPE_THRESH_VEL)
 		{
 			down();
 			return true;
 		}
-        // Swipe from left to right.
-        // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
-        if (e2.getX() - e1.getX() > SWIPE_MIN
-                && Math.abs(velocityX) > SWIPE_THRESH_VEL) {
-            right();
-            return true;
-        }
 
         return false;
 	}
@@ -61,24 +51,16 @@ OrientationListener, OnGestureListener {
 		Intent up = new Intent(getApplicationContext(), TheSodaGameActivity.class);
 		startActivity(up);
 		finish();
-		//overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
-	}
-	public void right()
-	{
-		Log.d("Main Screen", "Loading main screen");
-		Intent previous = new Intent(getApplicationContext(), ThePourGameActivity.class);
-		startActivity(previous);
-		finish();
-
-		overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+		overridePendingTransition(R.anim.push_bottom_in, R.anim.push_bottom_out);
 	}
 	
 	@Override
 	public void onBackPressed() {
-		Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
+		Log.d("beerGame", "Loading beer pouring game");
+		Intent back = new Intent(getApplicationContext(), TheBeerActivity.class);
 		startActivity(back);
 		finish();
-		overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+		overridePendingTransition(R.anim.push_bottom_in, R.anim.push_bottom_out);
 	}
 	
 	public static Context getContext() {
