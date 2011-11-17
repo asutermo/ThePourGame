@@ -10,9 +10,9 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.View;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Toast;
 
 public class ThePourGameActivity extends Activity implements OnGestureListener, SensorEventListener {
@@ -26,7 +26,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	private static final int SWIPE_THRESH_VEL = 200;
 	private static final int SHAKE = 800;
 	private static final int UPDATE = 100;
-	private static final int SHAKE_EXIT = 5;
+	private static final int SHAKE_EXIT = 7;
 	
 	//detect current gesture
 	private GestureDetector gestureDetector;
@@ -54,7 +54,6 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
         //initiate accelerometer
         sensor = (SensorManager)getSystemService(SENSOR_SERVICE);
         boolean accelerometer = sensor.registerListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
-        
         //if no sensor, undo it, warn user
         if (!accelerometer)
         {
@@ -62,6 +61,11 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 			
         	sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
         }
+        
+        //imgView = (ImageView)findViewById(R.id.ImageView01);
+        
+        //imgView.setImageResource(R.drawable.logo);
+        
     }
     
     @Override 
@@ -78,12 +82,14 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
     
     @Override
     protected void onPause() {
+    	paintCoasterView.setVisibility(View.GONE);
     	killSensor();
     	super.onPause();
     }
     
     @Override
     protected void onDestroy() {
+    	paintCoasterView.setVisibility(View.GONE);
         killSensor();
     	super.onDestroy();
  
@@ -128,6 +134,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	public void left()
 	{
 		Log.d("beerGame", "Loading beer pouring game");
+		paintCoasterView.setVisibility(View.GONE);
 		killSensor();
 		Intent previous = new Intent(getApplicationContext(), TheBeerActivity.class);
 		startActivity(previous);
@@ -140,6 +147,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	{
 		Log.d("breweryFinder", "Loading brewery finder");
 		Intent next = new Intent(getApplicationContext(), BreweryFinderActivity.class);
+		paintCoasterView.setVisibility(View.GONE);
 		killSensor();
 		startActivity(next);
 		finish();
@@ -155,7 +163,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 
 	@Override
 	public void onBackPressed() {
-		
+		paintCoasterView.setVisibility(View.GONE);
 		killSensor();
 		finish();
 		android.os.Process.killProcess(android.os.Process.myPid());
@@ -163,7 +171,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	
 	private void killSensor() 
 	{
-		
+		Log.d("sensor", "Killing \"shake sensor\"");
 		if (sensor != null)
 			sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
 	    sensor = null;  
