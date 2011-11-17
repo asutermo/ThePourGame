@@ -10,6 +10,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.View;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.widget.Toast;
@@ -41,6 +42,24 @@ public class TheBeerActivity extends Activity implements OnGestureListener, Sens
 			
         	sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ORIENTATION));
         }
+    }
+	
+	@Override
+    protected void onResume() {
+        super.onResume();
+    }
+    
+    @Override
+    protected void onPause() {
+    	killSensor();
+    	super.onPause();
+    }
+    
+    @Override
+    protected void onDestroy() {
+        killSensor();
+    	super.onDestroy();
+ 
     }
 	
 	@Override 
@@ -78,6 +97,14 @@ public class TheBeerActivity extends Activity implements OnGestureListener, Sens
         return false;
 	}
 	
+	private void killSensor() 
+	{
+		Log.d("sensor", "Killing \"orientation sensor\"");
+		if (sensor != null)
+			sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ORIENTATION));
+	    sensor = null;  
+	}
+	
 	public void up()
 	{
 		Log.d("sodaGame", "Loading soda pouring game");
@@ -108,6 +135,7 @@ public class TheBeerActivity extends Activity implements OnGestureListener, Sens
 	public void onBackPressed() {
 		Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
 		startActivity(back);
+		killSensor();
 		finish();
 		overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 	}
@@ -155,8 +183,22 @@ public class TheBeerActivity extends Activity implements OnGestureListener, Sens
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		// TODO Auto-generated method stub
-		
+		Log.d("Sensor", "Sensor Type: " + event.sensor.getType());
+		if (event.sensor.getType() == Sensor.TYPE_ORIENTATION)
+		{
+			float azimuth = event.values[0];
+			float pitch = event.values[1];
+			float roll = event.values[2];
+			if (pitch < -45 && pitch > -135)
+				Toast.makeText(this, "Azimuth: " + azimuth + " Pitch: " + pitch + " Roll: " + roll, Toast.LENGTH_SHORT).show();
+			else if (pitch > 45 && pitch < 135)
+				Toast.makeText(this, "Azimuth: " + azimuth + " Pitch: " + pitch + " Roll: " + roll,Toast.LENGTH_SHORT).show();
+			else if (roll > 45)
+				Toast.makeText(this, "Azimuth: " + azimuth + " Pitch: " + pitch + " Roll: " + roll, Toast.LENGTH_SHORT).show();
+			else if (roll < -45)
+				Toast.makeText(this, "Azimuth: " + azimuth + " Pitch: " + pitch + " Roll: " + roll, Toast.LENGTH_SHORT).show();
+			
+		}
 	}
 
 }
