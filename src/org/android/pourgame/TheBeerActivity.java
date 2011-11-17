@@ -1,6 +1,5 @@
 package org.android.pourgame;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.View;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.widget.Toast;
@@ -44,23 +42,7 @@ public class TheBeerActivity extends DrinkActivity implements OnGestureListener,
         }
     }
 	
-	@Override
-    protected void onResume() {
-        super.onResume();
-    }
-    
-    @Override
-    protected void onPause() {
-    	killSensor();
-    	super.onPause();
-    }
-    
-    @Override
-    protected void onDestroy() {
-        killSensor();
-    	super.onDestroy();
- 
-    }
+	
 	
 	@Override 
     public boolean onTouchEvent(MotionEvent me){ 
@@ -173,12 +155,6 @@ public class TheBeerActivity extends DrinkActivity implements OnGestureListener,
 	public boolean onSingleTapUp(MotionEvent e) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
