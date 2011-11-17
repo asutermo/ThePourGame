@@ -108,12 +108,6 @@ public class BreweryFinderActivity extends MapActivity{
         //Initializes the location listener with listener defined below
         locationListener = new GPSLocationListener();
     }
-    
-    public void previous()
-	{
-		Intent previous = new Intent(getApplicationContext(), ThePourGameActivity.class);
-		startActivity(previous);
-	}
 	
     
     private class GPSLocationListener implements LocationListener
@@ -127,8 +121,8 @@ public class BreweryFinderActivity extends MapActivity{
 				GeoPoint point = new GeoPoint(
 						(int)(location.getLatitude()*1E6),
 						(int)(location.getLongitude()*1E6));
-				Toast.makeText(CONTEXT, "LAT: "+location.getLatitude() +
-						"\nLONG: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+//				Toast.makeText(CONTEXT, "LAT: "+location.getLatitude() +
+//						"\nLONG: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
 				//Zooms before moving to your current location
 				mapController.setZoom(16);
 				//Animates the map to your current location
@@ -140,7 +134,7 @@ public class BreweryFinderActivity extends MapActivity{
 				overlayList.clear();
 				overlayList.add(mapOverlay);
 				
-				progressDialog.cancel();
+				progressDialog.dismiss();
 				
 				Geocoder geoCoder = new Geocoder(getBaseContext());
 				List<Address> nearestBreweries;
@@ -155,7 +149,7 @@ public class BreweryFinderActivity extends MapActivity{
 						mapOverlay.setLocationPoint(point);
 						overlayList.add(mapOverlay);
 					}else{
-						Log.i(TAG, "Could not find breweries for some reason");
+						Log.e(TAG, "Could not find breweries for some reason");
 					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -230,8 +224,6 @@ public class BreweryFinderActivity extends MapActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        
- 
     }
     
 	public static Context getContext() {
