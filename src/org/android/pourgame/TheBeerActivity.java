@@ -4,18 +4,24 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 
-public class TheBeerActivity extends Activity implements OnGestureListener 
+public class TheBeerActivity extends Activity implements OnGestureListener, SensorEventListener 
 {
 	private static final int SWIPE_MIN = 120;
 	private static final int SWIPE_THRESH_VEL = 200;
 	private GestureDetector gestureDetector;
 	private static Context CONTEXT;
+	private SensorManager sensor;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,17 @@ public class TheBeerActivity extends Activity implements OnGestureListener
         CONTEXT = this;
         gestureDetector = new GestureDetector(this, this);
         Log.d("Beer Game", "Beer Game Created");
+        
+        //initiate accelerometer
+        sensor = (SensorManager)getSystemService(SENSOR_SERVICE);
+        boolean orientation = sensor.registerListener(this, sensor.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_GAME);
+        //if no sensor, undo it, warn user
+        if (!orientation)
+        {
+        	Toast.makeText(this, "Sensor invalid", Toast.LENGTH_SHORT).show();
+			
+        	sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ORIENTATION));
+        }
     }
 	
 	@Override 
@@ -128,6 +145,18 @@ public class TheBeerActivity extends Activity implements OnGestureListener
 	public boolean onSingleTapUp(MotionEvent e) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

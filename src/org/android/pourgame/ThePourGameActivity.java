@@ -13,7 +13,6 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 public class ThePourGameActivity extends Activity implements OnGestureListener, SensorEventListener {
@@ -27,7 +26,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	private static final int SWIPE_THRESH_VEL = 200;
 	private static final int SHAKE = 800;
 	private static final int UPDATE = 100;
-	private static final int SHAKE_EXIT = 5;
+	private static final int SHAKE_EXIT = 7;
 	
 	//detect current gesture
 	private GestureDetector gestureDetector;
@@ -55,7 +54,6 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
         //initiate accelerometer
         sensor = (SensorManager)getSystemService(SENSOR_SERVICE);
         boolean accelerometer = sensor.registerListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
-        
         //if no sensor, undo it, warn user
         if (!accelerometer)
         {
@@ -173,7 +171,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	
 	private void killSensor() 
 	{
-		
+		Log.d("sensor", "Killing \"shake sensor\"");
 		if (sensor != null)
 			sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
 	    sensor = null;  
