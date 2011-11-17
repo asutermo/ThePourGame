@@ -48,7 +48,7 @@ OrientationListener, OnGestureListener {
 	public void down()
 	{
 		Log.d("beerGame", "Loading beer pouring game");
-		Intent up = new Intent(getApplicationContext(), TheSodaGameActivity.class);
+		Intent up = new Intent(getApplicationContext(), TheBeerActivity.class);
 		startActivity(up);
 		finish();
 		overridePendingTransition(R.anim.push_bottom_in, R.anim.push_bottom_out);
