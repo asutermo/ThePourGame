@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -83,12 +84,14 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
     
     @Override
     protected void onPause() {
+    	paintCoasterView.setVisibility(View.GONE);
     	killSensor();
     	super.onPause();
     }
     
     @Override
     protected void onDestroy() {
+    	paintCoasterView.setVisibility(View.GONE);
         killSensor();
     	super.onDestroy();
  
@@ -133,6 +136,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	public void left()
 	{
 		Log.d("beerGame", "Loading beer pouring game");
+		paintCoasterView.setVisibility(View.GONE);
 		killSensor();
 		Intent previous = new Intent(getApplicationContext(), TheBeerActivity.class);
 		startActivity(previous);
@@ -145,6 +149,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	{
 		Log.d("breweryFinder", "Loading brewery finder");
 		Intent next = new Intent(getApplicationContext(), BreweryFinderActivity.class);
+		paintCoasterView.setVisibility(View.GONE);
 		killSensor();
 		startActivity(next);
 		finish();
@@ -160,7 +165,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 
 	@Override
 	public void onBackPressed() {
-		
+		paintCoasterView.setVisibility(View.GONE);
 		killSensor();
 		finish();
 		android.os.Process.killProcess(android.os.Process.myPid());
