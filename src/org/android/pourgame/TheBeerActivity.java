@@ -118,7 +118,7 @@ public class TheBeerActivity extends DrinkActivity implements OnGestureListener,
 		animate(R.anim.push_left_in, R.anim.push_left_out);
 	}
 	
-	public static Context getContext() {
+	public Context getContext() {
 		return CONTEXT;
 	}
 
@@ -133,13 +133,13 @@ public class TheBeerActivity extends DrinkActivity implements OnGestureListener,
 			float pitch = event.values[1];
 			float roll = event.values[2];
 			if (pitch < -45 && pitch > -135)
-				Toast.makeText(this, "Azimuth: " + azimuth + " Pitch: " + pitch + " Roll: " + roll, Toast.LENGTH_SHORT).show();
+				Log.d("Readout: ", "Azimuth: " + azimuth + " Pitch: " + pitch + " Roll: " + roll);
 			else if (pitch > 45 && pitch < 135)
-				Toast.makeText(this, "Azimuth: " + azimuth + " Pitch: " + pitch + " Roll: " + roll,Toast.LENGTH_SHORT).show();
+				Log.d("Readout: ", "Azimuth: " + azimuth + " Pitch: " + pitch + " Roll: " + roll);
 			else if (roll > 45)
-				Toast.makeText(this, "Azimuth: " + azimuth + " Pitch: " + pitch + " Roll: " + roll, Toast.LENGTH_SHORT).show();
+				Log.d("Readout: ", "Azimuth: " + azimuth + " Pitch: " + pitch + " Roll: " + roll);
 			else if (roll < -45)
-				Toast.makeText(this, "Azimuth: " + azimuth + " Pitch: " + pitch + " Roll: " + roll, Toast.LENGTH_SHORT).show();
+				Log.d("Readout: ", "Azimuth: " + azimuth + " Pitch: " + pitch + " Roll: " + roll);
 			
 		}
 	}
