@@ -16,7 +16,7 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 
 
-public class TheBeerActivity extends Activity implements OnGestureListener, SensorEventListener 
+public class TheBeerActivity extends DrinkActivity implements OnGestureListener, SensorEventListener 
 {
 	private static final int SWIPE_MIN = 120;
 	private static final int SWIPE_THRESH_VEL = 200;
@@ -97,7 +97,7 @@ public class TheBeerActivity extends Activity implements OnGestureListener, Sens
         return false;
 	}
 	
-	private void killSensor() 
+	protected void killSensor() 
 	{
 		Log.d("sensor", "Killing \"orientation sensor\"");
 		if (sensor != null)
@@ -111,7 +111,7 @@ public class TheBeerActivity extends Activity implements OnGestureListener, Sens
 		Intent up = new Intent(getApplicationContext(), TheSodaGameActivity.class);
 		startActivity(up);
 		finish();
-		overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
+		animate(R.anim.push_up_in, R.anim.push_up_out);
 	}
 	
 	public void down()
@@ -120,7 +120,7 @@ public class TheBeerActivity extends Activity implements OnGestureListener, Sens
 		Intent down = new Intent(getApplicationContext(), TheChampaigneActivity.class);
 		startActivity(down);
 		finish();
-		overridePendingTransition(R.anim.push_bottom_in, R.anim.push_bottom_out);
+		animate(R.anim.push_bottom_in, R.anim.push_bottom_out);
 	}
 	public void right()
 	{
@@ -128,7 +128,7 @@ public class TheBeerActivity extends Activity implements OnGestureListener, Sens
 		Intent previous = new Intent(getApplicationContext(), ThePourGameActivity.class);
 		startActivity(previous);
 		finish();
-		overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+		animate(R.anim.push_left_in, R.anim.push_left_out);
 	}
 	
 	@Override
@@ -137,7 +137,7 @@ public class TheBeerActivity extends Activity implements OnGestureListener, Sens
 		startActivity(back);
 		killSensor();
 		finish();
-		overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+		animate(R.anim.push_left_in, R.anim.push_left_out);
 	}
 	
 	public static Context getContext() {
@@ -200,5 +200,4 @@ public class TheBeerActivity extends Activity implements OnGestureListener, Sens
 			
 		}
 	}
-
 }

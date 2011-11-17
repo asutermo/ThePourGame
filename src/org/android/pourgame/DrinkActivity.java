@@ -1,5 +1,7 @@
 package org.android.pourgame;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.gesture.Gesture;
 import android.gesture.GestureOverlayView;
 import android.gesture.GestureOverlayView.OnGesturePerformedListener;
@@ -11,27 +13,19 @@ import android.view.MotionEvent;
 import android.view.GestureDetector.OnGestureListener;
 
 
-public abstract class DrinkActivity implements OnGestureListener, SensorEventListener{
+public abstract class DrinkActivity extends Activity implements OnGestureListener, SensorEventListener{
 
-	protected abstract void animate(int anim1, int anim2);
-	
-	protected void up()
-	{
-		
+	protected void animate(int anim1, int anim2){
+		overridePendingTransition(anim1, anim2);
 	}
+	protected abstract void killSensor();
 	
-	protected void down()
-	{
-		
-	}
+	protected void up(){}
 	
-	protected void right()
-	{
-		
-	}
+	protected void down(){}
 	
-	protected void left()
-	{
-		
-	}
+	protected void right(){}
+	
+	protected void left(){}
+	
 }
