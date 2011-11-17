@@ -9,5 +9,5 @@
     <string name="left_up_label">Soda Game</string>
     <string name="left_down_label">Champaigne Game</string>
     <string name="right_label"></string>
-
+	<string name="places_api_key">AIzaSyC0Dnlm3Ghexg8u4sWsxv14cy_S-izE-Uc</string>
 </resources>

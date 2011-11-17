@@ -1,11 +1,14 @@
 package org.android.pourgame;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Path.Direction;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.util.Log;
@@ -22,12 +25,12 @@ public class PaintCoasterView extends View {
 	private float ballSpeedX = 0;  // Ball's speed (x,y)
 	private float ballSpeedY = 0;
 	private Path circle = new Path();
-	private Path title = new Path();
 	private RectF ballBounds;      // Needed for Canvas.drawOval
 	private Paint cPaint, tPaint;           // The paint (e.g. style, color) used for drawing
 	private String QUOTE = "College is like a fountain of Knowledge, and the students there like to drink.";
 	private final float SLOW_DOWN_FACTOR = 0.75f;
 	private Context context;
+	private Drawable logo;
 
 	// Constructor
 	public PaintCoasterView(Context context) {
@@ -41,7 +44,8 @@ public class PaintCoasterView extends View {
 		tPaint.setTextSize((float) 28);
 		this.setFocusableInTouchMode(true);
 		circle.addCircle(ballX, ballY, ballRadius, Direction.CW);
-		
+		Resources res = getResources();
+        logo = res.getDrawable(R.drawable.logo);
 	}
 
 	// Called back to draw the view. Also called after invalidate().
@@ -52,12 +56,11 @@ public class PaintCoasterView extends View {
 		canvas.drawOval(ballBounds, cPaint);
 		circle.reset();
 		circle.addCircle(ballX, ballY, ballRadius, Direction.CW);
-		title.reset();
-		title.setLastPoint(ballX - ballRadius + 50, ballY-20);
-		title.lineTo(ballX + ballRadius, ballY-20);
-		canvas.drawLine(ballX - ballRadius + 50, ballY+10, ballX + ballRadius - 50, ballY+10, tPaint);
+		
+		//Draws the logo on the circle
+		canvas.drawBitmap(((BitmapDrawable) logo).getBitmap(), ballX - 50, ballY - 75, cPaint);
+		
 		canvas.drawTextOnPath(QUOTE, circle, 0, 25, tPaint);
-		canvas.drawTextOnPath("The Pour Game", title, 0, 25, tPaint);
 		// Update the position of the ball, including collision detection and reaction.
 		update();
 		if(ballSpeedX > 0)
@@ -128,7 +131,11 @@ public class PaintCoasterView extends View {
 			deltaY = currentY - previousY;
 			ballSpeedX += deltaX * scalingFactor;
 			ballSpeedY += deltaY * scalingFactor;
-		}
+		
+		case MotionEvent.ACTION_DOWN:
+			ballX = currentX;
+			ballY = currentY;
+		}	
 		// Save current x, y
 		previousX = currentX;
 		previousY = currentY;

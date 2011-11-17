@@ -9,7 +9,6 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 
-
 public class TheSodaGameActivity extends Activity implements
 OrientationListener, OnGestureListener {
 	private static final int SWIPE_MIN = 120;
