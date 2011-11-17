@@ -16,11 +16,7 @@ import android.widget.Toast;
 
 public class TheBeerActivity extends DrinkActivity implements OnGestureListener, SensorEventListener 
 {
-	private static final int SWIPE_MIN = 120;
-	private static final int SWIPE_THRESH_VEL = 200;
-	private GestureDetector gestureDetector;
-	private static Context CONTEXT;
-	private SensorManager sensor;
+	protected static Context CONTEXT;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
