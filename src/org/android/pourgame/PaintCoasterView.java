@@ -33,7 +33,8 @@ public class PaintCoasterView extends View {
 	private String QUOTE = "College is like a fountain of Knowledge, and the students there like to drink.";
 	private final float SLOW_DOWN_FACTOR = 0.75f;
 	private Context context;
-	private Drawable logo;
+	private Display display;
+	private Drawable logo, pourbeer, satellite;
 
 	// Constructor
 	public PaintCoasterView(Context context) {
@@ -51,11 +52,13 @@ public class PaintCoasterView extends View {
 		this.setFocusableInTouchMode(true);
 		circle.addCircle(ballX, ballY, ballRadius, Direction.CW);
 		
-		Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		setSideLabel(rlabel, display.getWidth() - 30, display.getHeight()/2 - 90, false);
 		setSideLabel(llabel, 30, display.getHeight()/2 - 15, true);
 		Resources res = getResources();
         logo = res.getDrawable(R.drawable.logo);
+        pourbeer = res.getDrawable(R.drawable.pourbeer);
+        satellite = res.getDrawable(R.drawable.satellite);
 	}
 
 	// Called back to draw the view. Also called after invalidate().
@@ -63,7 +66,8 @@ public class PaintCoasterView extends View {
 	protected void onDraw(Canvas canvas) {
 		canvas.drawTextOnPath("Game", llabel, 0, 0, lPaint);
 		canvas.drawTextOnPath("GPS", rlabel, 0, 0, lPaint);
-		
+		canvas.drawBitmap(((BitmapDrawable) pourbeer).getBitmap(), 10, display.getHeight()/2 - 175, lPaint);
+		canvas.drawBitmap(((BitmapDrawable) satellite).getBitmap(), display.getWidth()-100, display.getHeight()/2, lPaint);
 		
 		// Draw the ball
 		ballBounds.set(ballX-ballRadius, ballY-ballRadius, ballX+ballRadius, ballY+ballRadius);
@@ -72,7 +76,9 @@ public class PaintCoasterView extends View {
 		circle.addCircle(ballX, ballY, ballRadius, Direction.CW);
 		
 		//Draws the logo on the circle
+		
 		canvas.drawBitmap(((BitmapDrawable) logo).getBitmap(), ballX - 50, ballY - 75, cPaint);
+		
 		canvas.drawTextOnPath(QUOTE, circle, 0, 25, tPaint);
 		
 		// Update the position of the ball, including collision detection and reaction.
