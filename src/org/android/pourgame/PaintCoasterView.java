@@ -9,8 +9,10 @@ import android.graphics.RectF;
 import android.graphics.Path.Direction;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.util.Log;
 
 public class PaintCoasterView extends View {
@@ -20,13 +22,14 @@ public class PaintCoasterView extends View {
 	private int yMax;
 	private float ballRadius = 150; // Ball's radius
 	private float ballX = ballRadius + 100;  // Ball's center (x,y)
-	private float ballY = ballRadius + 100;
+	private float ballY = ballRadius + 175;
 	private float previousX, previousY;
 	private float ballSpeedX = 0;  // Ball's speed (x,y)
 	private float ballSpeedY = 0;
 	private Path circle = new Path();
+	private Path llabel = new Path(), rlabel = new Path();
 	private RectF ballBounds;      // Needed for Canvas.drawOval
-	private Paint cPaint, tPaint;           // The paint (e.g. style, color) used for drawing
+	private Paint cPaint, tPaint, lPaint;           // The paint (e.g. style, color) used for drawing
 	private String QUOTE = "College is like a fountain of Knowledge, and the students there like to drink.";
 	private final float SLOW_DOWN_FACTOR = 0.75f;
 	private Context context;
@@ -42,8 +45,15 @@ public class PaintCoasterView extends View {
 		tPaint = new Paint();
 		tPaint.setColor(Color.rgb(100,100,100));
 		tPaint.setTextSize((float) 28);
+		lPaint = new Paint();
+		lPaint.setColor(Color.rgb(100,100,100));
+		lPaint.setTextSize((float) 36);
 		this.setFocusableInTouchMode(true);
 		circle.addCircle(ballX, ballY, ballRadius, Direction.CW);
+		
+		Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		setSideLabel(rlabel, display.getWidth() - 30, display.getHeight()/2 - 90, false);
+		setSideLabel(llabel, 30, display.getHeight()/2 - 15, true);
 		Resources res = getResources();
         logo = res.getDrawable(R.drawable.logo);
 	}
@@ -51,6 +61,10 @@ public class PaintCoasterView extends View {
 	// Called back to draw the view. Also called after invalidate().
 	@Override
 	protected void onDraw(Canvas canvas) {
+		canvas.drawTextOnPath("Game", llabel, 0, 0, lPaint);
+		canvas.drawTextOnPath("GPS", rlabel, 0, 0, lPaint);
+		
+		
 		// Draw the ball
 		ballBounds.set(ballX-ballRadius, ballY-ballRadius, ballX+ballRadius, ballY+ballRadius);
 		canvas.drawOval(ballBounds, cPaint);
@@ -59,8 +73,8 @@ public class PaintCoasterView extends View {
 		
 		//Draws the logo on the circle
 		canvas.drawBitmap(((BitmapDrawable) logo).getBitmap(), ballX - 50, ballY - 75, cPaint);
-		
 		canvas.drawTextOnPath(QUOTE, circle, 0, 25, tPaint);
+		
 		// Update the position of the ball, including collision detection and reaction.
 		update();
 		if(ballSpeedX > 0)
@@ -151,6 +165,14 @@ public class PaintCoasterView extends View {
 			ballSpeedY = 0;
 		}
 		return true;
+	}
+	
+	public void setSideLabel(Path path, float x, float y, boolean flip) {
+		path.setLastPoint(x, y);
+		if(flip)
+			path.lineTo(x, y-150);
+		else
+			path.lineTo(x, y+150);
 	}
 	
 	public boolean hitLeftWall() {
