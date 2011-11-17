@@ -24,9 +24,9 @@
         </activity>
         <activity android:name=".BreweryFinderActivity"
             android:configChanges="orientation|keyboardHidden"></activity>
-        <activity android:name=".TheBeerActivity"></activity>
-        <activity android:name=".TheSodaGameActivity"></activity>
-     	<activity android:name=".TheChampaigneActivity"></activity>
+        <activity android:name=".TheBeerActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".TheSodaGameActivity" android:screenOrientation="portrait"></activity>
+     	<activity android:name=".TheChampaigneActivity" android:screenOrientation="portrait"></activity>
  
     </application>
 </manifest>
