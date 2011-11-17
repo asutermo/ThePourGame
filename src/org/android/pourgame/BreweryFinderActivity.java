@@ -7,6 +7,8 @@ import com.google.android.maps.MapActivity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -51,10 +53,7 @@ public class BreweryFinderActivity extends MapActivity{
 
 			@Override
 			public void onClick(View arg0) {
-				Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
-				startActivity(back);
-				finish();
-				overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+				goToMainScreen();
 			}
         	
         });
@@ -74,9 +73,18 @@ public class BreweryFinderActivity extends MapActivity{
     
     private void initProgressDialog() {
     	progressDialog = new ProgressDialog(CONTEXT);
-		progressDialog.setCancelable(false);
+		progressDialog.setCancelable(true);
 		progressDialog.setMessage("Finding GPS Location...");
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		
+		progressDialog.setOnCancelListener(new OnCancelListener() {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				goToMainScreen();
+			}
+			
+		});
 	}
 
 
@@ -90,13 +98,9 @@ public class BreweryFinderActivity extends MapActivity{
         
         //Grabs the controller of the mapView
         mapController = mapView.getController();
+        
         //Initially zooms in to predefined level
         mapController.setZoom(16);
-        
-        
-//        Location lastKnown = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//        GeoPoint lastKnownGeo = new GeoPoint((int)(lastKnown.getLatitude()*1E6), (int)(lastKnown.getLongitude()*1E6));
-//        mapController.animateTo(lastKnownGeo);
         
         //Grabs the location service from the android system
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
@@ -136,7 +140,7 @@ public class BreweryFinderActivity extends MapActivity{
 				overlayList.clear();
 				overlayList.add(mapOverlay);
 				
-				progressDialog.dismiss();
+				progressDialog.cancel();
 				
 				Geocoder geoCoder = new Geocoder(getBaseContext());
 				List<Address> nearestBreweries;
@@ -242,12 +246,18 @@ public class BreweryFinderActivity extends MapActivity{
 		return false;
 	}
 	
-	@Override
-	public void onBackPressed()
+	private void goToMainScreen()
 	{
 		Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
 		startActivity(back);
 		finish();
 		overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 	}
+	
+	@Override
+	public void onBackPressed()
+	{
+		goToMainScreen();
+	}
+	
 }
