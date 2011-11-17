@@ -1,15 +1,15 @@
 package org.android.pourgame;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.SensorEvent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.GestureDetector.OnGestureListener;
 
-public class TheChampaigneActivity extends Activity implements OnGestureListener 
+public class TheChampaigneActivity extends DrinkActivity implements OnGestureListener 
 {
 	private static final int SWIPE_MIN = 120;
 	private static final int SWIPE_THRESH_VEL = 200;
@@ -96,5 +96,17 @@ public class TheChampaigneActivity extends Activity implements OnGestureListener
 	public boolean onSingleTapUp(MotionEvent e) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void killSensor() {
+		// TODO Auto-generated method stub
+		
 	}
 }

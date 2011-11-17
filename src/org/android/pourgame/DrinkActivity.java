@@ -1,14 +1,7 @@
 package org.android.pourgame;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.gesture.Gesture;
-import android.gesture.GestureOverlayView;
-import android.gesture.GestureOverlayView.OnGesturePerformedListener;
-import android.gesture.GestureOverlayView.OnGesturingListener;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.view.GestureDetector;
