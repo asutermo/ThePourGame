@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.GestureDetector.OnGestureListener;
@@ -40,7 +41,12 @@ public abstract class DrinkActivity extends Activity implements OnGestureListene
     	super.onDestroy();
     }
     
-	protected abstract void killSensor();
+	protected void killSensor() {
+		Log.d("sensor", "Killing \"orientation sensor\"");
+		if (sensor != null)
+			sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ORIENTATION));
+	    sensor = null;  
+	}
 	
 	protected void up(){}
 	

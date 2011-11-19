@@ -75,14 +75,6 @@ public class TheBeerActivity extends DrinkActivity implements OnGestureListener,
         return false;
 	}
 	
-	protected void killSensor() 
-	{
-		Log.d("sensor", "Killing \"orientation sensor\"");
-		if (sensor != null)
-			sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ORIENTATION));
-	    sensor = null;  
-	}
-	
 	public void up()
 	{
 		Log.d("sodaGame", "Loading soda pouring game");
