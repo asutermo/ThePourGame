@@ -34,29 +34,23 @@ OnGestureListener {
 		Log.d("onFling - Soda Game", "Measured fling");
 		if (e2.getY() - e1.getY() > SWIPE_MIN && Math.abs(velocityY) > SWIPE_THRESH_VEL)
 		{
-			down();
+			Log.d("beerGame", "Loading beer pouring game");
+			Intent down = new Intent(getApplicationContext(), TheBeerActivity.class);
+			transition(down);
+			animate(R.anim.push_bottom_in, R.anim.push_bottom_out);
 			return true;
 		}
 
         return false;
 	}
 	
-	public void down()
-	{
-		Log.d("beerGame", "Loading beer pouring game");
-		Intent up = new Intent(getApplicationContext(), TheBeerActivity.class);
-		startActivity(up);
-		finish();
-		overridePendingTransition(R.anim.push_bottom_in, R.anim.push_bottom_out);
-	}
 	
 	@Override
 	public void onBackPressed() {
 		Log.d("beerGame", "Loading beer pouring game");
 		Intent back = new Intent(getApplicationContext(), TheBeerActivity.class);
-		startActivity(back);
-		finish();
-		overridePendingTransition(R.anim.push_bottom_in, R.anim.push_bottom_out);
+		transition(back);
+		animate(R.anim.push_bottom_in, R.anim.push_bottom_out);
 	}
 	
 	public static Context getContext() {

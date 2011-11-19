@@ -54,59 +54,41 @@ public class TheBeerActivity extends DrinkActivity implements OnGestureListener,
 		//from bottom to up
 		if (e1.getY() - e2.getY() > SWIPE_MIN && Math.abs(velocityY) > SWIPE_THRESH_VEL)
 		{
-			up();
+			Log.d("sodaGame", "Loading soda pouring game");
+			Intent up = new Intent(getApplicationContext(), TheSodaGameActivity.class);
+			transition(up);
+			animate(R.anim.push_up_in, R.anim.push_up_out);
 			return true;
 		}
 		
 		//from top to bottom
 		if (e2.getY()-e1.getY() > SWIPE_MIN && Math.abs(velocityY) > SWIPE_THRESH_VEL)
 		{
-			down();
+			Log.d("champaigneGame", "Loading champaigne pouring game");
+			Intent down = new Intent(getApplicationContext(), TheChampaigneActivity.class);
+			transition(down);
+			animate(R.anim.push_bottom_in, R.anim.push_bottom_out);
 			return true;
 		}
         // Swipe from left to right.
         // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
         if (e2.getX() - e1.getX() > SWIPE_MIN
                 && Math.abs(velocityX) > SWIPE_THRESH_VEL) {
-            right();
+            Log.d("Main Screen", "Loading main screen");
+    		Intent previous = new Intent(getApplicationContext(), ThePourGameActivity.class);
+    		transition(previous);
+    		animate(R.anim.push_left_in, R.anim.push_left_out);
             return true;
         }
 
         return false;
 	}
 	
-	public void up()
-	{
-		Log.d("sodaGame", "Loading soda pouring game");
-		Intent up = new Intent(getApplicationContext(), TheSodaGameActivity.class);
-		startActivity(up);
-		finish();
-		animate(R.anim.push_up_in, R.anim.push_up_out);
-	}
-	
-	public void down()
-	{
-		Log.d("champaigneGame", "Loading champaigne pouring game");
-		Intent down = new Intent(getApplicationContext(), TheChampaigneActivity.class);
-		startActivity(down);
-		finish();
-		animate(R.anim.push_bottom_in, R.anim.push_bottom_out);
-	}
-	public void right()
-	{
-		Log.d("Main Screen", "Loading main screen");
-		Intent previous = new Intent(getApplicationContext(), ThePourGameActivity.class);
-		startActivity(previous);
-		finish();
-		animate(R.anim.push_left_in, R.anim.push_left_out);
-	}
-	
 	@Override
 	public void onBackPressed() {
+		Log.d("Main Screen", "Loading main screen");
 		Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
-		startActivity(back);
-		killSensor();
-		finish();
+		transition(back);
 		animate(R.anim.push_left_in, R.anim.push_left_out);
 	}
 	

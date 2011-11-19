@@ -36,28 +36,22 @@ public class TheChampaigneActivity extends DrinkActivity implements OnGestureLis
 		//from bottom to up
 		if (e1.getY() - e2.getY() > SWIPE_MIN && Math.abs(velocityY) > SWIPE_THRESH_VEL)
 		{
-			up();
+			Log.d("beerGame", "Loading beer pouring game");
+			Intent up = new Intent(getApplicationContext(), TheBeerActivity.class);
+			transition(up);
+			animate(R.anim.push_up_in, R.anim.push_up_out);
 			return true;
 		}
 
         return false;
 	}
 	
-	public void up()
-	{
-		Log.d("beerGame", "Loading beer pouring game");
-		Intent up = new Intent(getApplicationContext(), TheBeerActivity.class);
-		startActivity(up);
-		finish();
-		overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
-	}
-	
 	@Override
 	public void onBackPressed() {
+		Log.d("Back", "Loading beer pouring game");
 		Intent back = new Intent(getApplicationContext(), TheBeerActivity.class);
-		startActivity(back);
-		finish();
-		overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
+		transition(back);
+		animate(R.anim.push_up_in, R.anim.push_up_out);
 	}
 	
 	public static Context getContext() {

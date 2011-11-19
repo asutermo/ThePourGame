@@ -1,6 +1,7 @@
 package org.android.pourgame;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
@@ -48,13 +49,11 @@ public abstract class DrinkActivity extends Activity implements OnGestureListene
 	    sensor = null;  
 	}
 	
-	protected void up(){}
-	
-	protected void down(){}
-	
-	protected void right(){}
-	
-	protected void left(){}
+	protected void transition(Intent i) {
+		startActivity(i);
+		killSensor();
+		finish();
+	}
 	
 	@Override
 	public boolean onDown(MotionEvent e) {
