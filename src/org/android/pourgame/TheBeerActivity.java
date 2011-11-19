@@ -103,17 +103,13 @@ public class TheBeerActivity extends DrinkActivity implements OnGestureListener,
 		Log.d("Sensor", "Sensor Type: " + event.sensor.getType());
 		if (event.sensor.getType() == Sensor.TYPE_ORIENTATION)
 		{
-			float azimuth = event.values[0];
-			float pitch = event.values[1];
 			float roll = event.values[2];
-			if (pitch < -45 && pitch > -135)
-				Log.d("Readout: ", "Azimuth: " + azimuth + " Pitch: " + pitch + " Roll: " + roll);
-			else if (pitch > 45 && pitch < 135)
-				Log.d("Readout: ", "Azimuth: " + azimuth + " Pitch: " + pitch + " Roll: " + roll);
-			else if (roll > 45)
-				Log.d("Readout: ", "Azimuth: " + azimuth + " Pitch: " + pitch + " Roll: " + roll);
-			else if (roll < -45)
-				Log.d("Readout: ", "Azimuth: " + azimuth + " Pitch: " + pitch + " Roll: " + roll);
+			if (roll > 35 && roll < 55)
+				Log.d("Readout: ", "Good pour!");
+			else if (roll > 55)
+				Log.d("Readout: ", "Too much!");
+			else if (roll < 35)
+				Log.d("Readout: ", "Too little!");
 			
 		}
 	}
