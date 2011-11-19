@@ -1,19 +1,16 @@
 package org.android.pourgame;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.SensorEvent;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 
-public class TheSodaGameActivity extends Activity implements
+public class TheSodaGameActivity extends DrinkActivity implements
 OnGestureListener {
-	private static final int SWIPE_MIN = 120;
-	private static final int SWIPE_THRESH_VEL = 200;
-	private GestureDetector gestureDetector;
 	private static Context CONTEXT;
 	
 	@Override
@@ -65,10 +62,6 @@ OnGestureListener {
 	public static Context getContext() {
 		return CONTEXT;
 	}
-
-	
-
-	
 	
 	@Override
 	public boolean onDown(MotionEvent e) {
@@ -99,6 +92,18 @@ OnGestureListener {
 	public boolean onSingleTapUp(MotionEvent e) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void killSensor() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

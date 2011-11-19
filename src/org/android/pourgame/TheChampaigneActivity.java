@@ -11,9 +11,6 @@ import android.view.GestureDetector.OnGestureListener;
 
 public class TheChampaigneActivity extends DrinkActivity implements OnGestureListener 
 {
-	private static final int SWIPE_MIN = 120;
-	private static final int SWIPE_THRESH_VEL = 200;
-	private GestureDetector gestureDetector;
 	private static Context CONTEXT;
 	
 	@Override
