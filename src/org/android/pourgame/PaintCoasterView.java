@@ -39,6 +39,7 @@ public class PaintCoasterView extends View {
 	// Constructor
 	public PaintCoasterView(Context context) {
 		super(context);
+		Log.d("paintView", "Making Coaster");
 		this.context = context;
 		ballBounds = new RectF();
 		cPaint = new Paint();
