@@ -50,6 +50,7 @@ public abstract class DrinkActivity extends Activity implements OnGestureListene
 	}
 	
 	protected void transition(Intent i) {
+		Log.d("transition", "Transitioning to new screen");
 		startActivity(i);
 		killSensor();
 		finish();
