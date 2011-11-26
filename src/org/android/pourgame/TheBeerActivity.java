@@ -104,6 +104,7 @@ public class TheBeerActivity extends DrinkActivity implements OnGestureListener,
 		if (event.sensor.getType() == Sensor.TYPE_ORIENTATION)
 		{
 			float roll = event.values[2];
+			Log.d("Roll: ", "" + roll);
 			if (roll > 35 && roll < 55)
 				Log.d("Readout: ", "Good pour!");
 			else if (roll > 55)
