@@ -5,7 +5,7 @@ TODO:
   	* Shake to quit - Done
   	
   - Implement orientation
-  	* Use orientation sensor and accelerometer to post back angles and, well, orientation - Mostly done
+  	* Use orientation sensor and accelerometer to post back angles and, well, orientation - Done
   	
   - Implement pouring interface with Animation
   	* Possible game per Rader? Is it possible to pour quicker but maintain the proper drink?
@@ -17,5 +17,11 @@ TODO:
   - Implement mapping functionality
   	* Use geographic location and overlay to map closest breweries
   	* Allow user to pinch and zoom - Done
-  	* Show breweries only within 50 mile radius (for memory purposes, don't even know if API will support this many)
-
+  	
+  
+  
+  Proper Beer Pouring
+  	- 45 degrees until glass is half full. Glass then gets moved to 90 degree angle for proper head
+  Proper Champagne Pouring
+  	- 45 degrees, wait for bubbles, 45 degrees, wait for bubbles, etc
+  	

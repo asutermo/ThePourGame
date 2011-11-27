@@ -9,7 +9,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.GestureDetector.OnGestureListener;
 
-public class TheChampaigneActivity extends DrinkActivity implements OnGestureListener 
+public class TheChampagneActivity extends DrinkActivity implements OnGestureListener 
 {
 	private static Context CONTEXT;
 	
