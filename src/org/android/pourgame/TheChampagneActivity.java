@@ -16,7 +16,7 @@ public class TheChampagneActivity extends DrinkActivity implements OnGestureList
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.champaigne);
+        setContentView(R.layout.champagne);
         CONTEXT = this;
         gestureDetector = new GestureDetector(this, this);
         Log.d("Champaigne Game", "Champaigne Game Created");
@@ -32,7 +32,7 @@ public class TheChampagneActivity extends DrinkActivity implements OnGestureList
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
 		
-		Log.d("onFling-Champaigne Game", "Measured fling");
+		Log.d("onFling-Champagne Game", "Measured fling");
 		//from bottom to up
 		if (e1.getY() - e2.getY() > SWIPE_MIN && Math.abs(velocityY) > SWIPE_THRESH_VEL)
 		{

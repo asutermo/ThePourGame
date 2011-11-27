@@ -64,7 +64,7 @@ public class TheBeerActivity extends DrinkActivity implements OnGestureListener,
 		//from top to bottom
 		if (e2.getY()-e1.getY() > SWIPE_MIN && Math.abs(velocityY) > SWIPE_THRESH_VEL)
 		{
-			Log.d("champaigneGame", "Loading champaigne pouring game");
+			Log.d("champagneGame", "Loading champagne pouring game");
 			Intent down = new Intent(getApplicationContext(), TheChampagneActivity.class);
 			transition(down);
 			animate(R.anim.push_bottom_in, R.anim.push_bottom_out);
