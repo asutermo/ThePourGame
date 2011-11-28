@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 
@@ -21,7 +23,13 @@ public class TheBeerActivity extends DrinkActivity implements OnGestureListener,
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.beer);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        BeerView view = new BeerView(this);
+        setContentView(view);
+        
+        //setContentView(R.layout.beer);
         CONTEXT = this;
         gestureDetector = new GestureDetector(this, this);
         Log.d("Beer Game", "Beer Game Created");

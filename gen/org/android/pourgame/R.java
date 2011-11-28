@@ -8,20 +8,50 @@
 package org.android.pourgame;
 
 public final class R {
+    public static final class anim {
+        public static final int hold=0x7f040000;
+        public static final int push_bottom_in=0x7f040001;
+        public static final int push_bottom_out=0x7f040002;
+        public static final int push_left_in=0x7f040003;
+        public static final int push_left_out=0x7f040004;
+        public static final int push_right_in=0x7f040005;
+        public static final int push_right_out=0x7f040006;
+        public static final int push_up_in=0x7f040007;
+        public static final int push_up_out=0x7f040008;
+    }
     public static final class attr {
+    }
+    public static final class color {
+        public static final int background=0x7f050000;
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int logo=0x7f020001;
+        public static final int pin=0x7f020002;
+        public static final int pourbeer=0x7f020003;
+        public static final int satellite=0x7f020004;
+    }
+    public static final class id {
+        public static final int backButton=0x7f070001;
+        public static final int mapView=0x7f070000;
     }
     public static final class layout {
         public static final int beer=0x7f030000;
-        public static final int champaigne=0x7f030001;
-        public static final int gps=0x7f030002;
-        public static final int main=0x7f030003;
-        public static final int soda=0x7f030004;
+        public static final int brewery_finder=0x7f030001;
+        public static final int champaigne=0x7f030002;
+        public static final int gps=0x7f030003;
+        public static final int main=0x7f030004;
+        public static final int soda=0x7f030005;
     }
     public static final class string {
-        public static final int app_name=0x7f040001;
-        public static final int hello=0x7f040000;
+        public static final int app_name=0x7f060000;
+        public static final int bottom_label=0x7f060003;
+        public static final int left_down_label=0x7f060006;
+        public static final int left_label=0x7f060004;
+        public static final int left_up_label=0x7f060005;
+        public static final int maps_api_key=0x7f060001;
+        public static final int places_api_key=0x7f060008;
+        public static final int right_label=0x7f060007;
+        public static final int top_label=0x7f060002;
     }
 }
