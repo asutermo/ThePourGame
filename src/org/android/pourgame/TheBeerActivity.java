@@ -30,7 +30,7 @@ public class TheBeerActivity extends DrinkActivity implements OnGesturePerformed
 	private GestureLibrary mLibrary;
 	private boolean gestureEngaged;
 	private Button gestureButton;
-	
+	private GestureOverlayView gestures;
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +49,10 @@ public class TheBeerActivity extends DrinkActivity implements OnGesturePerformed
 			
         	sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ORIENTATION));
         }
-        
+        this.gestureButton = (Button)this.findViewById(R.id.GestureButton);
         //initiate gesture library but don't initiate gestures yet
         gestureEngaged = false;
+        
         
     }
 	public void onButtonClick(View view)
@@ -61,12 +62,18 @@ public class TheBeerActivity extends DrinkActivity implements OnGesturePerformed
 		{
 			setContentView(R.layout.beergesture);
 			mLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);
-			GestureOverlayView gestures = (GestureOverlayView) findViewById(R.id.gestures);
+			gestures = (GestureOverlayView) findViewById(R.id.gestures);
 			gestures.addOnGesturePerformedListener(this);
+			if (!mLibrary.load()) {
+	        	finish();
+	        }
 		}
 		else
 		{
 			setContentView(R.layout.beer);
+			gestures = null;
+			
+			
 		}
 
 	}
@@ -80,6 +87,12 @@ public class TheBeerActivity extends DrinkActivity implements OnGesturePerformed
 			Prediction prediction = predictions.get(0);
 			// We want at least some confidence in the result
 			if (prediction.score > 1.0) {
+				if (prediction.name.equals("Champagne"));
+				{
+					Log.d("onGesture-Champagne Game", "Measured gesture");
+					Intent gest = new Intent(getApplicationContext(), TheChampagneActivity.class);
+					transition(gest);
+				}
 				Toast.makeText(this, prediction.name, Toast.LENGTH_SHORT).show();
 			}
 		}
