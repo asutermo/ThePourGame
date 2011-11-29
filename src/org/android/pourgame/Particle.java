@@ -21,98 +21,22 @@ public class Particle {
 	public static final int MAX_DIMENSION		= 5;	// the maximum width or height
 	public static final int MAX_SPEED			= 10;	// maximum speed (per update)
 	
-	private int state;			// particle is alive or dead
-	private float width;		// width of the particle
-	private float height;		// height of the particle
-	private float x, y;			// horizontal and vertical position
-	private double xv, yv;		// vertical and horizontal velocity
-	private float radius;
-	private int age;			// current age of the particle
-	private int lifetime;		// particle dies when it reaches this value
-	private int color;			// the color of the particle
-	private Paint paint;		// internal use to avoid instantiation
-	private int maxx, maxy;
+	public int state;			// particle is alive or dead
+	public float width;		// width of the particle
+	public float height;		// height of the particle
+	public float x, y;			// horizontal and vertical position
+	public float prev_x, prev_y; // previous horiz and vert position
+	public double xv, yv;		// vertical and horizontal velocity
+	public float radius;
+	public int age;			// current age of the particle
+	public int lifetime;		// particle dies when it reaches this value
+	public int color;			// the color of the particle
+	public Paint paint;		// internal use to avoid instantiation
+	public int maxx, maxy;
+	public float normalx, normaly;
+	public float forcex, forcey;
+	public float tension, density, idensity, idensity2, pressure;
 	
-	
-	public int getState() {
-		return state;
-	}
-
-	public void setState(int state) {
-		this.state = state;
-	}
-
-	public float getWidht() {
-		return width;
-	}
-
-	public void setWidht(float width) {
-		this.width = width;
-	}
-
-	public float getHeight() {
-		return height;
-	}
-
-	public void setHeight(float height) {
-		this.height = height;
-	}
-
-	public float getX() {
-		return x;
-	}
-
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public float getY() {
-		return y;
-	}
-
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	public double getXv() {
-		return xv;
-	}
-
-	public void setXv(double xv) {
-		this.xv = xv;
-	}
-
-	public double getYv() {
-		return yv;
-	}
-
-	public void setYv(double yv) {
-		this.yv = yv;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public int getLifetime() {
-		return lifetime;
-	}
-
-	public void setLifetime(int lifetime) {
-		this.lifetime = lifetime;
-	}
-
-	public int getColor() {
-		return color;
-	}
-
-	public void setColor(int color) {
-		this.color = color;
-	}
 	
 	// helper methods -------------------------
 	public boolean isAlive() {

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 public class TheBeerActivity extends DrinkActivity implements OnGestureListener, SensorEventListener 
 {
 	protected static Context CONTEXT;
+	private BeerView view;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,7 @@ public class TheBeerActivity extends DrinkActivity implements OnGestureListener,
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        BeerView view = new BeerView(this);
+        view = new BeerView(this);
         setContentView(view);
         
         //setContentView(R.layout.beer);
@@ -98,13 +100,20 @@ public class TheBeerActivity extends DrinkActivity implements OnGestureListener,
 		Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
 		transition(back);
 		animate(R.anim.push_left_in, R.anim.push_left_out);
+		finish();
+		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 	
 	public Context getContext() {
 		return CONTEXT;
 	}
-
 	
+	 @Override
+	 protected void onDestroy() {
+		 view.setVisibility(View.GONE);
+		 killSensor();
+		 super.onDestroy();
+	 }
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
