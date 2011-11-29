@@ -159,8 +159,8 @@ public class BeerView extends FluidView {
 		Canvas canvas = new Canvas();
 		render(canvas);
 		for(int i = 0; i < sph.num_particles; ++i) {
-			int x = (int)(sph.width*((sph.particles[i].x + 1.0f)/2)),
-			y = (int)(sph.height*(1.0f - (sph.particles[i].y + 1.0f)/2));
+//			int x = (int)(sph.width*((sph.particles[i].x + 1.0f)/2)),
+//			y = (int)(sph.height*(1.0f - (sph.particles[i].y + 1.0f)/2));
 
 //			if(sph.particles[i].density > (3*sph.rest_density)) painter.setColor(Color.RED);
 //			else if(sph.particles[i].density > (2.5*sph.rest_density)) painter.setColor(Color.YELLOW);
