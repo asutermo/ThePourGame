@@ -1,21 +1,21 @@
 TODO:
-  - Implement main screen
+  - Implement main screen - Done
   	* Fling capable coaster. Bounces off of top and bottom - Done
   	* Basically a title screen with group name and our names - Done
   	* Shake to quit - Done
   	
-  - Implement orientation
+  - Implement orientation and gestures - Done
   	* Use orientation sensor and accelerometer to post back angles and, well, orientation - Done
+  	* USe custom gestures to load screens, allow all games to do this - Done
   	
   - Implement pouring interface with Animation
-  	* Possible game per Rader? Is it possible to pour quicker but maintain the proper drink?
-  		- Too much or too little head could result in loss
+  	* Animation of pouring
     * Champagne
     * Soda
     * Beer
     
-  - Implement mapping functionality
-  	* Use geographic location and overlay to map closest breweries
+  - Implement mapping functionality - Done
+  	* Use geographic location and overlay to map closest breweries - Done
   	* Allow user to pinch and zoom - Done
   	
   
