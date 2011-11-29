@@ -29,6 +29,7 @@ public class BeerView extends FluidView {
 		width = display.getWidth();
 		setMinimumWidth(width);
 		setMinimumHeight(height);
+		this.
 		sph = new ParticleHydroDynamics(width, height);
 		
 		// make the GamePanel focusable so it can handle events
@@ -102,9 +103,22 @@ public class BeerView extends FluidView {
 	}
 	
 	public void render(Canvas canvas) {
-
+		//Log.d("BeerView", Integer.toString(canvas.getHeight()));
+		//Log.d("BeerView", Integer.toString(canvas.getWidth()));
 		Paint painter = new Paint();
 		//painter.setColor(Color.BLUE);
+//		for(int i = 0; i < sph.num_particles; ++i) {
+//			int x = (int)(sph.width*((sph.particles[i].x + 1.0f)/2)),
+//			y = (int)(sph.height*(1.0f - (sph.particles[i].y + 1.0f)/2));
+//
+//			if(sph.particles[i].density > (3*sph.rest_density)) painter.setColor(Color.RED);
+//			else if(sph.particles[i].density > (2.5*sph.rest_density)) painter.setColor(Color.YELLOW);
+//			else if(sph.particles[i].density > (2*sph.rest_density)) painter.setColor(Color.GREEN);
+//			else if(sph.particles[i].density > (1.5*sph.rest_density)) painter.setColor(Color.CYAN);
+//			else painter.setColor(Color.BLUE);
+//
+//			canvas.drawRect(x - 1, y - 1, 2, 2, painter);
+//		}
 
 		painter.setColor(Color.WHITE);
 
@@ -158,18 +172,7 @@ public class BeerView extends FluidView {
 		sph.computeScalarField();
 		Canvas canvas = new Canvas();
 		render(canvas);
-		for(int i = 0; i < sph.num_particles; ++i) {
-//			int x = (int)(sph.width*((sph.particles[i].x + 1.0f)/2)),
-//			y = (int)(sph.height*(1.0f - (sph.particles[i].y + 1.0f)/2));
-
-//			if(sph.particles[i].density > (3*sph.rest_density)) painter.setColor(Color.RED);
-//			else if(sph.particles[i].density > (2.5*sph.rest_density)) painter.setColor(Color.YELLOW);
-//			else if(sph.particles[i].density > (2*sph.rest_density)) painter.setColor(Color.GREEN);
-//			else if(sph.particles[i].density > (1.5*sph.rest_density)) painter.setColor(Color.CYAN);
-//			else painter.setColor(Color.BLUE);
-//
-//			canvas.drawRect(x - 1, y - 1, 2, 2, painter);
-		}
+		
 	}
 
 	@Override

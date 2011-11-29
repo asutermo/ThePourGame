@@ -49,8 +49,8 @@ public class ParticleHydroDynamics {
 		
 		num_particles = dim*dim;
 		particles = new Particle[num_particles];
-		for(int i=0; i < num_particles; i++)
-			particles[i] = new Particle(width, height, width, height);
+		//for(int i=0; i < num_particles; i++)
+		//	particles[i] = new Particle(0, 0, width, height);
 		
 		float orig_x = -0.25f,
 		orig_y = -0.25f,
@@ -74,16 +74,6 @@ public class ParticleHydroDynamics {
 		spiky_grad_const = -45.0f/(float)(Math.PI*Math.pow(radius, 6));
 		visc_lap_const = 45.0f/(float)(Math.PI*Math.pow(radius, 6));
 		
-//		position = new float[num_particles][2];
-//		prev_position = new float[num_particles][2];
-//		velocity = new float[num_particles][2];
-//		normals = new float[num_particles][2];
-//		force = new float[num_particles][2];
-//		pressure = new float[num_particles];
-//		tension = new float[num_particles];
-//		density = new float[num_particles];
-//		idensity = new float[num_particles];
-//		idensity2 = new float[num_particles];
 		scalar_field = new float[width/2][height/2];
 		distances = new float[num_particles][num_particles];
 		
@@ -101,11 +91,12 @@ public class ParticleHydroDynamics {
 		
 		for(int i = 0, j, k = 0; i < dim; ++i) {
 			for(j = 0; j < dim; ++j, ++k) {
-				//particles[k].x = orig_x + i*off - 0.2f; 
-				//particles[k].y = orig_y + j*off;
+				particles[k] = new Particle(orig_x + i*off - 0.2f, orig_y + j*off, width, height);
+//				particles[k].x = orig_x + i*off - 0.2f; 
+//				particles[k].y = orig_y + j*off;
 				particles[k].prev_x = particles[k].x;
 				particles[k].prev_y = particles[k].y;
-				particles[k].xv = -25.0f; particles[k].yv = 0.0f;
+				particles[k].xv = 0.0f; particles[k].yv = -9.81f;
 				particles[k].pressure = 0.0f;
 				particles[k].density = 0.0f;
 			}
