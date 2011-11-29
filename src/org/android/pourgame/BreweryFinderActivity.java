@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -13,6 +14,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,6 +56,8 @@ public class BreweryFinderActivity extends MapActivity{
 	private LocationListener locationListener;
 	private ProgressDialog progressDialog;
 	private String places_key;
+	private List<Brewery> breweryList;
+	private MapOverlay mapOverlay;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,8 @@ public class BreweryFinderActivity extends MapActivity{
         CONTEXT = this;
         places_key = getResources().getString(R.string.places_api_key);
         Log.i(TAG, "API key: " + places_key);
+        breweryList = new ArrayList<Brewery>();
+        mapOverlay = new MapOverlay();
         
         Button backButton = (Button)findViewById(R.id.backButton);
         
@@ -146,7 +152,6 @@ public class BreweryFinderActivity extends MapActivity{
 				//Animates the map to your current location
 				mapController.animateTo(point);
 				
-				MapOverlay mapOverlay = new MapOverlay();
 				mapOverlay.setLocationPoint(point);
 				List<Overlay> overlayList = mapView.getOverlays();
 				overlayList.clear();
@@ -154,24 +159,26 @@ public class BreweryFinderActivity extends MapActivity{
 				
 				progressDialog.dismiss();
 				
-				Geocoder geoCoder = new Geocoder(getBaseContext());
-				List<Address> nearestBreweries;
 				
-				String info = getNearestBreweries(point);
-				Log.i(TAG, info);
-				try {
-					JSONObject information = new JSONObject(getNearestBreweries(point));
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				String jsonStringBreweries = getBreweriesJson(point);
+				Log.i(TAG, jsonStringBreweries);
+				
+				parseJsonObjects(jsonStringBreweries);
+				
+				for(Brewery brewery : breweryList)
+				{
+					mapOverlay = new MapOverlay();
+					mapOverlay.setLocationPoint(brewery.getLocation());
+					mapOverlay.onTap(brewery.getLocation(), mapView);
+					overlayList.add(mapOverlay);
 				}
-				
 				
 				//Redraws the scene. I have no idea why this is here but I found it in a tutorial
 				mapView.invalidate();
 			}
 			
 		}
+		
 		
 		
 
@@ -182,13 +189,11 @@ public class BreweryFinderActivity extends MapActivity{
 
 		@Override
 		public void onProviderEnabled(String provider) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
-			// TODO Auto-generated method stub
 			
 		}
     	
@@ -220,7 +225,7 @@ public class BreweryFinderActivity extends MapActivity{
 		}
     }
     
-    protected String getNearestBreweries(GeoPoint point)
+    protected String getBreweriesJson(GeoPoint point)
 	{
 		StringBuilder sb = new StringBuilder();
 		Double latitude = point.getLatitudeE6()/1E6;
@@ -229,8 +234,7 @@ public class BreweryFinderActivity extends MapActivity{
 		try {
 			URI uri = new URI("https://maps.googleapis.com/maps/api/place/search/json?" +
 					"location=" + latitude + "," + longitude + "&" +
-					"radius=500&" +
-					"types=food&" +
+					"radius=10000&" +
 					"name=brewery&sensor=true&" +
 					"key=" + places_key);
 			Log.i(TAG, uri.toString());
@@ -256,18 +260,40 @@ public class BreweryFinderActivity extends MapActivity{
 			ips.close();
 			
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return sb.toString();
 	}
+    
+    private void parseJsonObjects(String jsonStringBreweries)
+    {
+    	try {
+			JSONObject jsonBreweries = new JSONObject(jsonStringBreweries);
+			JSONArray jsonArrayBreweries = jsonBreweries.getJSONArray("results");
+			
+			for(int i = 0; i < jsonArrayBreweries.length(); i++)
+			{
+				JSONObject brewery = jsonArrayBreweries.getJSONObject(i);
+				Double longitude = brewery.getJSONObject("geometry").getJSONObject("location").getDouble("lng");
+				Double latitude = brewery.getJSONObject("geometry").getJSONObject("location").getDouble("lat");
+				String address = brewery.getString("vicinity");
+				String name = brewery.getString("name");
+				
+				Log.i(TAG, "Found Name: " + name + " Addresss: " + address + " Lat: " + latitude + " Long: " + longitude);
+				
+				GeoPoint tmpPoint = new GeoPoint((int)(latitude*1E6), (int)(longitude*1E6));
+				
+				breweryList.add(new Brewery(name, tmpPoint, address));
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+    }
     
     @Override
     public void onConfigurationChanged(Configuration con) {
@@ -295,7 +321,6 @@ public class BreweryFinderActivity extends MapActivity{
 
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
@@ -313,4 +338,30 @@ public class BreweryFinderActivity extends MapActivity{
 		goToMainScreen();
 	}
 	
+	private class Brewery{
+		private String name;
+		private GeoPoint point;
+		private String address;
+		
+		public Brewery(String name, GeoPoint location, String address)
+		{
+			this.name = name;
+			this.address = address;
+			this.point = location;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public GeoPoint getLocation() {
+			return point;
+		}
+
+		public String getAddress() {
+			return address;
+		}
+		
+		
+	}
 }
