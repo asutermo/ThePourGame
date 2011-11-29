@@ -56,11 +56,17 @@ public class TheBeerActivity extends DrinkActivity implements OnGesturePerformed
     }
 	public void onButtonClick(View view)
 	{
+		gestureEngaged = !gestureEngaged;
 		if (gestureEngaged)
 		{
+			setContentView(R.layout.beergesture);
 			mLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);
 			GestureOverlayView gestures = (GestureOverlayView) findViewById(R.id.gestures);
 			gestures.addOnGesturePerformedListener(this);
+		}
+		else
+		{
+			setContentView(R.layout.beer);
 		}
 
 	}

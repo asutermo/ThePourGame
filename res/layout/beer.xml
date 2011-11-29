@@ -18,9 +18,4 @@
         android:layout_marginBottom="25dip"
         android:text="@string/left_label"
         android:textSize="24.5sp" />
-<android.gesture.GestureOverlayView
-	android:id="@+id/gestures"
-	android:layout_width="fill_parent" 
-    android:layout_height="0dip"
-    android:layout_weight="1.0" />
 </LinearLayout>
