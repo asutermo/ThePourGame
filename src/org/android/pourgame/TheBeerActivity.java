@@ -20,7 +20,6 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -29,8 +28,8 @@ public class TheBeerActivity extends DrinkActivity implements OnGesturePerformed
 	protected static Context CONTEXT;
 	private GestureLibrary mLibrary;
 	private boolean gestureEngaged;
-	private Button gestureButton;
 	private GestureOverlayView gestures;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +48,7 @@ public class TheBeerActivity extends DrinkActivity implements OnGesturePerformed
 			
         	sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ORIENTATION));
         }
-        this.gestureButton = (Button)this.findViewById(R.id.GestureButton);
-        //initiate gesture library but don't initiate gestures yet
+        
         gestureEngaged = false;
         
         
@@ -86,30 +84,35 @@ public class TheBeerActivity extends DrinkActivity implements OnGesturePerformed
 			Prediction prediction = predictions.get(0);
 			// We want at least some confidence in the result
 			if (prediction.score > 1.0) {
+				Intent gest = null;
 				if (prediction.name.equals("Champagne"))
 				{
 					Log.d("onGesture-Champagne Game", "Measured gesture");
-					Intent gest = new Intent(getApplicationContext(), TheChampagneActivity.class);
-					transition(gest);
+					gest = new Intent(getApplicationContext(), TheChampagneActivity.class);
 				}
 				else if (prediction.name.equals("Map"))
 				{
 					Log.d("onGesture-Map", "Measured gesture");
-					Intent gest = new Intent(getApplicationContext(), BreweryFinderActivity.class);
-					transition(gest);
+					gest = new Intent(getApplicationContext(), BreweryFinderActivity.class);
 				}
 				else if (prediction.name.equals("Soda"))
 				{
 					Log.d("onGesture-Soda Game", "Measured gesture");
-					Intent gest = new Intent(getApplicationContext(), TheSodaGameActivity.class);
-					transition(gest);
+					gest = new Intent(getApplicationContext(), TheSodaGameActivity.class);
 				}
 				else if (prediction.name.equals("Home"))
 				{
 					Log.d("onGesture-Home", "Measured gesture");
-					Intent gest = new Intent(getApplicationContext(), ThePourGameActivity.class);
-					transition(gest);
+					gest = new Intent(getApplicationContext(), ThePourGameActivity.class);
+					
 				}
+				else
+				{
+					Log.d("onGesture-Home", "Measured gesture");
+					gest = new Intent(getApplicationContext(), TheBeerActivity.class);
+				}
+				transition(gest);
+				overridePendingTransition(R.anim.hyperspace_in, R.anim.hyperspace_out);
 			}
 		}
 	}
