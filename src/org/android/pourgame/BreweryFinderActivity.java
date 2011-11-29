@@ -1,7 +1,20 @@
 package org.android.pourgame;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.google.android.maps.MapActivity;
 
@@ -40,12 +53,15 @@ public class BreweryFinderActivity extends MapActivity{
 	private LocationManager locationManager;
 	private LocationListener locationListener;
 	private ProgressDialog progressDialog;
+	private String places_key;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.brewery_finder);
         CONTEXT = this;
+        places_key = getResources().getString(R.string.places_api_key);
+        Log.i(TAG, "API key: " + places_key);
         
         Button backButton = (Button)findViewById(R.id.backButton);
         
@@ -57,6 +73,7 @@ public class BreweryFinderActivity extends MapActivity{
 			}
         	
         });
+        
         
         //Initializes the map view to the phone's current location
         initScene();
@@ -121,6 +138,7 @@ public class BreweryFinderActivity extends MapActivity{
 				GeoPoint point = new GeoPoint(
 						(int)(location.getLatitude()*1E6),
 						(int)(location.getLongitude()*1E6));
+				Log.i(TAG, "LAT: " + location.getLatitude() +  " LONG: " + location.getLongitude());
 //				Toast.makeText(CONTEXT, "LAT: "+location.getLatitude() +
 //						"\nLONG: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
 				//Zooms before moving to your current location
@@ -139,19 +157,11 @@ public class BreweryFinderActivity extends MapActivity{
 				Geocoder geoCoder = new Geocoder(getBaseContext());
 				List<Address> nearestBreweries;
 				
+				String info = getNearestBreweries(point);
+				Log.i(TAG, info);
 				try {
-					nearestBreweries = geoCoder.getFromLocationName("Liquor", 10);
-					if(nearestBreweries.size() > 0){
-						//TODO: I don't know if this is the right way to go about this
-						point = new GeoPoint((int)(nearestBreweries.get(0).getLatitude()*1E6), (int)(nearestBreweries.get(0).getLongitude()*1E6));
-						mapController.animateTo(point);
-						mapOverlay = new MapOverlay();
-						mapOverlay.setLocationPoint(point);
-						overlayList.add(mapOverlay);
-					}else{
-						Log.e(TAG, "Could not find breweries for some reason");
-					}
-				} catch (IOException e) {
+					JSONObject information = new JSONObject(getNearestBreweries(point));
+				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -162,6 +172,8 @@ public class BreweryFinderActivity extends MapActivity{
 			}
 			
 		}
+		
+		
 
 		@Override
 		public void onProviderDisabled(String provider) {
@@ -207,6 +219,55 @@ public class BreweryFinderActivity extends MapActivity{
 			return true;
 		}
     }
+    
+    protected String getNearestBreweries(GeoPoint point)
+	{
+		StringBuilder sb = new StringBuilder();
+		Double latitude = point.getLatitudeE6()/1E6;
+		Double longitude = point.getLongitudeE6()/1E6;
+		
+		try {
+			URI uri = new URI("https://maps.googleapis.com/maps/api/place/search/json?" +
+					"location=" + latitude + "," + longitude + "&" +
+					"radius=500&" +
+					"types=food&" +
+					"name=brewery&sensor=true&" +
+					"key=" + places_key);
+			Log.i(TAG, uri.toString());
+			HttpClient client = new DefaultHttpClient();
+			HttpGet request = new HttpGet();
+			request.setURI(uri);
+			HttpResponse response = client.execute(request);
+			InputStream ips = response.getEntity().getContent();
+			BufferedReader buf = new BufferedReader(new InputStreamReader(ips, "UTF-8"));
+			
+			String s;
+			while(true)
+			{
+				s = buf.readLine();
+				if(s == null)
+				{
+					break;
+				}
+				sb.append(s);
+			}
+			
+			buf.close();
+			ips.close();
+			
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return sb.toString();
+	}
     
     @Override
     public void onConfigurationChanged(Configuration con) {
