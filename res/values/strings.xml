@@ -5,9 +5,9 @@
     <string name="maps_api_key">0C_35mw-ULphMqbU-Gjn6xexfNqgywnbscNOZyQ</string>
     <string name="top_label">The Pour Game</string>
     <string name="bottom_label">Brewery Finder</string>
-    <string name="left_label">Beer Game</string>
-    <string name="left_up_label">Soda Game</string>
-    <string name="left_down_label">Champagne Game</string>
+    <string name="left_label"><u>B</u>eer Game</string>
+    <string name="left_up_label"><u>S</u>oda Game</string>
+    <string name="left_down_label"><u>C</u>hampagne Game</string>
     <string name="right_label"></string>
     <string name="gestures">Gestures</string>
 	<string name="places_api_key">AIzaSyC0Dnlm3Ghexg8u4sWsxv14cy_S-izE-Uc</string>
