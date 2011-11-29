@@ -19,11 +19,12 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 
-public class TheBeerActivity extends DrinkActivity implements OnGestureListener, SensorEventListener 
+public class TheBeerActivity extends DrinkActivity implements OnGesturePerformedListener, OnGestureListener, SensorEventListener 
 {
 	protected static Context CONTEXT;
 	private GestureLibrary mLibrary;
@@ -51,13 +52,19 @@ public class TheBeerActivity extends DrinkActivity implements OnGestureListener,
         
         //initiate gesture library but don't initiate gestures yet
         gestureEngaged = false;
-        //mLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);
-     
         
-        //GestureOverlayView gestures = (GestureOverlayView) findViewById(R.id.gestures);
-        //gestures.addOnGesturePerformedListener(this);
     }
-	/*
+	public void onButtonClick(View view)
+	{
+		if (gestureEngaged)
+		{
+			mLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);
+			GestureOverlayView gestures = (GestureOverlayView) findViewById(R.id.gestures);
+			gestures.addOnGesturePerformedListener(this);
+		}
+
+	}
+	
 	@Override
 	public void onGesturePerformed(GestureOverlayView overlay, Gesture gesture) {
 		ArrayList<Prediction> predictions = mLibrary.recognize(gesture);
@@ -70,7 +77,7 @@ public class TheBeerActivity extends DrinkActivity implements OnGestureListener,
 				Toast.makeText(this, prediction.name, Toast.LENGTH_SHORT).show();
 			}
 		}
-	}*/
+	}
 	
 	@Override 
     public boolean onTouchEvent(MotionEvent me){ 
