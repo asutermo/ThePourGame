@@ -60,6 +60,7 @@ public class TheBeerActivity extends DrinkActivity implements OnGesturePerformed
 		gestureEngaged = !gestureEngaged;
 		if (gestureEngaged)
 		{
+			
 			setContentView(R.layout.beergesture);
 			mLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);
 			gestures = (GestureOverlayView) findViewById(R.id.gestures);
@@ -72,8 +73,6 @@ public class TheBeerActivity extends DrinkActivity implements OnGesturePerformed
 		{
 			setContentView(R.layout.beer);
 			gestures = null;
-			
-			
 		}
 
 	}
@@ -87,13 +86,30 @@ public class TheBeerActivity extends DrinkActivity implements OnGesturePerformed
 			Prediction prediction = predictions.get(0);
 			// We want at least some confidence in the result
 			if (prediction.score > 1.0) {
-				if (prediction.name.equals("Champagne"));
+				if (prediction.name.equals("Champagne"))
 				{
 					Log.d("onGesture-Champagne Game", "Measured gesture");
 					Intent gest = new Intent(getApplicationContext(), TheChampagneActivity.class);
 					transition(gest);
 				}
-				Toast.makeText(this, prediction.name, Toast.LENGTH_SHORT).show();
+				else if (prediction.name.equals("Map"))
+				{
+					Log.d("onGesture-Map", "Measured gesture");
+					Intent gest = new Intent(getApplicationContext(), BreweryFinderActivity.class);
+					transition(gest);
+				}
+				else if (prediction.name.equals("Soda"))
+				{
+					Log.d("onGesture-Soda Game", "Measured gesture");
+					Intent gest = new Intent(getApplicationContext(), TheSodaGameActivity.class);
+					transition(gest);
+				}
+				else if (prediction.name.equals("Home"))
+				{
+					Log.d("onGesture-Home", "Measured gesture");
+					Intent gest = new Intent(getApplicationContext(), ThePourGameActivity.class);
+					transition(gest);
+				}
 			}
 		}
 	}
