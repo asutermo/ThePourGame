@@ -26,10 +26,13 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -56,6 +59,7 @@ public class BreweryFinderActivity extends MapActivity{
 	private String places_key;
 	private List<Brewery> breweryList;
 	private MapOverlay mapOverlay;
+	private Resources res;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,7 @@ public class BreweryFinderActivity extends MapActivity{
         Log.i(TAG, "API key: " + places_key);
         breweryList = new ArrayList<Brewery>();
         mapOverlay = new MapOverlay();
+        res = getResources();
         
         Button backButton = (Button)findViewById(R.id.backButton);
         
@@ -216,9 +221,9 @@ public class BreweryFinderActivity extends MapActivity{
 			
 			mv.getProjection().toPixels(locationPoint, screenPxs);
 			
+			Drawable icon = res.getDrawable(R.drawable.user);
 			
-			Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pin);
-			canvas.drawBitmap(bmp, screenPxs.x, screenPxs.y-12, null);
+			canvas.drawBitmap(((BitmapDrawable)icon).getBitmap(), screenPxs.x, screenPxs.y-12, null);
 			return true;
 		}
     }
