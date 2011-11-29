@@ -30,8 +30,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -218,9 +216,9 @@ public class BreweryFinderActivity extends MapActivity{
 			
 			mv.getProjection().toPixels(locationPoint, screenPxs);
 			
+			
 			Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pin);
 			canvas.drawBitmap(bmp, screenPxs.x, screenPxs.y-12, null);
-			
 			return true;
 		}
     }
@@ -232,17 +230,31 @@ public class BreweryFinderActivity extends MapActivity{
 		Double longitude = point.getLongitudeE6()/1E6;
 		
 		try {
+			//Builds the URL that we will use to communicate with google
 			URI uri = new URI("https://maps.googleapis.com/maps/api/place/search/json?" +
 					"location=" + latitude + "," + longitude + "&" +
 					"radius=10000&" +
-					"name=brewery&sensor=true&" +
+					"name=brewery&" +
+					"sensor=true&" +
 					"key=" + places_key);
 			Log.i(TAG, uri.toString());
+			
+			//HTTP client that will talk to the server through the URI
 			HttpClient client = new DefaultHttpClient();
+			
+			//Creates a GET request for the HTTP server
 			HttpGet request = new HttpGet();
+			
+			//Tells the request the URI that it is supposed to communcate with
 			request.setURI(uri);
+			
+			//Captures the response from the HTTP server
 			HttpResponse response = client.execute(request);
+			
+			//Directs the resposne through an input string
 			InputStream ips = response.getEntity().getContent();
+			
+			//Reads the input stream through a buffered reader until there is nothing left to read
 			BufferedReader buf = new BufferedReader(new InputStreamReader(ips, "UTF-8"));
 			
 			String s;
@@ -256,6 +268,7 @@ public class BreweryFinderActivity extends MapActivity{
 				sb.append(s);
 			}
 			
+			//close streams
 			buf.close();
 			ips.close();
 			
@@ -267,15 +280,20 @@ public class BreweryFinderActivity extends MapActivity{
 			e.printStackTrace();
 		}
 		
+		//Return the string builder
 		return sb.toString();
 	}
     
     private void parseJsonObjects(String jsonStringBreweries)
     {
     	try {
+    		//creates a JSON Object assuming that the string passed to it is of a valid syntax
 			JSONObject jsonBreweries = new JSONObject(jsonStringBreweries);
+			//Creates an array of JSON objects for each individual result
 			JSONArray jsonArrayBreweries = jsonBreweries.getJSONArray("results");
 			
+			//Extracts the necessary data such as latitude, longitude, address, and name of each result and stores it
+			//in a Brewery object that resides in a global brewery list
 			for(int i = 0; i < jsonArrayBreweries.length(); i++)
 			{
 				JSONObject brewery = jsonArrayBreweries.getJSONObject(i);
