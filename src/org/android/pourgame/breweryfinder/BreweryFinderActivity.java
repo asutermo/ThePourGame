@@ -29,12 +29,6 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -173,8 +167,8 @@ public class BreweryFinderActivity extends MapActivity{
 				for(Brewery brewery : breweryList)
 				{
 					mapOverlay = new MapOverlay(res, R.drawable.user);
-					mapOverlay.setLocationPoint(brewery.getLocation());
-					mapOverlay.onTap(brewery.getLocation(), mapView);
+//					mapOverlay.setLocationPoint(brewery.getLocation());
+//					mapOverlay.onTap(brewery.getLocation(), mapView);
 					overlayList.add(mapOverlay);
 				}
 				
@@ -287,7 +281,7 @@ public class BreweryFinderActivity extends MapActivity{
 				
 				GeoPoint tmpPoint = new GeoPoint((int)(latitude*1E6), (int)(longitude*1E6));
 				
-				breweryList.add(new Brewery(name, tmpPoint, address));
+//				breweryList.add(new Brewery(name, tmpPoint, address));
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
