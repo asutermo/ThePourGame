@@ -16,6 +16,10 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -52,7 +56,7 @@ public class BreweryFinderActivity extends MapActivity{
         places_key = getResources().getString(R.string.places_api_key);
         Log.i(TAG, "API key: " + places_key);
         breweryList = new ArrayList<Brewery>();
-        mapOverlay = new MapOverlay(res, R.drawable.user);
+        mapOverlay = new MapOverlay();
         res = getResources();
         
         Button backButton = (Button)findViewById(R.id.backButton);
@@ -150,7 +154,7 @@ public class BreweryFinderActivity extends MapActivity{
 				
 				for(Brewery brewery : breweryList)
 				{
-					mapOverlay = new MapOverlay(res, R.drawable.user);
+					mapOverlay = new MapOverlay();
 					mapOverlay.setLocationPoint(UtilFunctions.locationToPoint(brewery.getLocation()));
 					overlayList.add(mapOverlay);
 				}
@@ -184,6 +188,32 @@ public class BreweryFinderActivity extends MapActivity{
     public void onConfigurationChanged(Configuration con) {
       super.onConfigurationChanged(con);
       //Do Nothing. This makes sure the layout does not reload on screen rotations.
+    }
+    
+    private class MapOverlay extends Overlay {
+    	private GeoPoint locationPoint;
+
+		public GeoPoint getLocationPoint() {
+			return locationPoint;
+		}
+
+		public void setLocationPoint(GeoPoint locationPoint) {
+			this.locationPoint = locationPoint;
+		}
+		
+		@Override
+		public boolean draw(Canvas canvas, MapView mv, boolean shadow, long when)
+		{
+			super.draw(canvas, mv, shadow);
+			Point screenPxs = new Point();
+			
+			mv.getProjection().toPixels(locationPoint, screenPxs);
+			
+			Drawable icon = res.getDrawable(R.drawable.user);
+			
+			canvas.drawBitmap(((BitmapDrawable)icon).getBitmap(), screenPxs.x, screenPxs.y-12, null);
+			return true;
+		}
     }
 
 

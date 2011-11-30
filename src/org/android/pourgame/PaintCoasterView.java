@@ -114,6 +114,8 @@ public class PaintCoasterView extends View {
 			((ThePourGameActivity) this.context).left();
 		if(hitRightWall())
 			((ThePourGameActivity)this.context).right();
+		if(hitTopWall())
+			((ThePourGameActivity)this.context).up();
 		// Detect collision and react
 		if (ballX + ballRadius > xMax) {
 			ballSpeedX = -ballSpeedX;
@@ -192,6 +194,13 @@ public class PaintCoasterView extends View {
 	public boolean hitRightWall() {
 		//Log.d("rightWall", "Checking ballX " + ballX);
 		if(ballX+ballRadius >= this.getWidth())
+			return true;
+		return false;
+	}
+	
+	public boolean hitTopWall()
+	{
+		if(ballY-ballRadius <= 0)
 			return true;
 		return false;
 	}

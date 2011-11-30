@@ -1,5 +1,6 @@
 package org.android.pourgame;
 
+import org.android.pourgame.breweryfinder.BreweryFinderActivity;
 import org.android.pourgame.compass.Compass;
 
 import android.app.Activity;
@@ -148,13 +149,23 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	public void right()
 	{
 		Log.d("breweryFinder", "Loading brewery finder");
-		Intent next = new Intent(getApplicationContext(), Compass.class);
+		Intent next = new Intent(getApplicationContext(), BreweryFinderActivity.class);
 		paintCoasterView.setVisibility(View.GONE);
 		killSensor();
 		startActivity(next);
 		finish();
 
 		overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+	}
+	
+	public void up()
+	{
+		Log.d("Compass", "Loading brewery finder");
+		Intent next = new Intent(getApplicationContext(), Compass.class);
+		paintCoasterView.setVisibility(View.GONE);
+		killSensor();
+		startActivity(next);
+		finish();
 	}
 	
 	@Override
