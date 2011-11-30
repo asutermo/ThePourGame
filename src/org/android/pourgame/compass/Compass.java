@@ -131,9 +131,15 @@ public class Compass extends Activity {
         private Path    compassPath = new Path();
         private Path breweriesPath = new Path();
         private Paint breweriesPaint = new Paint();
+        private Paint nearestBreweryPaint = new Paint();
+        private Path nearestBreweryPath = new Path();
         private Paint infoPaint = new Paint();
         private boolean mAnimate;
         private boolean initialized;
+        private Brewery nearestBrewery;
+        double nearestBrewMappedX;
+        double nearestBrewMappedY;
+        double nearestBrewDistTrans;
         
         Integer w, h;
         Integer circleRadius;
@@ -162,14 +168,11 @@ public class Compass extends Activity {
 	            initialized = true;
             }
             
-            
-            Log.i(TAG, circleRadius.toString());
-            
-            
             if(breweryList != null && breweryList.size() > 0 && locationChanged)
             {
 	            for(Brewery brew : breweryList)
 	            {
+	            	Double minDist = null;
 	            	double distanceTrans;
 	            	if(brew.getDistance() < .5)
 	            	{
@@ -182,8 +185,18 @@ public class Compass extends Activity {
 	            	double mappedY = -brewList.get(0)*distanceTrans;
 	            	
 	            	breweriesPath.addCircle((float)mappedX,(float)mappedY, 7, Direction.CW);
+	            	
+	            	if(minDist == null || brew.getDistance() < minDist)
+	            	{
+	            		nearestBrewery = brew;
+	            		nearestBrewMappedX = mappedX;
+	            		nearestBrewMappedY = mappedY;
+	            		nearestBrewDistTrans = distanceTrans;
+	            		
+	            	}
 	            }
 	            
+	            nearestBreweryPath.addCircle((float)nearestBrewMappedX, (float)nearestBrewMappedY, 10, Direction.CW);
 	            locationChanged = false;
             }
 
@@ -192,6 +205,10 @@ public class Compass extends Activity {
             compassPaint.setStyle(Paint.Style.STROKE);
             compassPaint.setTextSize(20);
             compassPaint.setStrokeWidth(3);
+            
+            nearestBreweryPaint.setColor(Color.RED);
+            nearestBreweryPaint.setAntiAlias(true);
+            nearestBreweryPaint.setStyle(Paint.Style.FILL);
             
             breweriesPaint.setAntiAlias(true);
             breweriesPaint.setColor(Color.GREEN);
@@ -206,6 +223,12 @@ public class Compass extends Activity {
             int cy = circleRadius+30;
             
             canvas.drawText("Heading: " + (int)mValues[0], 10, circleRadius*2 + 100, infoPaint);
+            canvas.drawText("Nearest Brewery:", 10, circleRadius*2 + 150, infoPaint);
+            if(nearestBrewery != null)
+            {
+            	canvas.drawText(nearestBrewery.getName(), 10, circleRadius*2+200, infoPaint);
+            	canvas.drawText("Distance: " + nearestBrewery.getDistance().toString().substring(0, 4) + "mi", 10, circleRadius*2 + 250, infoPaint);
+            }
 
             canvas.translate(cx, cy);
             
@@ -215,6 +238,7 @@ public class Compass extends Activity {
             }
             canvas.drawPath(compassPath, compassPaint);
             canvas.drawPath(breweriesPath, breweriesPaint);
+            canvas.drawPath(nearestBreweryPath, nearestBreweryPaint);
             canvas.drawText("N", -10, -circleRadius - 20, compassPaint);
             
         }

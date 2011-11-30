@@ -11,7 +11,7 @@ public class Brewery{
 	private String name;
 	private Location point;
 	private String address;
-	private double distance;
+	private Double distance;
 	private List<Double> direction;
 	
 	public Brewery(String name, Location location, String address)
@@ -34,7 +34,7 @@ public class Brewery{
 		return address;
 	}
 	
-	public double getDistance()
+	public Double getDistance()
 	{
 		return distance;
 	}
