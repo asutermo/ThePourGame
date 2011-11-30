@@ -12,6 +12,7 @@ import java.util.List;
 import org.android.pourgame.R;
 import org.android.pourgame.ThePourGameActivity;
 import org.android.pourgame.breweryfinder.Brewery;
+import org.android.pourgame.util.UtilFunctions;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -114,6 +115,7 @@ public class Compass extends Activity {
 
         mSensorManager.registerListener(mListener, mSensor,
                 SensorManager.SENSOR_DELAY_GAME);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
     }
 
     @Override
@@ -121,8 +123,19 @@ public class Compass extends Activity {
     {
         if (debug) 
         	Log.d(TAG, "onStop");
-        mSensorManager.unregisterListener(mListener);
         super.onStop();
+        mSensorManager.unregisterListener(mListener);
+        locationManager.removeUpdates(locationListener);
+    }
+    
+    @Override
+    protected void onPause()
+    {
+    	if(debug)
+    		Log.d(TAG, "onPause");
+    	locationManager.removeUpdates(locationListener);
+    	super.onPause();
+    	
     }
 
     private class CompassLayoutView extends View {
@@ -268,18 +281,15 @@ public class Compass extends Activity {
 			{
 				currentLocation = location;
 				//Grabs the latitude and longitude to the updated location
-				GeoPoint point = new GeoPoint(
-						(int)(location.getLatitude()*1E6),
-						(int)(location.getLongitude()*1E6));
 				Log.i(TAG, "LAT: " + location.getLatitude() +  " LONG: " + location.getLongitude());
 				
 				progressDialog.dismiss();
 				
 				if(firstPass){
-					String jsonStringBreweries = getBreweriesJson(point);
+					String jsonStringBreweries = UtilFunctions.getBreweriesJson(location, places_key);
 					Log.i(TAG, jsonStringBreweries);
 					
-					parseJsonObjects(jsonStringBreweries);
+					breweryList = UtilFunctions.parseJsonObjects(jsonStringBreweries);
 					firstPass = false;
 				}
 				
@@ -334,100 +344,6 @@ public class Compass extends Activity {
 			
 		}
     	
-    }
-    
-    protected String getBreweriesJson(GeoPoint point)
-	{
-		StringBuilder sb = new StringBuilder();
-		Double latitude = point.getLatitudeE6()/1E6;
-		Double longitude = point.getLongitudeE6()/1E6;
-		
-		try {
-			//Builds the URL that we will use to communicate with google
-			URI uri = new URI("https://maps.googleapis.com/maps/api/place/search/json?" +
-					"location=" + latitude + "," + longitude + "&" +
-					"radius=10000&" +
-					"name=brewery&" +
-					"sensor=true&" +
-					"key=" + places_key);
-			Log.i(TAG, uri.toString());
-			
-			//HTTP client that will talk to the server through the URI
-			HttpClient client = new DefaultHttpClient();
-			
-			//Creates a GET request for the HTTP server
-			HttpGet request = new HttpGet();
-			
-			//Tells the request the URI that it is supposed to communcate with
-			request.setURI(uri);
-			
-			//Captures the response from the HTTP server
-			HttpResponse response = client.execute(request);
-			
-			//Directs the resposne through an input string
-			InputStream ips = response.getEntity().getContent();
-			
-			//Reads the input stream through a buffered reader until there is nothing left to read
-			BufferedReader buf = new BufferedReader(new InputStreamReader(ips, "UTF-8"));
-			
-			String s;
-			while(true)
-			{
-				s = buf.readLine();
-				if(s == null)
-				{
-					break;
-				}
-				sb.append(s);
-			}
-			
-			//close streams
-			buf.close();
-			ips.close();
-			
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		//Return the string builder
-		return sb.toString();
-	}
-    
-    private void parseJsonObjects(String jsonStringBreweries)
-    {
-    	try {
-    		//creates a JSON Object assuming that the string passed to it is of a valid syntax
-			JSONObject jsonBreweries = new JSONObject(jsonStringBreweries);
-			//Creates an array of JSON objects for each individual result
-			JSONArray jsonArrayBreweries = jsonBreweries.getJSONArray("results");
-			
-			//Extracts the necessary data such as latitude, longitude, address, and name of each result and stores it
-			//in a Brewery object that resides in a global brewery list
-			for(int i = 0; i < jsonArrayBreweries.length(); i++)
-			{
-				JSONObject brewery = jsonArrayBreweries.getJSONObject(i);
-				Double longitude = brewery.getJSONObject("geometry").getJSONObject("location").getDouble("lng");
-				Double latitude = brewery.getJSONObject("geometry").getJSONObject("location").getDouble("lat");
-				String address = brewery.getString("vicinity");
-				String name = brewery.getString("name");
-				
-				Log.i(TAG, "Found Name: " + name + " Addresss: " + address + " Lat: " + latitude + " Long: " + longitude);
-				
-				Location tmpLoc = new Location(LocationManager.GPS_PROVIDER);
-				tmpLoc.setLatitude(latitude);
-				tmpLoc.setLongitude(longitude);
-				
-				Brewery tmpBrew = new Brewery(name, tmpLoc, address);
-				
-				breweryList.add(tmpBrew);
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
     }
     
     private void initProgressDialog() {
