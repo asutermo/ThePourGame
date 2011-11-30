@@ -154,7 +154,7 @@ public class Compass extends Activity {
             w = canvas.getWidth();
             h = canvas.getHeight();
             
-            circleRadius = w/2-30;
+            circleRadius = w/2-50;
             
             if(!initialized){
 	            compassPath.moveTo(0, -circleRadius);
