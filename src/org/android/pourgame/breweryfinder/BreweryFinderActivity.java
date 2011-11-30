@@ -56,7 +56,6 @@ public class BreweryFinderActivity extends MapActivity{
         places_key = getResources().getString(R.string.places_api_key);
         Log.i(TAG, "API key: " + places_key);
         breweryList = new ArrayList<Brewery>();
-        mapOverlay = new MapOverlay();
         res = getResources();
         
         Button backButton = (Button)findViewById(R.id.backButton);
@@ -139,6 +138,8 @@ public class BreweryFinderActivity extends MapActivity{
 				//Animates the map to your current location
 				mapController.animateTo(point);
 				
+				mapOverlay = new MapOverlay(false);
+				
 				mapOverlay.setLocationPoint(point);
 				List<Overlay> overlayList = mapView.getOverlays();
 				overlayList.clear();
@@ -154,7 +155,7 @@ public class BreweryFinderActivity extends MapActivity{
 				
 				for(Brewery brewery : breweryList)
 				{
-					mapOverlay = new MapOverlay();
+					mapOverlay = new MapOverlay(true);
 					mapOverlay.setLocationPoint(UtilFunctions.locationToPoint(brewery.getLocation()));
 					overlayList.add(mapOverlay);
 				}
@@ -192,9 +193,15 @@ public class BreweryFinderActivity extends MapActivity{
     
     private class MapOverlay extends Overlay {
     	private GeoPoint locationPoint;
+    	private boolean isBrewery;
 
 		public GeoPoint getLocationPoint() {
 			return locationPoint;
+		}
+		
+		public MapOverlay(boolean isBrewery)
+		{
+			this.isBrewery = isBrewery;
 		}
 
 		public void setLocationPoint(GeoPoint locationPoint) {
@@ -209,7 +216,15 @@ public class BreweryFinderActivity extends MapActivity{
 			
 			mv.getProjection().toPixels(locationPoint, screenPxs);
 			
-			Drawable icon = res.getDrawable(R.drawable.user);
+			Drawable icon;
+			
+			if(isBrewery)
+			{
+				icon = res.getDrawable(R.drawable.brewery);
+			}else
+			{
+				icon = res.getDrawable(R.drawable.user);
+			}
 			
 			canvas.drawBitmap(((BitmapDrawable)icon).getBitmap(), screenPxs.x, screenPxs.y-12, null);
 			return true;
