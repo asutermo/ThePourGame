@@ -2,6 +2,8 @@ package org.android.pourgame;
 
 import java.util.ArrayList;
 
+import org.android.pourgame.breweryfinder.BreweryFinderActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.gesture.Gesture;

@@ -1,4 +1,4 @@
-package org.android.pourgame;
+package org.android.pourgame.breweryfinder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,6 +9,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.android.pourgame.R;
+import org.android.pourgame.ThePourGameActivity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
