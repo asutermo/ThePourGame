@@ -119,11 +119,11 @@ public class BreweryFinderActivity extends MapActivity{
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         
         //Initializes the location listener with listener defined below
-        locationListener = new GPSLocationListener();
+        locationListener = new MapLocationListener();
     }
 	
     
-    private class GPSLocationListener implements LocationListener
+    private class MapLocationListener implements LocationListener
     {
 
 		@Override

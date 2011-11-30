@@ -81,7 +81,7 @@ public class Compass extends Activity {
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         
         //Initializes the location listener with listener defined below
-        locationListener = new GPSLocationListener();
+        locationListener = new CompassLocationListener();
         
         initProgressDialog();
         
@@ -255,7 +255,7 @@ public class Compass extends Activity {
         }
     }
     
-    private class GPSLocationListener implements LocationListener
+    private class CompassLocationListener implements LocationListener
     {
 
 		@Override
