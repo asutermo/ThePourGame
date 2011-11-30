@@ -1,11 +1,5 @@
 package org.android.pourgame.compass;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,16 +7,6 @@ import org.android.pourgame.R;
 import org.android.pourgame.ThePourGameActivity;
 import org.android.pourgame.breweryfinder.Brewery;
 import org.android.pourgame.util.UtilFunctions;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.google.android.maps.GeoPoint;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -30,7 +14,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.res.Resources;
 import android.graphics.*;
 import android.graphics.Path.Direction;
 import android.hardware.Sensor;
@@ -152,7 +135,7 @@ public class Compass extends Activity {
         double nearestBrewMappedX;
         double nearestBrewMappedY;
         
-        Integer w, h;
+        Integer w;
         Integer circleRadius;
 
         public CompassLayoutView(Context context) {
@@ -165,7 +148,7 @@ public class Compass extends Activity {
         protected void onDraw(Canvas canvas) {
             canvas.drawColor(Color.BLACK);
             w = canvas.getWidth();
-            h = canvas.getHeight();
+//            h = canvas.getHeight();
             
             circleRadius = w/2-50;
             

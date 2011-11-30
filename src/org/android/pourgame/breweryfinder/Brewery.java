@@ -5,8 +5,6 @@ import java.util.List;
 
 import android.location.Location;
 
-import com.google.android.maps.GeoPoint;
-
 public class Brewery{
 	private String name;
 	private Location point;
