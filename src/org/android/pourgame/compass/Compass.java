@@ -90,6 +90,8 @@ public class Compass extends Activity {
         
         breweryList = new ArrayList<Brewery>();
         
+        places_key = getResources().getString(R.string.places_api_key);
+        
         //Grabs the location service from the android system
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         
@@ -123,31 +125,49 @@ public class Compass extends Activity {
     }
 
     private class CompassLayoutView extends View {
-        private Paint   mPaint = new Paint();
-        private Path    mPath = new Path();
+        private Paint   compassPaint = new Paint();
+        private Path    compassPath = new Path();
+        private Path breweriesPath = new Path();
+        private Paint breweriesPaint = new Paint();
         private boolean mAnimate;
 
         public CompassLayoutView(Context context) {
             super(context);
 
             // Construct a wedge-shaped path
-            mPath.moveTo(0, -200);
-            mPath.lineTo(0, 200);
-            mPath.moveTo(-200, 0);
-            mPath.lineTo(200, 0);
-            mPath.addCircle(0, 0, 200, Direction.CW);
-            mPath.addCircle(0, 0, 100, Direction.CW);
+            compassPath.moveTo(0, -200);
+            compassPath.lineTo(0, 200);
+            compassPath.moveTo(-200, 0);
+            compassPath.lineTo(200, 0);
+            compassPath.addCircle(0, 0, 200, Direction.CW);
+            compassPath.addCircle(0, 0, 100, Direction.CW);
         }
 
         @Override 
         protected void onDraw(Canvas canvas) {
             canvas.drawColor(Color.BLACK);
+            
+            if(breweryList != null && breweryList.size() > 0)
+            {
+	            for(Brewery brew : breweryList)
+	            {
+	            	List<Double> brewList = brew.getDirection();
+	            	double mappedX = brewList.get(1)*200;
+	            	double mappedY = -brewList.get(0)*200;
+	            	
+	            	breweriesPath.addCircle((float)mappedX,(float)mappedY, 5, Direction.CW);
+	            }
+            }
 
-            mPaint.setAntiAlias(true);
-            mPaint.setColor(Color.rgb(76, 122, 255));
-            mPaint.setStyle(Paint.Style.STROKE);
-            mPaint.setTextSize(20);
-            mPaint.setStrokeWidth(3);
+            compassPaint.setAntiAlias(true);
+            compassPaint.setColor(Color.rgb(76, 122, 255));
+            compassPaint.setStyle(Paint.Style.STROKE);
+            compassPaint.setTextSize(20);
+            compassPaint.setStrokeWidth(3);
+            
+            breweriesPaint.setAntiAlias(true);
+            breweriesPaint.setColor(Color.GREEN);
+            breweriesPaint.setStyle(Paint.Style.FILL);
 
             int w = canvas.getWidth();
             int cx = w / 2;
@@ -157,8 +177,9 @@ public class Compass extends Activity {
             if (mValues != null) {
                 canvas.rotate(-mValues[0]);
             }
-            canvas.drawPath(mPath, mPaint);
-            canvas.drawText("N", 0, -220, mPaint);
+            canvas.drawPath(compassPath, compassPaint);
+            canvas.drawPath(breweriesPath, breweriesPaint);
+            canvas.drawText("N", 0, -220, compassPaint);
             
         }
 
@@ -216,12 +237,17 @@ public class Compass extends Activity {
 					//Calculate the distance to a brewery in miles
 					Double mileDistance = Math.sqrt(distanceLat*distanceLat + distanceLong*distanceLong);
 					
+					Log.i(TAG, "Distance to brewery in Miles: " + mileDistance);
+					
 					//calculate the distance in degrees
 					Double degreeDistance = Math.sqrt(directionLat*directionLat + directionLong*directionLong);
 					
 					//make this a unit direction vector
 					directionLat /= degreeDistance;
 					directionLong /= degreeDistance;
+					
+					Log.i(TAG, "Directon LONG: " + directionLong + " Directon LAT: " + directionLat);
+					Log.i(TAG, "Making sure this is a unit vector: " + Math.sqrt(directionLat*directionLat + directionLong*directionLong));
 					
 					//set direction vector
 					brewery.setDirection(directionLat, directionLong);
@@ -364,6 +390,7 @@ public class Compass extends Activity {
 	{
 		Intent back = new Intent(getApplicationContext(), ThePourGameActivity.class);
 		startActivity(back);
+		locationManager.removeUpdates(locationListener);
 		finish();
 		overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 	}
