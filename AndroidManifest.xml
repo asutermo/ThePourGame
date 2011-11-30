@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BreweryFinderActivity"
+        <activity android:name=".breweryfinder.BreweryFinderActivity"
             android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".TheBeerActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".TheSodaGameActivity" android:screenOrientation="portrait"></activity>
