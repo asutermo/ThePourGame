@@ -71,7 +71,7 @@ public class BreweryFinderActivity extends MapActivity{
         places_key = getResources().getString(R.string.places_api_key);
         Log.i(TAG, "API key: " + places_key);
         breweryList = new ArrayList<Brewery>();
-        mapOverlay = new MapOverlay();
+        mapOverlay = new MapOverlay(res, R.drawable.user);
         res = getResources();
         
         Button backButton = (Button)findViewById(R.id.backButton);
@@ -172,7 +172,7 @@ public class BreweryFinderActivity extends MapActivity{
 				
 				for(Brewery brewery : breweryList)
 				{
-					mapOverlay = new MapOverlay();
+					mapOverlay = new MapOverlay(res, R.drawable.user);
 					mapOverlay.setLocationPoint(brewery.getLocation());
 					mapOverlay.onTap(brewery.getLocation(), mapView);
 					overlayList.add(mapOverlay);
@@ -202,32 +202,6 @@ public class BreweryFinderActivity extends MapActivity{
 			
 		}
     	
-    }
-    
-    private class MapOverlay extends Overlay {
-    	private GeoPoint locationPoint;
-
-		public GeoPoint getLocationPoint() {
-			return locationPoint;
-		}
-
-		public void setLocationPoint(GeoPoint locationPoint) {
-			this.locationPoint = locationPoint;
-		}
-		
-		@Override
-		public boolean draw(Canvas canvas, MapView mv, boolean shadow, long when)
-		{
-			super.draw(canvas, mv, shadow);
-			Point screenPxs = new Point();
-			
-			mv.getProjection().toPixels(locationPoint, screenPxs);
-			
-			Drawable icon = res.getDrawable(R.drawable.user);
-			
-			canvas.drawBitmap(((BitmapDrawable)icon).getBitmap(), screenPxs.x, screenPxs.y-12, null);
-			return true;
-		}
     }
     
     protected String getBreweriesJson(GeoPoint point)
@@ -361,32 +335,5 @@ public class BreweryFinderActivity extends MapActivity{
 	public void onBackPressed()
 	{
 		goToMainScreen();
-	}
-	
-	private class Brewery{
-		private String name;
-		private GeoPoint point;
-		private String address;
-		
-		public Brewery(String name, GeoPoint location, String address)
-		{
-			this.name = name;
-			this.address = address;
-			this.point = location;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public GeoPoint getLocation() {
-			return point;
-		}
-
-		public String getAddress() {
-			return address;
-		}
-		
-		
 	}
 }

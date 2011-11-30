@@ -18,10 +18,12 @@ public class Compass extends GraphicsActivity {
     private Sensor mSensor;
     private SampleView mView;
     private float[] mValues;
+    private static final boolean debug = false;
 
     private final SensorEventListener mListener = new SensorEventListener() {
         public void onSensorChanged(SensorEvent event) {
-            if (false) Log.d(TAG, "sensorChanged (" + event.values[0] + ", " + event.values[1] + ", " + event.values[2] + ")");
+            if (debug) 
+            	Log.d(TAG, "sensorChanged (" + event.values[0] + ", " + event.values[1] + ", " + event.values[2] + ")");
             mValues = event.values;
             if (mView != null) {
                 mView.invalidate();
@@ -44,7 +46,8 @@ public class Compass extends GraphicsActivity {
     @Override
     protected void onResume()
     {
-        if (false) Log.d(TAG, "onResume");
+        if (debug) 
+        	Log.d(TAG, "onResume");
         super.onResume();
 
         mSensorManager.registerListener(mListener, mSensor,
@@ -54,7 +57,8 @@ public class Compass extends GraphicsActivity {
     @Override
     protected void onStop()
     {
-        if (false) Log.d(TAG, "onStop");
+        if (debug) 
+        	Log.d(TAG, "onStop");
         mSensorManager.unregisterListener(mListener);
         super.onStop();
     }
@@ -75,13 +79,14 @@ public class Compass extends GraphicsActivity {
             mPath.close();
         }
 
-        @Override protected void onDraw(Canvas canvas) {
+        @Override 
+        protected void onDraw(Canvas canvas) {
             Paint paint = mPaint;
 
-            canvas.drawColor(Color.WHITE);
+            canvas.drawColor(Color.BLACK);
 
             paint.setAntiAlias(true);
-            paint.setColor(Color.BLACK);
+            paint.setColor(Color.WHITE);
             paint.setStyle(Paint.Style.FILL);
 
             int w = canvas.getWidth();
@@ -99,14 +104,16 @@ public class Compass extends GraphicsActivity {
         @Override
         protected void onAttachedToWindow() {
             mAnimate = true;
-            if (false) Log.d(TAG, "onAttachedToWindow. mAnimate=" + mAnimate);
+            if (debug) 
+            	Log.d(TAG, "onAttachedToWindow. mAnimate=" + mAnimate);
             super.onAttachedToWindow();
         }
 
         @Override
         protected void onDetachedFromWindow() {
             mAnimate = false;
-            if (false) Log.d(TAG, "onDetachedFromWindow. mAnimate=" + mAnimate);
+            if (debug) 
+            	Log.d(TAG, "onDetachedFromWindow. mAnimate=" + mAnimate);
             super.onDetachedFromWindow();
         }
     }
