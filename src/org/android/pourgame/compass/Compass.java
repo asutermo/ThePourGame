@@ -59,7 +59,6 @@ public class Compass extends Activity {
 	private ProgressDialog progressDialog;
 	private String places_key;
 	private List<Brewery> breweryList;
-	private Resources res;
 	private Location currentLocation;
 	private static boolean firstPass;
 	private static boolean locationChanged;
@@ -139,7 +138,6 @@ public class Compass extends Activity {
         private Brewery nearestBrewery;
         double nearestBrewMappedX;
         double nearestBrewMappedY;
-        double nearestBrewDistTrans;
         
         Integer w, h;
         Integer circleRadius;
@@ -170,9 +168,11 @@ public class Compass extends Activity {
             
             if(breweryList != null && breweryList.size() > 0 && locationChanged)
             {
+            	breweriesPath = new Path();
+            	nearestBreweryPath = new Path();
+            	Double minDist = null;
 	            for(Brewery brew : breweryList)
 	            {
-	            	Double minDist = null;
 	            	double distanceTrans;
 	            	if(brew.getDistance() < .5)
 	            	{
@@ -180,19 +180,18 @@ public class Compass extends Activity {
 	            	}else{
 	            		distanceTrans = circleRadius;
 	            	}
-	            	List<Double> brewList = brew.getDirection();
-	            	double mappedX = brewList.get(1)*distanceTrans;
-	            	double mappedY = -brewList.get(0)*distanceTrans;
+	            	List<Double> dirList = brew.getDirection();
+	            	double mappedX = dirList.get(1)*distanceTrans;
+	            	double mappedY = -dirList.get(0)*distanceTrans;
 	            	
 	            	breweriesPath.addCircle((float)mappedX,(float)mappedY, 7, Direction.CW);
 	            	
 	            	if(minDist == null || brew.getDistance() < minDist)
 	            	{
+	            		minDist = brew.getDistance();
 	            		nearestBrewery = brew;
 	            		nearestBrewMappedX = mappedX;
 	            		nearestBrewMappedY = mappedY;
-	            		nearestBrewDistTrans = distanceTrans;
-	            		
 	            	}
 	            }
 	            
