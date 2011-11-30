@@ -62,6 +62,7 @@ public class Compass extends Activity {
 	private Resources res;
 	private Location currentLocation;
 	private static boolean firstPass;
+	private static boolean locationChanged;
 
     private final SensorEventListener mListener = new SensorEventListener() {
         public void onSensorChanged(SensorEvent event) {
@@ -87,6 +88,7 @@ public class Compass extends Activity {
         CONTEXT = this;
         
         firstPass = true;
+        locationChanged = false;
         
         breweryList = new ArrayList<Brewery>();
         
@@ -129,34 +131,60 @@ public class Compass extends Activity {
         private Path    compassPath = new Path();
         private Path breweriesPath = new Path();
         private Paint breweriesPaint = new Paint();
+        private Paint infoPaint = new Paint();
         private boolean mAnimate;
+        private boolean initialized;
+        
+        Integer w, h;
+        Integer circleRadius;
 
         public CompassLayoutView(Context context) {
             super(context);
-
-            // Construct a wedge-shaped path
-            compassPath.moveTo(0, -200);
-            compassPath.lineTo(0, 200);
-            compassPath.moveTo(-200, 0);
-            compassPath.lineTo(200, 0);
-            compassPath.addCircle(0, 0, 200, Direction.CW);
-            compassPath.addCircle(0, 0, 100, Direction.CW);
+            
+            initialized = false;
         }
 
         @Override 
         protected void onDraw(Canvas canvas) {
             canvas.drawColor(Color.BLACK);
+            w = canvas.getWidth();
+            h = canvas.getHeight();
             
-            if(breweryList != null && breweryList.size() > 0)
+            circleRadius = w/2-30;
+            
+            if(!initialized){
+	            compassPath.moveTo(0, -circleRadius);
+	            compassPath.lineTo(0, circleRadius);
+	            compassPath.moveTo(-circleRadius, 0);
+	            compassPath.lineTo(circleRadius, 0);
+	            compassPath.addCircle(0, 0, circleRadius, Direction.CW);
+	            compassPath.addCircle(0, 0, circleRadius/2, Direction.CW);
+	            initialized = true;
+            }
+            
+            
+            Log.i(TAG, circleRadius.toString());
+            
+            
+            if(breweryList != null && breweryList.size() > 0 && locationChanged)
             {
 	            for(Brewery brew : breweryList)
 	            {
+	            	double distanceTrans;
+	            	if(brew.getDistance() < .5)
+	            	{
+	            		distanceTrans = brew.getDistance()*2*circleRadius;
+	            	}else{
+	            		distanceTrans = circleRadius;
+	            	}
 	            	List<Double> brewList = brew.getDirection();
-	            	double mappedX = brewList.get(1)*200;
-	            	double mappedY = -brewList.get(0)*200;
+	            	double mappedX = brewList.get(1)*distanceTrans;
+	            	double mappedY = -brewList.get(0)*distanceTrans;
 	            	
-	            	breweriesPath.addCircle((float)mappedX,(float)mappedY, 5, Direction.CW);
+	            	breweriesPath.addCircle((float)mappedX,(float)mappedY, 7, Direction.CW);
 	            }
+	            
+	            locationChanged = false;
             }
 
             compassPaint.setAntiAlias(true);
@@ -168,18 +196,26 @@ public class Compass extends Activity {
             breweriesPaint.setAntiAlias(true);
             breweriesPaint.setColor(Color.GREEN);
             breweriesPaint.setStyle(Paint.Style.FILL);
+            
+            infoPaint.setAntiAlias(true);
+            infoPaint.setColor(Color.WHITE);
+            infoPaint.setTextSize(40);
 
-            int w = canvas.getWidth();
+            
             int cx = w / 2;
-            int cy = 250;
+            int cy = circleRadius+30;
+            
+            canvas.drawText("Heading: " + (int)mValues[0], 10, circleRadius*2 + 100, infoPaint);
 
             canvas.translate(cx, cy);
+            
+            
             if (mValues != null) {
                 canvas.rotate(-mValues[0]);
             }
             canvas.drawPath(compassPath, compassPaint);
             canvas.drawPath(breweriesPath, breweriesPaint);
-            canvas.drawText("N", 0, -220, compassPaint);
+            canvas.drawText("N", -10, -circleRadius - 20, compassPaint);
             
         }
 
@@ -247,7 +283,6 @@ public class Compass extends Activity {
 					directionLong /= degreeDistance;
 					
 					Log.i(TAG, "Directon LONG: " + directionLong + " Directon LAT: " + directionLat);
-					Log.i(TAG, "Making sure this is a unit vector: " + Math.sqrt(directionLat*directionLat + directionLong*directionLong));
 					
 					//set direction vector
 					brewery.setDirection(directionLat, directionLong);
@@ -255,6 +290,8 @@ public class Compass extends Activity {
 					//set distance from current location in miles
 					brewery.setDistance(mileDistance);
 				}
+				
+				locationChanged = true;
 			}
 			
 		}
