@@ -28,7 +28,7 @@
         <activity android:name=".TheBeerActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".TheSodaGameActivity" android:screenOrientation="portrait"></activity>
      	<activity android:name=".TheChampagneActivity" android:screenOrientation="portrait"></activity>
-     	<activity android:name=".compass.Compass" android:screenOrientation="portrait"></activity>
+     	<activity android:name=".compass.BeerdarView" android:screenOrientation="portrait"></activity>
  
     </application>
 </manifest>

@@ -28,7 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-public class Compass extends Activity {
+public class BeerdarView extends Activity {
 
     private static final String TAG = "Compass";
 

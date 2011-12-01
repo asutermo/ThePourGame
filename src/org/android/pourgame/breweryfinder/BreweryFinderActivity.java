@@ -194,10 +194,6 @@ public class BreweryFinderActivity extends MapActivity{
     private class MapOverlay extends Overlay {
     	private GeoPoint locationPoint;
     	private boolean isBrewery;
-
-		public GeoPoint getLocationPoint() {
-			return locationPoint;
-		}
 		
 		public MapOverlay(boolean isBrewery)
 		{
