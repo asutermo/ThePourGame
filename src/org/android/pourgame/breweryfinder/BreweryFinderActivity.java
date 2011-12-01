@@ -47,6 +47,7 @@ public class BreweryFinderActivity extends MapActivity{
 	private List<Brewery> breweryList;
 	private MapOverlay mapOverlay;
 	private Resources res;
+	private static boolean firstPass;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class BreweryFinderActivity extends MapActivity{
         Log.i(TAG, "API key: " + places_key);
         breweryList = new ArrayList<Brewery>();
         res = getResources();
+        firstPass = true;
         
         Button backButton = (Button)findViewById(R.id.backButton);
         
@@ -76,7 +78,7 @@ public class BreweryFinderActivity extends MapActivity{
         initProgressDialog();
         
         progressDialog.show();
-        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, null);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
         
         //TODO: Search for nearby breweries from current location
         
@@ -138,26 +140,31 @@ public class BreweryFinderActivity extends MapActivity{
 				//Animates the map to your current location
 				mapController.animateTo(point);
 				
-				mapOverlay = new MapOverlay(false);
-				
-				mapOverlay.setLocationPoint(point);
-				List<Overlay> overlayList = mapView.getOverlays();
-				overlayList.clear();
-				overlayList.add(mapOverlay);
-				
-				progressDialog.dismiss();
-				
-				
-				String jsonStringBreweries = UtilFunctions.getBreweriesJson(location, places_key);
-				Log.i(TAG, jsonStringBreweries);
-				
-				breweryList = UtilFunctions.parseJsonObjects(jsonStringBreweries);
-				
-				for(Brewery brewery : breweryList)
-				{
-					mapOverlay = new MapOverlay(true);
-					mapOverlay.setLocationPoint(UtilFunctions.locationToPoint(brewery.getLocation()));
+				if(firstPass){
+					mapOverlay = new MapOverlay(false);
+					
+					mapOverlay.setLocationPoint(point);
+					List<Overlay> overlayList = mapView.getOverlays();
+					overlayList.clear();
 					overlayList.add(mapOverlay);
+					
+					progressDialog.dismiss();
+					
+					
+					String jsonStringBreweries = UtilFunctions.getBreweriesJson(location, places_key);
+					Log.i(TAG, jsonStringBreweries);
+					
+					breweryList = UtilFunctions.parseJsonObjects(jsonStringBreweries);
+					
+					for(Brewery brewery : breweryList)
+					{
+						MapOverlay breweryMapOverlay = new MapOverlay(true);
+						breweryMapOverlay.setLocationPoint(UtilFunctions.locationToPoint(brewery.getLocation()));
+						overlayList.add(breweryMapOverlay);
+					}
+					firstPass = false;
+				}else{
+					mapOverlay.setLocationPoint(point);
 				}
 				
 				//Redraws the scene. I have no idea why this is here but I found it in a tutorial
@@ -231,7 +238,15 @@ public class BreweryFinderActivity extends MapActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        
+        progressDialog.show();
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
+    }
+    
+    @Override
+    protected void onPause()
+    {
+    	super.onPause();
+    	locationManager.removeUpdates(locationListener);
     }
     
     @Override
