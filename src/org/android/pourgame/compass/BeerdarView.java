@@ -217,7 +217,10 @@ public class BeerdarView extends Activity {
             int cx = w / 2;
             int cy = circleRadius+30;
             
-            canvas.drawText("Heading: " + (int)mValues[0], 10, circleRadius*2 + 100, infoPaint);
+            if(mValues != null)
+            {
+            	canvas.drawText("Heading: " + (int)mValues[0], 10, circleRadius*2 + 100, infoPaint);
+            }
             canvas.drawText("Nearest Brewery:", 10, circleRadius*2 + 150, infoPaint);
             if(nearestBrewery != null)
             {
