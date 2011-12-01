@@ -84,8 +84,8 @@ public class BeerdarView extends Activity {
         locationListener = new CompassLocationListener();
         
         initProgressDialog();
-        
-        progressDialog.show();
+//        
+//        progressDialog.show();
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
     }
 
@@ -308,10 +308,14 @@ public class BeerdarView extends Activity {
 					
 					//set distance from current location in miles
 					brewery.setDistance(mileDistance);
+					
 				}
-				
 				locationChanged = true;
+			}else
+			{
+				progressDialog.show();
 			}
+			
 			
 		}
 		
