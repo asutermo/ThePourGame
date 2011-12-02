@@ -65,6 +65,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
         	sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
         }
         
+        
         //imgView = (ImageView)findViewById(R.id.ImageView01);
         
         //imgView.setImageResource(R.drawable.logo);
@@ -80,6 +81,8 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
     @Override
     protected void onResume() {
     	shakeCount = 0;
+    	paintCoasterView = new PaintCoasterView(this);
+        setContentView(paintCoasterView);
         super.onResume();
     }
     
