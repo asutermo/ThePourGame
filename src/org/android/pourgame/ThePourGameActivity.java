@@ -137,7 +137,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	public void left()
 	{
 		Log.d("beerGame", "Loading beer pouring game");
-		paintCoasterView.setVisibility(View.GONE);
+		//paintCoasterView.setVisibility(View.GONE);
 		killSensor();
 		Intent previous = new Intent(getApplicationContext(), TheBeerActivity.class);
 		startActivity(previous);
@@ -150,7 +150,7 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	{
 		Log.d("breweryFinder", "Loading brewery finder");
 		Intent next = new Intent(getApplicationContext(), BreweryFinderActivity.class);
-		paintCoasterView.setVisibility(View.GONE);
+		//paintCoasterView.setVisibility(View.GONE);
 		killSensor();
 		startActivity(next);
 		finish();
@@ -161,11 +161,25 @@ public class ThePourGameActivity extends Activity implements OnGestureListener, 
 	public void up()
 	{
 		Log.d("Compass", "Loading brewery finder");
-		Intent next = new Intent(getApplicationContext(), BeerdarView.class);
-		paintCoasterView.setVisibility(View.GONE);
+		Intent up = new Intent(getApplicationContext(), BeerdarView.class);
+		//paintCoasterView.setVisibility(View.GONE);
 		killSensor();
-		startActivity(next);
+		startActivity(up);
 		finish();
+		
+		overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
+	}
+	
+	public void down()
+	{
+		Log.d("Gestures", "Loading gesture helper");
+		Intent down = new Intent(getApplicationContext(), GestureActivity.class);
+		//paintCoasterView.setVisibility(View.GONE);
+		killSensor();
+		startActivity(down);
+		finish();
+		
+		overridePendingTransition(R.anim.push_bottom_in, R.anim.push_bottom_out);
 	}
 	
 	@Override
