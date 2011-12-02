@@ -27,7 +27,7 @@ public class PaintCoasterView extends View {
 	private float ballSpeedX = 0;  // Ball's speed (x,y)
 	private float ballSpeedY = 0;
 	private Path circle = new Path();
-	private Path llabel = new Path(), rlabel = new Path();
+	private Path llabel = new Path(), rlabel = new Path(), tlabel = new Path(), blabel = new Path();
 	private RectF ballBounds;      // Needed for Canvas.drawOval
 	private Paint cPaint, tPaint, lPaint;           // The paint (e.g. style, color) used for drawing
 	private String QUOTE = "College is like a fountain of Knowledge, and the students there like to drink.";
@@ -56,6 +56,7 @@ public class PaintCoasterView extends View {
 		display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		setSideLabel(rlabel, display.getWidth() - 30, display.getHeight()/2 - 90, false);
 		setSideLabel(llabel, 30, display.getHeight()/2 - 15, true);
+		setTBLabel(tlabel, display.getWidth()/2-80, 40);
 		Resources res = getResources();
         logo = res.getDrawable(R.drawable.logo);
         pourbeer = res.getDrawable(R.drawable.pourbeer);
@@ -66,9 +67,11 @@ public class PaintCoasterView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		canvas.drawTextOnPath("Game", llabel, 0, 0, lPaint);
-		canvas.drawTextOnPath("GPS", rlabel, 0, 0, lPaint);
+		canvas.drawTextOnPath("Brewery Map", rlabel, 0, 0, lPaint);
+		canvas.drawTextOnPath("Beerdar", tlabel, 0, 0, lPaint);
 		canvas.drawBitmap(((BitmapDrawable) pourbeer).getBitmap(), 10, display.getHeight()/2 - 175, lPaint);
 		canvas.drawBitmap(((BitmapDrawable) satellite).getBitmap(), display.getWidth()-100, display.getHeight()/2, lPaint);
+		
 		
 		// Draw the ball
 		ballBounds.set(ballX-ballRadius, ballY-ballRadius, ballX+ballRadius, ballY+ballRadius);
@@ -182,6 +185,11 @@ public class PaintCoasterView extends View {
 			path.lineTo(x, y-150);
 		else
 			path.lineTo(x, y+150);
+	}
+	
+	public void setTBLabel(Path path, float x, float y) {
+		path.setLastPoint(x, y);
+		path.lineTo(x+150, y);
 	}
 	
 	public boolean hitLeftWall() {

@@ -8,6 +8,8 @@
     <string name="left_label"><u>B</u>eer Game</string>
     <string name="left_up_label"><u>S</u>oda Game</string>
     <string name="left_down_label"><u>C</u>hampagne Game</string>
+    <string name="main_bottom_label">Gesture Help</string>
+    <string name="main_top_label">Beerdar</string>
     <string name="right_label"></string>
     <string name="gestures">Gestures</string>
 	<string name="places_api_key">AIzaSyC0Dnlm3Ghexg8u4sWsxv14cy_S-izE-Uc</string>
