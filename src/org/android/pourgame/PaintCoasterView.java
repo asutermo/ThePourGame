@@ -54,9 +54,10 @@ public class PaintCoasterView extends View {
 		circle.addCircle(ballX, ballY, ballRadius, Direction.CW);
 		
 		display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-		setSideLabel(rlabel, display.getWidth() - 30, display.getHeight()/2 - 90, false);
+		setSideLabel(rlabel, display.getWidth() - 30, display.getHeight()/2 - 120, false);
 		setSideLabel(llabel, 30, display.getHeight()/2 - 15, true);
-		setTBLabel(tlabel, display.getWidth()/2-80, 40);
+		setTBLabel(tlabel, display.getWidth()/2-80, 40, true);
+		setTBLabel(blabel, display.getWidth()/2-110, display.getHeight()-40, false);
 		Resources res = getResources();
         logo = res.getDrawable(R.drawable.logo);
         pourbeer = res.getDrawable(R.drawable.pourbeer);
@@ -69,8 +70,9 @@ public class PaintCoasterView extends View {
 		canvas.drawTextOnPath("Game", llabel, 0, 0, lPaint);
 		canvas.drawTextOnPath("Brewery Map", rlabel, 0, 0, lPaint);
 		canvas.drawTextOnPath("Beerdar", tlabel, 0, 0, lPaint);
-		canvas.drawBitmap(((BitmapDrawable) pourbeer).getBitmap(), 10, display.getHeight()/2 - 175, lPaint);
-		canvas.drawBitmap(((BitmapDrawable) satellite).getBitmap(), display.getWidth()-100, display.getHeight()/2, lPaint);
+		canvas.drawTextOnPath("Gestures Help", blabel, 0, 0, lPaint);
+		//canvas.drawBitmap(((BitmapDrawable) pourbeer).getBitmap(), 10, display.getHeight()/2 - 175, lPaint);
+		//canvas.drawBitmap(((BitmapDrawable) satellite).getBitmap(), display.getWidth()-100, display.getHeight()/2, lPaint);
 		
 		
 		// Draw the ball
@@ -182,14 +184,18 @@ public class PaintCoasterView extends View {
 	public void setSideLabel(Path path, float x, float y, boolean flip) {
 		path.setLastPoint(x, y);
 		if(flip)
-			path.lineTo(x, y-150);
+			path.lineTo(x, y-250);
 		else
-			path.lineTo(x, y+150);
+			path.lineTo(x, y+250);
 	}
 	
-	public void setTBLabel(Path path, float x, float y) {
+	public void setTBLabel(Path path, float x, float y, boolean tb) {
 		path.setLastPoint(x, y);
-		path.lineTo(x+150, y);
+		
+		if (tb)
+			path.lineTo(x+150, y);
+		else
+			path.lineTo(x-150, y);
 	}
 	
 	public boolean hitLeftWall() {
