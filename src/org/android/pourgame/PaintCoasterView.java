@@ -57,7 +57,7 @@ public class PaintCoasterView extends View {
 		setSideLabel(rlabel, display.getWidth() - 30, display.getHeight()/2 - 120, false);
 		setSideLabel(llabel, 30, display.getHeight()/2 - 15, true);
 		setTBLabel(tlabel, display.getWidth()/2-80, 40, true);
-		setTBLabel(blabel, display.getWidth()/2-110, display.getHeight()-40, false);
+		setTBLabel(blabel, display.getWidth()/2-80, display.getHeight()-90, false);
 		Resources res = getResources();
         logo = res.getDrawable(R.drawable.logo);
         pourbeer = res.getDrawable(R.drawable.pourbeer);
@@ -195,7 +195,7 @@ public class PaintCoasterView extends View {
 		if (tb)
 			path.lineTo(x+150, y);
 		else
-			path.lineTo(x-150, y);
+			path.lineTo(x+150, y);
 	}
 	
 	public boolean hitLeftWall() {
