@@ -39,6 +39,8 @@ public class TheBeerActivity extends DrinkActivity implements OnGesturePerformed
         CONTEXT = this;
         gestureDetector = new GestureDetector(this, this);
         Log.d("Beer Game", "Beer Game Created");
+        BeerView view = new BeerView(CONTEXT);
+		view.setRenderer(new FluidRenderer());
         
         //initiate accelerometer
         sensor = (SensorManager)getSystemService(SENSOR_SERVICE);
