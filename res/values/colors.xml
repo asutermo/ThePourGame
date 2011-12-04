@@ -1,4 +1,5 @@
 
     <resources>
         <color name="background">#3500ffff</color>
+        <color name="translucent">#5000</color>
     </resources>

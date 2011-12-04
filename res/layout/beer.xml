@@ -1,41 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:screenOrientation="portrait"
-    android:background="#000000"
-    android:orientation="vertical" >
-     <ImageView
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content"
-		android:src="@drawable/up"
-		android:layout_centerHorizontal="true" />
-     <ImageView
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content"
-		android:src="@drawable/down"
-		android:layout_alignParentBottom="true"
-		android:layout_centerHorizontal="true" />
-     <ImageView
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content"
-		android:src="@drawable/right"
-		android:layout_alignParentRight="true"
-		android:layout_centerVertical="true" />	<Button  
-        android:id="@+id/GestureButton"  
-        android:layout_width="wrap_content"  
-        android:layout_height="wrap_content"  
-        android:text="@string/gestures"  
-        android:minHeight="40dp"  
-        android:textSize="22dp"  
-        android:layout_alignParentRight="true"
-        android:onClick="onButtonClick"></Button>  
-    <TextView
+    android:layout_height="fill_parent" >
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="25dip"
-        android:layout_alignParentLeft="true"
-        android:text="@string/left_label"
-        android:textSize="24.5sp" />
-</RelativeLayout>
+        android:background="#000000"
+        android:orientation="vertical"
+        android:screenOrientation="portrait" >
+            
+        <org.android.pourgame.BeerView
+            android:id="@+id/beerfluid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/up" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/down" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/right" />
+
+        <Button
+            android:id="@+id/GestureButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:minHeight="40dp"
+            android:onClick="onButtonClick"
+            android:text="@string/gestures"
+            android:textSize="22dp" >
+        </Button>
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="25dip"
+            android:text="@string/left_label"
+            android:textSize="24.5sp" />
+
+        
+
+    </RelativeLayout>
+
+</FrameLayout>
