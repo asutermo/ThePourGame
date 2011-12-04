@@ -10,14 +10,18 @@ public class BeerView extends FluidView{
 		super(context);
 		this.setZOrderMediaOverlay(false);
 		this.setZOrderOnTop(false);
-		setRenderer(new BeerRenderer());
+		BeerRenderer renderer = new BeerRenderer();
+		renderer.initSquare(context);
+		setRenderer(renderer);
 		// TODO Auto-generated constructor stub
 	}
 	
 	public BeerView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		Log.d("BeerView", "Created and running");
-		setRenderer(new BeerRenderer());
+		BeerRenderer renderer = new BeerRenderer();
+		renderer.initSquare(context);
+		setRenderer(renderer);
 		// TODO Auto-generated constructor stub
 	}
 }
