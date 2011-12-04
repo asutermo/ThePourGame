@@ -1,4 +1,5 @@
 /bin
+/gen
 *.apk
 *.class
 R.java
