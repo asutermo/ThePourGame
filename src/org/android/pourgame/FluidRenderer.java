@@ -8,14 +8,15 @@ import android.opengl.GLSurfaceView.Renderer;
 
 public abstract class FluidRenderer implements Renderer {
 	
-	protected Square square;
+	protected Square beverageSquare;
 	protected float angle = 90;
 	protected int width, height;
 	protected float emptiness = 1.0f;
+	protected float headedness = 1.0f;
 	
 	public void initSquare(Context context) {
-		square = new BeerSquare();
-		square.loadBitmaps(context);
+		beverageSquare = new BeerSquare();
+		beverageSquare.loadBitmap(context, R.drawable.beer);
 	}
 	
 	@Override
@@ -54,9 +55,11 @@ public abstract class FluidRenderer implements Renderer {
 		gl.glTranslatef(-emptiness, 0, 0);
 		gl.glRotatef(angle, 0, 0, 1);
 		// Draw square.
-		square.draw(gl);
+		beverageSquare.draw(gl);
 		// Restore the last matrix.
 		gl.glPopMatrix();
+		
+		
 	}
 
 	@Override

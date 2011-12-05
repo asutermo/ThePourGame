@@ -5,6 +5,12 @@
     android:screenOrientation="portrait"
     android:background="#000000"
     android:orientation="vertical" >
+    
+    <org.android.pourgame.SodaView
+            android:id="@+id/sodafluid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    
     <ImageView
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content"

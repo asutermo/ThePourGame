@@ -15,8 +15,8 @@ import android.util.Log;
 public class SodaRenderer extends FluidRenderer {
 	
 	public void initSquare(Context context) {
-		square = new SodaSquare();
-		square.loadBitmaps(context);
+		beverageSquare = new Square();
+		//square.loadBitmap(context, R.drawable.soda);
 	}
 	
 }

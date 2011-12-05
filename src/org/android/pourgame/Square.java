@@ -11,11 +11,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
 
-public abstract class Square {
+public class Square {
 	// Our vertices.
+	protected Bitmap bitmap;
 	protected int textureId = -1;
-	protected Bitmap beverageBitmap, headBitmap;
-	protected int beverageTextureId, headTextureId;
 	protected boolean texturize = true;
 	
 	protected float vertices[] = {
@@ -65,8 +64,8 @@ public abstract class Square {
 		textureBuffer.position(0);
 	}
 	
-	public void loadBitmaps(Context context) {
-		
+	public void loadBitmap(Context context, int id) {
+		bitmap = BitmapFactory.decodeResource(context.getResources(), id);
 	}
 	
 
@@ -94,14 +93,14 @@ public abstract class Square {
 			loadGLTexture(gl);
 			texturize = false;
 		}
-		if (beverageTextureId != -1) {
+		if (textureId != -1) {
 			gl.glEnable(GL10.GL_TEXTURE_2D);
 			// Enable the texture state
 			gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 	 
 			// Point to our buffers
 			gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
-			gl.glBindTexture(GL10.GL_TEXTURE_2D, beverageTextureId);
+			gl.glBindTexture(GL10.GL_TEXTURE_2D, textureId);
 		}
 	 
 		gl.glDrawElements(GL10.GL_TRIANGLES, indices.length,
@@ -118,13 +117,12 @@ public abstract class Square {
 	
 	private void loadGLTexture(GL10 gl) {
 		// Generate one texture pointer...
-		int[] textures = new int[2];
-		gl.glGenTextures(2, textures, 0);
-		beverageTextureId = textures[0];
-		headTextureId = textures[1];
+		int[] textures = new int[1];
+		gl.glGenTextures(1, textures, 0);
+		textureId = textures[0];
 	 
 		// ...and bind it to our array
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, beverageTextureId);
+		gl.glBindTexture(GL10.GL_TEXTURE_2D, textureId);
 	 
 		// Create Nearest Filtered Texture
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER,
@@ -138,7 +136,7 @@ public abstract class Square {
 
 		// Use the Android GLUtils to specify a two-dimensional texture image
 		// from our bitmap
-		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, beverageBitmap, 0);
+		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 	}
 
 }

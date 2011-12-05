@@ -10,9 +10,9 @@ import android.util.Log;
 
 public class BeerSquare extends Square {
 
-	public void loadBitmaps(Context context) {
-		beverageBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.beer);
-		headBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.head);
-	}
+//	public void loadBitmaps(Context context) {
+//		bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.beer);
+//		headBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.head);
+//	}
 	
 }
