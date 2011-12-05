@@ -12,10 +12,10 @@ import android.util.Log;
 
 
 
-public class BeerRenderer extends FluidRenderer {
+public class ChampagneRenderer extends FluidRenderer {
 	
 	public void initSquare(Context context) {
-		square = new BeerSquare();
+		square = new ChampagneSquare();
 		square.loadBitmaps(context);
 	}
 	
