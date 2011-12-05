@@ -29,6 +29,7 @@ OnGestureListener {
 	private GestureLibrary mLibrary;
 	private boolean gestureEngaged;
 	private GestureOverlayView gestures;
+	private SodaView view;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ OnGestureListener {
         CONTEXT = this;
         gestureDetector = new GestureDetector(this, this);
         Log.d("Soda Game", "Soda Game Created");//initiate accelerometer
+        view = (SodaView) findViewById(R.id.sodafluid);
         sensor = (SensorManager)getSystemService(SENSOR_SERVICE);
         boolean orientation = sensor.registerListener(this, sensor.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_GAME);
        
@@ -154,8 +156,23 @@ OnGestureListener {
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		// TODO Auto-generated method stub
-		
+		Log.d("Sensor", "Sensor Type: " + event.sensor.getType());
+		if (event.sensor.getType() == Sensor.TYPE_ORIENTATION)
+		{
+			float roll = event.values[2];
+			Log.d("Roll: ", "" + roll);
+			if (roll > 35 && roll < 55) {
+				view.fillGlass(PERFECT_POUR);
+				Log.d("Readout: ", "Good pour!");
+			}
+			else if (roll > 55) {
+				view.fillGlass(FAST_POUR);
+				Log.d("Readout: ", "Too much!");
+			}
+			else if (roll < 35) {
+			    //view.fillGlass(SLOW_POUR);
+				Log.d("Readout: ", "Too little!");
+			}
+		}
 	}
-
 }

@@ -16,7 +16,7 @@ public class SodaRenderer extends FluidRenderer {
 	
 	public void initSquare(Context context) {
 		beverageSquare = new Square();
-		//square.loadBitmap(context, R.drawable.soda);
+		beverageSquare.loadBitmap(context, R.drawable.soda);
 	}
 	
 }
