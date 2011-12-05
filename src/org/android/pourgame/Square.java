@@ -28,10 +28,10 @@ public class Square {
 	protected short[] indices = { 0, 1, 2, 0, 2, 3 };
 
 	protected float textureCoordinates[] = {
-			0.0f, 1.0f,
+			0.0f, 2.0f,
 			0.0f, 0.0f,
-			1.0f, 0.0f,
-            1.0f, 1.0f,
+			2.0f, 0.0f,
+            2.0f, 2.0f,
     };
 	
 	// Our vertex buffer.

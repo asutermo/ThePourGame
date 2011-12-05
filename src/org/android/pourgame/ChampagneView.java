@@ -19,7 +19,7 @@ public class ChampagneView extends FluidView{
 	
 	public ChampagneView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		Log.d("BeerView", "Created and running");
+		Log.d("ChampagneView", "Created and running");
 		renderer = new ChampagneRenderer();
 		renderer.initSquare(context);
 		setRenderer(renderer);

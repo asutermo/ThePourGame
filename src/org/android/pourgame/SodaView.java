@@ -20,7 +20,7 @@ public class SodaView extends FluidView {
 	
 	public SodaView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		Log.d("BeerView", "Created and running");
+		Log.d("SodaView", "Created and running");
 		renderer = new SodaRenderer();
 		renderer.initSquare(context);
 		setRenderer(renderer);
