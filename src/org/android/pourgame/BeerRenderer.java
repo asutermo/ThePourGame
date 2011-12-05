@@ -1,9 +1,14 @@
 package org.android.pourgame;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
 import android.opengl.GLU;
+import android.util.Log;
 
 
 
@@ -11,6 +16,7 @@ public class BeerRenderer extends FluidRenderer {
 	
 	public Square square;
 	private float angle;
+	private int width, height;
 	
 	public void initSquare(Context context) {
 		square = new Square();
@@ -40,65 +46,38 @@ public class BeerRenderer extends FluidRenderer {
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 		// Replace the current matrix with the identity matrix
 		gl.glLoadIdentity();
-		// Translates 10 units into the screen.
-		gl.glTranslatef(0, 0, -10); 
-
-		// SQUARE A
 		// Save the current matrix.
 		gl.glPushMatrix();
-		// Rotate square A counter-clockwise.
-		gl.glRotatef(angle, 0, 0, 1);
-		// Draw square A.
+		
+		// Rotate square counter-clockwise 90 degrees.
+		// Translate by half the width of the screen.
+		// Scale by __________
+		gl.glTranslatef(0, 0, 0);
+		gl.glRotatef(90, 0, 0, 1);
+		// Draw square.
 		square.draw(gl);
 		// Restore the last matrix.
 		gl.glPopMatrix();
 
-		// SQUARE B
-		// Save the current matrix
-		gl.glPushMatrix();
-		// Rotate square B before moving it, making it rotate around A.
-		gl.glRotatef(-angle, 0, 0, 1);
-		// Move square B.
-		gl.glTranslatef(2, 0, 0);
-		// Scale it to 50% of square A
-		gl.glScalef(.5f, .5f, .5f);
-		// Draw square B.
-		square.draw(gl);			
-
-		// SQUARE C
-		// Save the current matrix
-		gl.glPushMatrix();
-		// Make the rotation around B
-		gl.glRotatef(-angle, 0, 0, 1);
-		gl.glTranslatef(2, 0, 0);
-		// Scale it to 50% of square B
-		gl.glScalef(.5f, .5f, .5f);
-		// Rotate around it's own center.
-		gl.glRotatef(angle*10, 0, 0, 1);
-		// Draw square C.
-		square.draw(gl);
-
-		// Restore to the matrix as it was before C.
-		gl.glPopMatrix();
-		// Restore to the matrix as it was before B.
-		gl.glPopMatrix();
-
-		// Increse the angle.
 		angle++;
 	}
 
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
 		// Sets the current view port to the new size.
+		this.width = width;
+		this.height = height;
 		gl.glViewport(0, 0, width, height);
+
 		// Select the projection matrix
 		gl.glMatrixMode(GL10.GL_PROJECTION);
 		// Reset the projection matrix
 		gl.glLoadIdentity();
 		// Calculate the aspect ratio of the window
-		GLU.gluPerspective(gl, 45.0f,
-                                   (float) width / (float) height,
-                                   0.1f, 100.0f);
+//		GLU.gluPerspective(gl, 45.0f,
+//                                   (float) width / (float) height,
+//                                   0.1f, 100.0f);
+		gl.glOrthof(0.0f, 1.0f, 0.0f, 1.0f, -1.0f, 1.0f);
 		// Select the modelview matrix
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		// Reset the modelview matrix

@@ -28,11 +28,10 @@ public class Square {
 	private short[] indices = { 0, 1, 2, 0, 2, 3 };
 
 	float textureCoordinates[] = {
-			0.0f, 0.0f,
 			0.0f, 1.0f,
             1.0f, 1.0f,
-            1.0f, 0.0f 
-    };
+            0.0f, 0.0f,
+            1.0f, 0.0f };
 	
 	// Our vertex buffer.
 	private FloatBuffer vertexBuffer, textureBuffer;
@@ -83,18 +82,18 @@ public class Square {
 	 */
 	public void draw(GL10 gl) {
 		// Counter-clockwise winding.
-		gl.glFrontFace(GL10.GL_CCW); // OpenGL docs
+		gl.glFrontFace(GL10.GL_CCW);
 		// Enable face culling.
-		gl.glEnable(GL10.GL_CULL_FACE); // OpenGL docs
+		gl.glEnable(GL10.GL_CULL_FACE); 
 		// What faces to remove with the face culling.
-		gl.glCullFace(GL10.GL_BACK); // OpenGL docs
+		gl.glCullFace(GL10.GL_BACK);
 
 		// Enabled the vertices buffer for writing and to be used during
 		// rendering.
-		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);// OpenGL docs.
+		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		// Specifies the location and data format of an array of vertex
 		// coordinates to use when rendering.
-		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, // OpenGL docs
+		gl.glVertexPointer(3, GL10.GL_FLOAT, 0,
                                  vertexBuffer);
 
 		if (texturize) {
@@ -111,16 +110,16 @@ public class Square {
 			gl.glBindTexture(GL10.GL_TEXTURE_2D, textureId);
 		}
 	 
-		gl.glDrawElements(GL10.GL_TRIANGLES, indices.length,// OpenGL docs
+		gl.glDrawElements(GL10.GL_TRIANGLES, indices.length,
 				  GL10.GL_UNSIGNED_SHORT, indexBuffer);
 		
 		if (textureId != -1)
 			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 
 		// Disable the vertices buffer.
-		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY); // OpenGL docs
+		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY); 
 		// Disable face culling.
-		gl.glDisable(GL10.GL_CULL_FACE); // OpenGL docs
+		gl.glDisable(GL10.GL_CULL_FACE); 
 	}
 	
 	private void loadGLTexture(GL10 gl) {
