@@ -11,13 +11,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
 
-public class Square {
+public abstract class Square {
 	// Our vertices.
-	private int textureId = -1;
-	private Bitmap beerBitmap, headBitmap;
-	private boolean texturize = true;
+	protected int textureId = -1;
+	protected Bitmap beverageBitmap, headBitmap;
+	protected int beverageTextureId, headTextureId;
+	protected boolean texturize = true;
 	
-	private float vertices[] = {
+	protected float vertices[] = {
 		      -1.0f,  1.0f, 0.0f,  // 0, Top Left
 		      -1.0f, -1.0f, 0.0f,  // 1, Bottom Left
 		       1.0f, -1.0f, 0.0f,  // 2, Bottom Right
@@ -25,19 +26,20 @@ public class Square {
 		};
 
 	// The order we like to connect them.
-	private short[] indices = { 0, 1, 2, 0, 2, 3 };
+	protected short[] indices = { 0, 1, 2, 0, 2, 3 };
 
-	float textureCoordinates[] = {
+	protected float textureCoordinates[] = {
 			0.0f, 1.0f,
+			0.0f, 0.0f,
+			1.0f, 0.0f,
             1.0f, 1.0f,
-            0.0f, 0.0f,
-            1.0f, 0.0f };
+    };
 	
 	// Our vertex buffer.
-	private FloatBuffer vertexBuffer, textureBuffer;
+	protected FloatBuffer vertexBuffer, textureBuffer;
 
 	// Our index buffer.
-	private ShortBuffer indexBuffer;
+	protected ShortBuffer indexBuffer;
 
 	public Square() {
 		// a float is 4 bytes, therefore we multiply the number if
@@ -64,17 +66,9 @@ public class Square {
 	}
 	
 	public void loadBitmaps(Context context) {
-		beerBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.beer);
-		headBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.head);
+		
 	}
 	
-	public void setBeerBitmap(Bitmap b) {
-		beerBitmap = b;
-	}
-	
-	public void setHeadBitmap(Bitmap b) {
-		headBitmap = b;
-	}
 
 	/**
 	 * This function draws our square on screen.
@@ -100,14 +94,14 @@ public class Square {
 			loadGLTexture(gl);
 			texturize = false;
 		}
-		if (textureId != -1) {
+		if (beverageTextureId != -1) {
 			gl.glEnable(GL10.GL_TEXTURE_2D);
 			// Enable the texture state
 			gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 	 
 			// Point to our buffers
 			gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
-			gl.glBindTexture(GL10.GL_TEXTURE_2D, textureId);
+			gl.glBindTexture(GL10.GL_TEXTURE_2D, beverageTextureId);
 		}
 	 
 		gl.glDrawElements(GL10.GL_TRIANGLES, indices.length,
@@ -124,12 +118,13 @@ public class Square {
 	
 	private void loadGLTexture(GL10 gl) {
 		// Generate one texture pointer...
-		int[] textures = new int[1];
-		gl.glGenTextures(1, textures, 0);
-		textureId = textures[0];
+		int[] textures = new int[2];
+		gl.glGenTextures(2, textures, 0);
+		beverageTextureId = textures[0];
+		headTextureId = textures[1];
 	 
 		// ...and bind it to our array
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, textureId);
+		gl.glBindTexture(GL10.GL_TEXTURE_2D, beverageTextureId);
 	 
 		// Create Nearest Filtered Texture
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER,
@@ -143,7 +138,7 @@ public class Square {
 
 		// Use the Android GLUtils to specify a two-dimensional texture image
 		// from our bitmap
-		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, beerBitmap, 0);
+		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, beverageBitmap, 0);
 	}
 
 }

@@ -14,12 +14,13 @@ import android.util.Log;
 
 public class BeerRenderer extends FluidRenderer {
 	
-	public Square square;
-	private float angle;
+	public BeerSquare square;
+	private float angle = 90;
 	private int width, height;
+	private float emptiness = 1.0f;
 	
 	public void initSquare(Context context) {
-		square = new Square();
+		square = new BeerSquare();
 		square.loadBitmaps(context);
 	}
 	
@@ -52,14 +53,15 @@ public class BeerRenderer extends FluidRenderer {
 		// Rotate square counter-clockwise 90 degrees.
 		// Translate by half the width of the screen.
 		// Scale by __________
-		gl.glTranslatef(0, 0, 0);
-		gl.glRotatef(90, 0, 0, 1);
+		gl.glTranslatef(-emptiness, 0, 0);
+		gl.glRotatef(angle, 0, 0, 1);
+		//gl.glScalef(-.5f,-.5f, -.5f);
 		// Draw square.
 		square.draw(gl);
 		// Restore the last matrix.
 		gl.glPopMatrix();
 
-		angle++;
+		emptiness -= 0.002f;
 	}
 
 	@Override
@@ -74,9 +76,6 @@ public class BeerRenderer extends FluidRenderer {
 		// Reset the projection matrix
 		gl.glLoadIdentity();
 		// Calculate the aspect ratio of the window
-//		GLU.gluPerspective(gl, 45.0f,
-//                                   (float) width / (float) height,
-//                                   0.1f, 100.0f);
 		gl.glOrthof(0.0f, 1.0f, 0.0f, 1.0f, -1.0f, 1.0f);
 		// Select the modelview matrix
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
