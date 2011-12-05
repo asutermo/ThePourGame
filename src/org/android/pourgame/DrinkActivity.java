@@ -15,6 +15,9 @@ public abstract class DrinkActivity extends Activity implements OnGestureListene
 
 	protected static final int SWIPE_MIN = 120;
 	protected static final int SWIPE_THRESH_VEL = 200;
+	protected static final float SLOW_POUR = 0.005f;
+	protected static final float PERFECT_POUR = 0.01f;
+	protected static final float FAST_POUR = 0.02f;
 	protected GestureDetector gestureDetector;
 	protected SensorManager sensor;
 	

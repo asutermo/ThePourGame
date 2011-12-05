@@ -31,6 +31,7 @@ public class TheBeerActivity extends DrinkActivity implements OnGesturePerformed
 	private GestureLibrary mLibrary;
 	private boolean gestureEngaged;
 	private GestureOverlayView gestures;
+	private BeerView view;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class TheBeerActivity extends DrinkActivity implements OnGesturePerformed
         CONTEXT = this;
         gestureDetector = new GestureDetector(this, this);
         Log.d("Beer Game", "Beer Game Created");
-        //BeerView view = (BeerView) findViewById(R.id.beerfluid);
+        view = (BeerView) findViewById(R.id.beerfluid);
         //view.setRenderer(new BeerRenderer());
         
         //initiate accelerometer
@@ -186,12 +187,18 @@ public class TheBeerActivity extends DrinkActivity implements OnGesturePerformed
 		{
 			float roll = event.values[2];
 			Log.d("Roll: ", "" + roll);
-			if (roll > 35 && roll < 55)
+			if (roll > 35 && roll < 55) {
+				view.fillGlass(PERFECT_POUR);
 				Log.d("Readout: ", "Good pour!");
-			else if (roll > 55)
+			}
+			else if (roll > 55) {
+				view.fillGlass(FAST_POUR);
 				Log.d("Readout: ", "Too much!");
-			else if (roll < 35)
+			}
+			else if (roll < 35) {
+			    //view.fillGlass(SLOW_POUR);
 				Log.d("Readout: ", "Too little!");
+			}
 			
 		}
 	}

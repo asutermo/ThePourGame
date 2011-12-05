@@ -41,6 +41,10 @@ public class BeerRenderer extends FluidRenderer {
                           GL10.GL_NICEST);
 	}
 	
+	public void incrementGlassFill(float amount) {
+		emptiness -= amount;
+	}
+	
 	@Override
 	public void onDrawFrame(GL10 gl) {
 		// Clears the screen and depth buffer.
@@ -55,13 +59,13 @@ public class BeerRenderer extends FluidRenderer {
 		// Scale by __________
 		gl.glTranslatef(-emptiness, 0, 0);
 		gl.glRotatef(angle, 0, 0, 1);
-		//gl.glScalef(-.5f,-.5f, -.5f);
 		// Draw square.
 		square.draw(gl);
 		// Restore the last matrix.
 		gl.glPopMatrix();
 
-		emptiness -= 0.002f;
+//		if(emptiness > 0)
+//		  emptiness -= 0.002f;
 	}
 
 	@Override
