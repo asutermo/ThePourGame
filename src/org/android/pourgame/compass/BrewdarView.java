@@ -96,8 +96,7 @@ public class BrewdarView extends Activity {
         	Log.d(TAG, "onResume");
         super.onResume();
 
-        mSensorManager.registerListener(mListener, mSensor,
-                SensorManager.SENSOR_DELAY_GAME);
+        mSensorManager.registerListener(mListener, mSensor, SensorManager.SENSOR_DELAY_GAME);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
     }
 
@@ -116,9 +115,8 @@ public class BrewdarView extends Activity {
     {
     	if(debug)
     		Log.d(TAG, "onPause");
-    	locationManager.removeUpdates(locationListener);
     	super.onPause();
-    	
+    	locationManager.removeUpdates(locationListener);
     }
 
     private class CompassLayoutView extends View {

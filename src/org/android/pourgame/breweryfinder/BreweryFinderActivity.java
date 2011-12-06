@@ -17,6 +17,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -45,7 +47,6 @@ public class BreweryFinderActivity extends MapActivity{
 	private ProgressDialog progressDialog;
 	private String places_key;
 	private List<Brewery> breweryList;
-	private MapOverlay mapOverlay;
 	private Resources res;
 	
     @Override
@@ -76,10 +77,7 @@ public class BreweryFinderActivity extends MapActivity{
         initProgressDialog();
         
         progressDialog.show();
-        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, null);
-        
-        //TODO: Search for nearby breweries from current location
-        
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
     }
 
     
@@ -124,6 +122,8 @@ public class BreweryFinderActivity extends MapActivity{
     
     private class MapLocationListener implements LocationListener
     {
+    	private boolean first = true;
+    	private MapOverlay mapOverlay;
 
 		@Override
 		public void onLocationChanged(Location location) {
@@ -138,26 +138,32 @@ public class BreweryFinderActivity extends MapActivity{
 				//Animates the map to your current location
 				mapController.animateTo(point);
 				
-				mapOverlay = new MapOverlay(false);
-				
-				mapOverlay.setLocationPoint(point);
-				List<Overlay> overlayList = mapView.getOverlays();
-				overlayList.clear();
-				overlayList.add(mapOverlay);
-				
 				progressDialog.dismiss();
 				
+				mapOverlay = new MapOverlay(false, "You are here");
 				
-				String jsonStringBreweries = UtilFunctions.getBreweriesJson(location, places_key);
-				Log.i(TAG, jsonStringBreweries);
-				
-				breweryList = UtilFunctions.parseJsonObjects(jsonStringBreweries);
-				
-				for(Brewery brewery : breweryList)
-				{
-					mapOverlay = new MapOverlay(true);
-					mapOverlay.setLocationPoint(UtilFunctions.locationToPoint(brewery.getLocation()));
+				if(first){
+					mapOverlay.setLocationPoint(point);
+					List<Overlay> overlayList = mapView.getOverlays();
+					overlayList.clear();
 					overlayList.add(mapOverlay);
+					
+					
+					String jsonStringBreweries = UtilFunctions.getBreweriesJson(location, places_key);
+					Log.i(TAG, jsonStringBreweries);
+					
+					breweryList = UtilFunctions.parseJsonObjects(jsonStringBreweries);
+					
+					for(Brewery brewery : breweryList)
+					{
+						MapOverlay mapOverlay = new MapOverlay(true, brewery.getName());
+						mapOverlay.setLocationPoint(UtilFunctions.locationToPoint(brewery.getLocation()));
+						overlayList.add(mapOverlay);
+					}
+					
+					first = false;
+				}else{
+					mapOverlay.setLocationPoint(point);
 				}
 				
 				//Redraws the scene. I have no idea why this is here but I found it in a tutorial
@@ -194,10 +200,12 @@ public class BreweryFinderActivity extends MapActivity{
     private class MapOverlay extends Overlay {
     	private GeoPoint locationPoint;
     	private boolean isBrewery;
+    	private String label;
 		
-		public MapOverlay(boolean isBrewery)
+		public MapOverlay(boolean isBrewery, String label)
 		{
 			this.isBrewery = isBrewery;
+			this.label = label;
 		}
 
 		public void setLocationPoint(GeoPoint locationPoint) {
@@ -209,6 +217,9 @@ public class BreweryFinderActivity extends MapActivity{
 		{
 			super.draw(canvas, mv, shadow);
 			Point screenPxs = new Point();
+			Paint textPaint = new Paint();
+			textPaint.setColor(Color.BLACK);
+			textPaint.setTextSize(20);
 			
 			mv.getProjection().toPixels(locationPoint, screenPxs);
 			
@@ -222,7 +233,8 @@ public class BreweryFinderActivity extends MapActivity{
 				icon = res.getDrawable(R.drawable.user);
 			}
 			
-			canvas.drawBitmap(((BitmapDrawable)icon).getBitmap(), screenPxs.x, screenPxs.y-12, null);
+			canvas.drawText(label, screenPxs.x + 12, screenPxs.y, textPaint);
+			canvas.drawBitmap(((BitmapDrawable)icon).getBitmap(), screenPxs.x, screenPxs.y, null);
 			return true;
 		}
     }
@@ -231,12 +243,22 @@ public class BreweryFinderActivity extends MapActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        
+        progressDialog.show();
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
     }
     
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop()
+    {
+    	super.onStop();
+    	locationManager.removeUpdates(locationListener);
+    }
+    
+    @Override
+    protected void onPause()
+    {
+    	super.onPause();
+    	locationManager.removeUpdates(locationListener);
     }
     
 	public static Context getContext() {
