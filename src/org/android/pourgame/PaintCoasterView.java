@@ -69,7 +69,7 @@ public class PaintCoasterView extends View {
 	protected void onDraw(Canvas canvas) {
 		canvas.drawTextOnPath("Game", llabel, 0, 0, lPaint);
 		canvas.drawTextOnPath("Brewery Map", rlabel, 0, 0, lPaint);
-		canvas.drawTextOnPath("Beerdar", tlabel, 0, 0, lPaint);
+		canvas.drawTextOnPath("Brewdar", tlabel, 0, 0, lPaint);
 		canvas.drawTextOnPath("Gestures Help", blabel, 0, 0, lPaint);
 		//canvas.drawBitmap(((BitmapDrawable) pourbeer).getBitmap(), 10, display.getHeight()/2 - 175, lPaint);
 		//canvas.drawBitmap(((BitmapDrawable) satellite).getBitmap(), display.getWidth()-100, display.getHeight()/2, lPaint);
