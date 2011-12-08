@@ -2,6 +2,7 @@ package org.android.pourgame;
 
 import java.util.ArrayList;
 
+import org.android.pourgame.DrinkActivity.GameStatus;
 import org.android.pourgame.breweryfinder.BreweryFinderActivity;
 
 import android.os.Bundle;
@@ -36,6 +37,7 @@ OnGestureListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.soda);
         CONTEXT = this;
+        status = GameStatus.STARTING;
         gestureDetector = new GestureDetector(this, this);
         Log.d("Soda Game", "Soda Game Created");//initiate accelerometer
         view = (SodaView) findViewById(R.id.sodafluid);
@@ -157,21 +159,39 @@ OnGestureListener {
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		Log.d("Sensor", "Sensor Type: " + event.sensor.getType());
-		if (event.sensor.getType() == Sensor.TYPE_ORIENTATION)
-		{
+		Log.d("BeerStatus", "Status: " + status.toString());
+		if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
 			float roll = event.values[2];
-			Log.d("Roll: ", "" + roll);
-			if (roll > 35 && roll < 55) {
-				view.fillGlass(PERFECT_POUR);
-				Log.d("Readout: ", "Good pour!");
+			if(status != GameStatus.GAMEOVER ) {
+				Log.d("Roll: ", "" + roll);
+				if(roll > 5) {
+					status = GameStatus.POURING;				
+				}
+				if (roll > 35 && roll < 55) {
+					view.fillGlass(PERFECT_POUR);
+					Log.d("Readout: ", "Good pour!");
+				}
+				else if (roll > 55) {
+					view.fillGlass(FAST_POUR);
+					Log.d("Readout: ", "Too much!");
+				}
+				else if (roll < 5 && roll > 0 && status == GameStatus.POURING) {
+					float score = view.renderer.getScore();
+				    if(score <= 100.0f)
+				    	return;
+					Log.d("BeerGame", "POURING AND GAMEOVER");
+					status = GameStatus.GAMEOVER;
+					Toast.makeText(CONTEXT, "SCORE: " + Float.toString(score), Toast.LENGTH_LONG).show();
+				}
+				else if (roll < 35) {
+					//view.fillGlass(SLOW_POUR);
+					Log.d("Readout: ", "Too little!");
+				}
 			}
-			else if (roll > 55) {
-				view.fillGlass(FAST_POUR);
-				Log.d("Readout: ", "Too much!");
-			}
-			else if (roll < 35) {
-			    //view.fillGlass(SLOW_POUR);
-				Log.d("Readout: ", "Too little!");
+			else if (status != GameStatus.STARTING && roll < -3.0) {
+				Toast.makeText(CONTEXT, "Restarting Game", Toast.LENGTH_SHORT).show();
+				view.renderer.resetGame(CONTEXT);
+				status = GameStatus.STARTING;
 			}
 		}
 	}

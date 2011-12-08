@@ -14,7 +14,7 @@ public abstract class FluidRenderer implements Renderer {
 	protected float emptiness = 1.0f;
 	protected float headedness = 1.0f;
 	
-	public void initSquare(Context context) {
+	protected void initSquare(Context context) {
 		beverageSquare = new BeerSquare();
 		beverageSquare.loadBitmap(context, R.drawable.beer);
 	}
@@ -58,8 +58,6 @@ public abstract class FluidRenderer implements Renderer {
 		beverageSquare.draw(gl);
 		// Restore the last matrix.
 		gl.glPopMatrix();
-		
-		
 	}
 
 	@Override
@@ -81,4 +79,23 @@ public abstract class FluidRenderer implements Renderer {
 		gl.glLoadIdentity();
 	}
 
+	public boolean glassOverflowing() {
+		return headedness < 0 || emptiness < 0;
+	}
+	
+	public float getScore() {
+		if(headedness == 1)
+		  return (-emptiness+1)*1000;
+		return (-headedness+1)*1000;
+	}
+	
+	public boolean needToStopRendering() {
+		return glassOverflowing() || emptiness < -0.1 || headedness < -0.1; 
+	}
+	
+	public void resetGame(Context context) {
+		initSquare(context);
+		emptiness = 1.0f;
+		headedness = 1.0f;
+	}
 }

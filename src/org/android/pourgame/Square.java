@@ -89,7 +89,7 @@ public class Square {
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0,
                                  vertexBuffer);
 
-		if (texturize) {
+		if (texturize && bitmap != null) {
 			loadGLTexture(gl);
 			texturize = false;
 		}
@@ -139,4 +139,11 @@ public class Square {
 		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 	}
 
+	public void setTextureCoordinates(float[] coords) {
+		ByteBuffer tbb = ByteBuffer.allocateDirect(coords.length * 4);
+		tbb.order(ByteOrder.nativeOrder());
+		textureBuffer = tbb.asFloatBuffer();
+		textureBuffer.put(coords);
+		textureBuffer.position(0);
+	}
 }

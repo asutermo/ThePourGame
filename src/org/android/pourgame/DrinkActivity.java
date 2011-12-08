@@ -20,7 +20,8 @@ public abstract class DrinkActivity extends Activity implements OnGestureListene
 	protected static final float FAST_POUR = 0.02f;
 	protected GestureDetector gestureDetector;
 	protected SensorManager sensor;
-	
+	protected enum GameStatus {GAMEOVER, POURING, STARTING};
+	protected GameStatus status;
 	protected void animate(int anim1, int anim2){
 		overridePendingTransition(anim1, anim2);
 	}

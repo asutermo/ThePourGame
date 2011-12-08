@@ -14,7 +14,7 @@ import android.util.Log;
 
 public class ChampagneRenderer extends FluidRenderer {
 	
-	public void initSquare(Context context) {
+	protected void initSquare(Context context) {
 		beverageSquare = new Square();
 		//square = new ChampagneSquare();
 		beverageSquare.loadBitmap(context, R.drawable.champagne);

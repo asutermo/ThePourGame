@@ -17,6 +17,13 @@ public class SodaRenderer extends FluidRenderer {
 	public void initSquare(Context context) {
 		beverageSquare = new Square();
 		beverageSquare.loadBitmap(context, R.drawable.soda);
+		float[] coords = {
+				0.0f, 1.0f,
+				0.0f, 0.0f,
+				1.0f, 0.0f,
+				1.0f, 1.0f,
+	    };
+		beverageSquare.setTextureCoordinates(coords);
 	}
-	
+
 }

@@ -16,7 +16,7 @@ public class BeerRenderer extends FluidRenderer {
 	
 	private Square headSquare;
 
-	public void initSquare(Context context) {
+	protected void initSquare(Context context) {
 		beverageSquare = new Square();
 		beverageSquare.loadBitmap(context, R.drawable.beer);
 		headSquare = new Square();
