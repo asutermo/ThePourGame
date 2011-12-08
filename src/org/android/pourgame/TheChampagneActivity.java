@@ -53,7 +53,7 @@ public class TheChampagneActivity extends DrinkActivity implements OnGesturePerf
         }
         //Toast.makeText(this, "Nobody really drinks champagne anyway.", Toast.LENGTH_LONG).show();
         gestureEngaged = false;
-        
+        view = (ChampagneView) findViewById(R.id.champagnefluid);
         
     }
 	public void onButtonClick(View view)
