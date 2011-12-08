@@ -51,7 +51,7 @@ public class TheChampagneActivity extends DrinkActivity implements OnGesturePerf
 			
         	sensor.unregisterListener(this, sensor.getDefaultSensor(Sensor.TYPE_ORIENTATION));
         }
-        Toast.makeText(this, "Nobody really drinks champagne anyway.", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Nobody really drinks champagne anyway.", Toast.LENGTH_LONG).show();
         gestureEngaged = false;
         
         
