@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 public class BeerView extends FluidView{
-	BeerRenderer renderer;
 
 	public BeerView(Context context) {
 		super(context);
@@ -26,7 +25,4 @@ public class BeerView extends FluidView{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void fillGlass(float amount) {
-		renderer.incrementGlassFill(amount);
-	}
 }

@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 public class TheChampagneActivity extends DrinkActivity implements OnGesturePerformedListener, OnGestureListener 
 {
-	private static Context CONTEXT;
+	//private static Context CONTEXT;
 	private GestureLibrary mLibrary;
 	private boolean gestureEngaged;
 	private GestureOverlayView gestures;
@@ -166,6 +166,10 @@ public class TheChampagneActivity extends DrinkActivity implements OnGesturePerf
 				Log.d("Roll: ", "" + roll);
 				if(roll > 5) {
 					status = GameStatus.POURING;				
+				}
+				if (view.renderer.shouldStopRendering()) {
+					status = GameStatus.GAMEOVER;
+					Toast.makeText(CONTEXT, "SCORE: 0", Toast.LENGTH_LONG).show();
 				}
 				if (roll > 35 && roll < 55) {
 					view.fillGlass(PERFECT_POUR);

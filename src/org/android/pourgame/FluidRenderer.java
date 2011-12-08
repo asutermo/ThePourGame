@@ -5,6 +5,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView.Renderer;
+import android.util.Log;
 
 public abstract class FluidRenderer implements Renderer {
 	
@@ -85,12 +86,13 @@ public abstract class FluidRenderer implements Renderer {
 	
 	public float getScore() {
 		if(headedness == 1)
-		  return (-emptiness+1)*1000;
-		return (-headedness+1)*1000;
+		  return (-1000)*(emptiness+1)*(emptiness-1);
+		return (-1000)*(headedness+1)*(headedness-1);
 	}
 	
-	public boolean needToStopRendering() {
-		return glassOverflowing() || emptiness < -0.1 || headedness < -0.1; 
+	public boolean shouldStopRendering() {
+		Log.d("Render", "headedness: " + Float.toString(headedness));
+		return emptiness < -0.4 || headedness < -0.4; 
 	}
 	
 	public void resetGame(Context context) {

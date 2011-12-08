@@ -167,6 +167,10 @@ OnGestureListener {
 				if(roll > 5) {
 					status = GameStatus.POURING;				
 				}
+				if (view.renderer.shouldStopRendering()) {
+					status = GameStatus.GAMEOVER;
+					Toast.makeText(CONTEXT, "SCORE: 0", Toast.LENGTH_LONG).show();
+				}
 				if (roll > 35 && roll < 55) {
 					view.fillGlass(PERFECT_POUR);
 					Log.d("Readout: ", "Good pour!");
@@ -188,7 +192,7 @@ OnGestureListener {
 					Log.d("Readout: ", "Too little!");
 				}
 			}
-			else if (status != GameStatus.STARTING && roll < -3.0) {
+			else if (status == GameStatus.GAMEOVER && roll < -3.0) {
 				Toast.makeText(CONTEXT, "Restarting Game", Toast.LENGTH_SHORT).show();
 				view.renderer.resetGame(CONTEXT);
 				status = GameStatus.STARTING;

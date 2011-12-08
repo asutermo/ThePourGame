@@ -5,8 +5,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 public class SodaView extends FluidView {
-	
-	SodaRenderer renderer;
 
 	public SodaView(Context context) {
 		super(context);
@@ -27,7 +25,4 @@ public class SodaView extends FluidView {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void fillGlass(float amount) {
-		renderer.incrementGlassFill(amount);
-	}
 }

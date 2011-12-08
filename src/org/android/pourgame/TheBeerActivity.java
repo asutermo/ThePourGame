@@ -192,6 +192,10 @@ public class TheBeerActivity extends DrinkActivity implements OnGesturePerformed
 				if(roll > 5) {
 					status = GameStatus.POURING;				
 				}
+				if (view.renderer.shouldStopRendering()) {
+					status = GameStatus.GAMEOVER;
+					Toast.makeText(CONTEXT, "SCORE: 0", Toast.LENGTH_LONG).show();
+				}
 				if (roll > 35 && roll < 55) {
 					view.fillGlass(PERFECT_POUR);
 					Log.d("Readout: ", "Good pour!");

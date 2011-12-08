@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 public class ChampagneView extends FluidView{
-	ChampagneRenderer renderer;
 
 	public ChampagneView(Context context) {
 		super(context);
@@ -24,10 +23,6 @@ public class ChampagneView extends FluidView{
 		renderer.initSquare(context);
 		setRenderer(renderer);
 		// TODO Auto-generated constructor stub
-	}
-	
-	public void fillGlass(float amount) {
-		renderer.incrementGlassFill(amount);
 	}
 
 }

@@ -1,14 +1,17 @@
 package org.android.pourgame;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.GestureDetector.OnGestureListener;
+import android.widget.Toast;
 
 
 public abstract class DrinkActivity extends Activity implements OnGestureListener, SensorEventListener{
@@ -22,6 +25,9 @@ public abstract class DrinkActivity extends Activity implements OnGestureListene
 	protected SensorManager sensor;
 	protected enum GameStatus {GAMEOVER, POURING, STARTING};
 	protected GameStatus status;
+	protected FluidView view;
+	protected static Context CONTEXT;
+	
 	protected void animate(int anim1, int anim2){
 		overridePendingTransition(anim1, anim2);
 	}
@@ -90,5 +96,4 @@ public abstract class DrinkActivity extends Activity implements OnGestureListene
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
 }
